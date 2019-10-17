@@ -44,6 +44,44 @@ def amino_acid_feats(seq):
     feats = pd.Series(aa_freqs)
     return feats
 
+def KD_hydropathy(seq):
+    """
+    Compute the Kyte-Doolittle hydropathy index (JMB 1982) 
+    normalized according to Uversky (Proteins 2000).
+    Code adapted from https://github.com/maxhebditch/abpred.
+    
+    Input
+    ---------------
+    seqs -- sequence string
+
+    Output
+    ---------------
+    avg_KD -- Normalized KD hydropathy index averaged across residues
+    """
+    # KD values taken from ABPred code (based on Jain et al 2017)
+    aa_KD = {'A': 1.8, 'C': 2.5, 'D': -3.5, 'E':-3.5,'F': 2.8,
+    'G': -0.4, 'H': -3.2, 'I': 4.5, 'K': -3.9, 'L': 3.8, 'M': 1.9,
+    'N': -3.5, 'P': -1.6, 'Q': -3.5, 'R': -4.5, 'S': -0.8, 'T': -0.7,
+    'V': 4.2, 'W': -0.9, 'Y': -1.3, 'X': 0.0}
+
+    # Normalize the KD hydropathy values to be in between 0 and 1 
+    for key in aa_KD.keys():
+        aa_KD[key]+=4.5
+        aa_KD[key]/=9.0
+    
+    # Generate counts of amino acids
+    anal_seq = ProteinAnalysis(seq)
+    aa_counts = anal_seq.count_amino_acids()
+
+    # Sum KD hydropathy values for the entire sequence
+    avg_KD = 0.0
+    for key in aa_counts.keys():
+        if key in aa_KD.keys():
+            avg_KD += aa_KD[key]*aa_counts[key]
+
+    return avg_KD
+    
+
 # TODO: write functions to compute other ProteinSol features
 
 if __name__ == '__main__':
@@ -66,8 +104,8 @@ if __name__ == '__main__':
         df = pd.read_csv(pic_path, sep='\t', header=1)
         seqs = df.seqs
     # Generate features
-    df = seqs.apply(amino_acid_feats)
-    print(df)
+    # df = seqs.apply(amino_acid_feats)
+    # print(df)
     
     # TODO: generate other 8 features
     # length, pI, hydropathy (Kyte and Doolittle, 1982), 
