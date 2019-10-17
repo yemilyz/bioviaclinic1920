@@ -104,8 +104,8 @@ if __name__ == '__main__':
         df = pd.read_csv(pic_path, sep='\t', header=1)
         seqs = df.seqs
     # Generate features
-    # df = seqs.apply(amino_acid_feats)
-    # print(df)
+    df = seqs.apply(amino_acid_feats)
+    print(df)
     
     # TODO: generate other 8 features
     # length, pI, hydropathy (Kyte and Doolittle, 1982), 
