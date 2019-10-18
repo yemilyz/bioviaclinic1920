@@ -81,6 +81,42 @@ def KD_hydropathy(seq):
 
     return avg_KD
     
+def net_charge(seq):
+    """
+    Compute the net charge per residue at neutral pH
+    Code adapted from https://github.com/maxhebditch/abpred.
+    
+    Input
+    ---------------
+    seqs -- sequence string
+
+    Output
+    ---------------
+    Q_tot -- Net charge per residue
+    """
+    # Charge values taken from ABPred code (based on Jain et al 2017)
+    aa_charge = {'A': 0.0, 'C': 0.0, 'D': -1.0, 'E':-1.0,'F': 0.0,
+    'G': 0.0, 'H': 0.0, 'I': 0.0, 'K': 1.0, 'L': 0.0, 'M': 0.0,
+    'N': 0.0, 'P': 0.0, 'Q': 0.0, 'R': 1.0, 'S': 0.0, 'T': 0.0,
+    'V': 0.0, 'W': 0.0, 'Y': 0.0, 'X': 0.0}
+
+    # Generate counts of amino acids
+    anal_seq = ProteinAnalysis(seq)
+    aa_counts = anal_seq.count_amino_acids()
+
+    # Sum charges for the entire sequence
+    Q_tot = 0.0
+    for key in aa_counts.keys():
+        if key in aa_charge.keys():
+            Q_tot += aa_charge[key]*aa_counts[key]
+
+    # Average net charge over residues
+    if len(seq) > 0:
+        Q_tot /= len(seq)
+
+    return Q_tot
+
+
 
 # TODO: write functions to compute other ProteinSol features
 
