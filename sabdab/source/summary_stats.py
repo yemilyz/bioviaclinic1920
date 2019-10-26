@@ -5,6 +5,7 @@ import os
 import argparse
 import errno
 
+from constant import SABDAB_SUMMARY_FILE, REPO_DIR, SABDAB_SUMMARY_ALL_FILE
 
 def plot_all_histograms(data, figdir):
     """
@@ -32,15 +33,14 @@ def plot_all_histograms(data, figdir):
         plt.close()
 
 if __name__ == '__main__':
-    repo_dir = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..',))
-    figdir = os.path.join(repo_dir, 'figures')
+    figdir = os.path.join(REPO_DIR, 'figures')
     try:
         os.mkdir(figdir)
     except OSError as e:
         if e.errno != errno.EEXIST:
             raise
         pass
-    filepath = os.path.join(repo_dir, 'sabdab_summary_all.tsv')
+    filepath = SABDAB_SUMMARY_ALL_FILE
     dateparse = lambda x: pd.datetime.strptime(x, '%m/%d/%y')
     data = pd.read_csv(filepath, sep="\t", parse_dates=['date'], date_parser=dateparse)
     data_filtered = data.dropna(subset = ['Hchain', 'Lchain'])
@@ -48,3 +48,10 @@ if __name__ == '__main__':
     data_filtered['HLchain'] = data_filtered['Hchain'] + data_filtered['Lchain']
     data_filtered_res = data_filtered.loc[pd.to_numeric(data_filtered['resolution'], errors ='coerce')< 3]
     plot_all_histograms(data_filtered_res, figdir)
+
+    data_filtered_res['Hchain_fa'] = data_filtered_res['pdb'] + '_' + data_filtered_res['Hchain'] + "_VH.fa"
+    data_filtered_res['Lchain_fa'] = data_filtered_res['pdb'] + '_' + data_filtered_res['Lchain'] + "_VL.fa"
+
+    data_filtered_res.to_csv(SABDAB_SUMMARY_FILE, sep='\t', index=False)
+
+

@@ -1,5 +1,5 @@
 from quantiprot.utils.io import load_fasta_file
-from quantiprot.utils.sequence import SequenceSet
+from quantiprot.utils.sequence import SequenceSet, Sequence
 from quantiprot.utils.feature import Feature, FeatureSet
 from quantiprot.utils.mapping import simplify
 
@@ -12,14 +12,38 @@ import numpy as np
 from utils import get_filepaths
 
 
-def fasta_file_to_seqset(fasta_files, seqtype = "seqres|full"):
-    seqset = SequenceSet("my_seqset")
-    for fa in fasta_files:
+def fasta_files_to_sequence(fasta_files_pair, seqtype):
+    seqset = SequenceSet("HL_pair")
+    for fa in fasta_files_pair:
         seqs = load_fasta_file(fa)
         for seq in seqs:
-            if seq.identifier.endswith(seqtype):
+            if seqtype in seq.identifier:
                 seqset.add(seq)
+                break
+    return concat_HL_pairs(seqset)
+
+def concat_HL_pairs(seqs):
+    identifier = seqs[0].identifier.split('|')[0] + seqs[1].identifier.split('|')[0].split('_')[-1]
+    feature = seqs[0].feature
+    data = seqs[0].data + seqs[1].data
+    return Sequence(identifier, feature, data)
+    
+def fasta_files_to_seqset(fasta_files, seqtype = 'seqres|region:'):
+    seqset = SequenceSet("sabdab_seqset")
+    for fasta_files_pair in fasta_files:
+        sequence = fasta_files_to_sequence(fasta_files_pair, seqtype)
+        seqset.add(sequence)
     return seqset
+
+# Process sequences
+fasta_files = get_filepaths(filetype='sequence')
+seqset = fasta_files_to_seqset(fasta_files)
+
+
+
+
+
+
 
 # Prepare Features:
 # Build a feature: average polarity (Grantham, 1974), AAindex entry: GRAR740102:
@@ -37,9 +61,7 @@ def fasta_file_to_seqset(fasta_files, seqtype = "seqres|full"):
 # fs.add(freq_feat, name='freequency')
 # fs.add(charge_feat, name='charge')
 
-# Process sequences
-fasta_files = get_filepaths(pattern = "*L_VL.fa")
-seqset = fasta_file_to_seqset(fasta_files)
+
 # result_seqset = fs(seqset)
 
 # print(np.matrix(columns(result_seqset, feature="hydropathy", transpose=True)))
