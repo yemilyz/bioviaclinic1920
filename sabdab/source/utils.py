@@ -1,7 +1,8 @@
 import os
 import glob
 import pandas as pd
-from constant import SABDAB_SUMMARY_FILE, REPO_DIR
+from constant import SABDAB_SUMMARY_FILE, REPO_DIR, PDB_DIR, SABDAB_DATASET_DIR
+import shutil
 
 def get_filepaths(filetype='sequence'):
     if filetype =='sequence':
@@ -11,9 +12,8 @@ def get_filepaths(filetype='sequence'):
     else:
         pattern = ""
     data = pd.read_csv(SABDAB_SUMMARY_FILE, sep="\t")
-    repo_dir = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..',))
     files = []
-    for root, dirs, _ in os.walk(os.path.join(repo_dir, 'sabdab_dataset'), topdown=False):
+    for root, dirs, _ in os.walk(SABDAB_DATASET_DIR, topdown=False):
         for name in dirs:
             files_in_dir = glob.glob(os.path.join(root, name, pattern))
             if filetype =='sequence':
@@ -24,7 +24,13 @@ def get_filepaths(filetype='sequence'):
                         lchain_fa = pdb_enty['Lchain_fa']
                         hl_pair = sorted(list(filter(lambda x: ((hchain_fa in x) or (lchain_fa in x)), files_in_dir)))
                         files.append(hl_pair)
-                else:
-                    files += files_in_dir
+            else:
+                files += files_in_dir
     return files
 
+def cp_pdb():
+    pdb_files = get_filepaths(filetype='pdb')
+    for pdb_file in pdb_files:
+        pdb_name = pdb_file.split('/')[-1]
+        print(pdb_name)
+        shutil.copyfile(pdb_file, os.path.join(PDB_DIR, pdb_name))

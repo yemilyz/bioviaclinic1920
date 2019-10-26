@@ -37,7 +37,8 @@ import os
 REPO_DIR = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..',))
 SABDAB_SUMMARY_ALL_FILE = os.path.join(REPO_DIR, 'sabdab_summary_all.tsv')
 SABDAB_SUMMARY_FILE = os.path.join(REPO_DIR, 'sabdab_summary_filtered.tsv')
-
+SABDAB_DATASET_DIR = os.path.join(REPO_DIR, 'sabdab_filtered_dataset')
+PDB_DIR = os.path.join(REPO_DIR, 'sabdab_filtered_pdb')
 
 AA_INDEX_IDS = ['ARGP820101', 'BIGC670101', 'CHAM820101', 
         'CHAM820102', 'CHAM830107', 'FASG760101',
