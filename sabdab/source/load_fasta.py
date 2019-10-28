@@ -52,7 +52,7 @@ def fasta_files_to_seqsets(fasta_files, seqtype = 'seqres|region:'):
 def build_index_feature_set(aa_index_feats):
     #TODO: add functionality for other feature functions
     # Input: a list of tuples, each containing an amino acid index ID, 
-    # the function (see below options), window size, and default value
+    # the function (see below options), window size (sliding), and default value
     # for elements beyond the standard 20 aminoacids.
     # Output: a FeatureSet
 
