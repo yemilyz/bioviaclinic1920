@@ -15,7 +15,7 @@ def plot_all_histograms(data, figdir):
         'light_species','method','engineered', 'light_ctype', 'antigen_type']
     numeric_cols = ['date', 'resolution', 'r_free', 'r_factor']
     for category in categorical_cols:
-        value_counts = data_filtered[category].value_counts(dropna=True)
+        value_counts = data[category].value_counts(dropna=True)
         if value_counts.size > 30:
             value_counts = value_counts.iloc[:30]
         fig = plt.figure()
@@ -25,9 +25,9 @@ def plot_all_histograms(data, figdir):
         plt.close()
     for numcol in numeric_cols:
         if numcol != 'date':
-            data_filtered[numcol] = pd.to_numeric(data_filtered[numcol], errors ='coerce')
+            data[numcol] = pd.to_numeric(data[numcol], errors ='coerce')
         n_bins = 20
-        data_filtered[numcol].hist(bins=n_bins)
+        data[numcol].hist(bins=n_bins)
         plt.title(numcol)
         plt.savefig(os.path.join(figdir, '{}_hist.png'.format(numcol)))
         plt.close()

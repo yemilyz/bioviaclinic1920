@@ -324,7 +324,7 @@ if __name__ == "__main__":
                     got_data=True
                 else:
                     try:
-                        shutil.rmtree(struc_out_path)
+                        shutil.rmtree(pdb_entry_dir)
                     except:
                         print("what?")
                         pass 
@@ -337,7 +337,7 @@ if __name__ == "__main__":
                     got_data=True
                 else:
                     try:
-                        shutil.rmtree(choth_struc_out_path)
+                        shutil.rmtree(pdb_entry_dir)
                     except:
                         print("what?")
                         pass 
@@ -350,7 +350,7 @@ if __name__ == "__main__":
                 got_data=True
             else:
                 try:
-                    shutil.rmtree(seq_out_path)
+                    shutil.rmtree(pdb_entry_dir)
                 except:
                     print("what?")
                     pass

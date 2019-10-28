@@ -13,6 +13,11 @@ from utils import get_filepaths
 
 
 def fasta_files_to_sequence(fasta_files_pair, seqtype):
+    """
+    Takes a list of 2 fasta file paths and loads the files. Then
+    takes the matching sequence type (region or full) and adds the 2 sequences
+    into a seqset
+    """
     seqset = SequenceSet("HL_pair")
     for fa in fasta_files_pair:
         seqs = load_fasta_file(fa)
@@ -23,12 +28,20 @@ def fasta_files_to_sequence(fasta_files_pair, seqtype):
     return concat_HL_pairs(seqset)
 
 def concat_HL_pairs(seqs):
-    identifier = seqs[0].identifier.split('|')[0] + seqs[1].identifier.split('|')[0].split('_')[-1]
+    """
+    Takes a SequenceSet object of size 2 and makes a new Sequence object by
+    concatenating the 2 given sequences
+    """
+    identifier = seqs[0].identifier.split('|')[0].split('_')[0]
+    # identifier = seqs[0].identifier.split('|')[0] + seqs[1].identifier.split('|')[0].split('_')[-1]
     feature = seqs[0].feature
     data = seqs[0].data + seqs[1].data
     return Sequence(identifier, feature, data)
     
 def fasta_files_to_seqset(fasta_files, seqtype = 'seqres|region:'):
+    """ Wrapper function to take in a list of lists of fasta filepath pairs and
+    makes a SequenceSet containing all antibody heavy+light chain sequences
+    """
     seqset = SequenceSet("sabdab_seqset")
     for fasta_files_pair in fasta_files:
         sequence = fasta_files_to_sequence(fasta_files_pair, seqtype)
@@ -37,6 +50,7 @@ def fasta_files_to_seqset(fasta_files, seqtype = 'seqres|region:'):
 
 # Process sequences
 fasta_files = get_filepaths(filetype='sequence')
+print(len(fasta_files))
 seqset = fasta_files_to_seqset(fasta_files)
 
 
