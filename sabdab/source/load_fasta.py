@@ -59,21 +59,47 @@ seqset = fasta_files_to_seqset(fasta_files)
 
 
 
+def build_index_feature_set(aa_index_feats):
+    #TODO: add functionality for other feature functions
+    # Input: a list of tuples, each containing an amino acid index ID, 
+    # the function (see below options), and window size
+    # Output: a FeatureSet
+
+    # Function options: 
+    # identity: return the data itself.
+    # absolute: calculate the absolute values of the data.
+    # sum_absolute: calculate the sum of absolute values of the data.
+    # average: calculate the arithmetic average of the data.
+    # average_absolute: calculate the average of absolute values of the data.
+    # uniq_count: count number of unique elements in the data.
+    # uniq_average: calculate number of unique elements per length in the data.
+    # atom_count: count occurrencies of a given atomic element in the data.
+    # atom_freq:calculate frequency of occurrencies of a given atomic element in the data.
+
+    # Prepare a FeatureSet
+    fs = FeatureSet("simple")
+    for (index,function,window) in aa_index_feats:
+        feat = Feature(get_aaindex_file(index)).then(function,window=window)
+        # Add the feature to the feature set
+        fs.add(feat) 
+
+    return fs
+        
 # Prepare Features:
 # Build a feature: average polarity (Grantham, 1974), AAindex entry: GRAR740102:
-# avg_polarity_feat = Feature(get_aaindex_file("GRAR740102")).then(average)
-# sum_abs_charge_feat = Feature(get_aa2charge()).then(sum_absolute)
-# avg_hydropathy_feat = Feature(get_aa2hydropathy()).then(average)
-# freq_feat = Feature(get_aaindex_file("JOND920101"))
-# charge_feat = Feature(get_aa2charge())
+avg_polarity_feat = Feature(get_aaindex_file("GRAR740102")).then(average)
+sum_abs_charge_feat = Feature(get_aa2charge()).then(sum_absolute)
+avg_hydropathy_feat = Feature(get_aa2hydropathy()).then(average)
+freq_feat = Feature(get_aaindex_file("JOND920101"))
+charge_feat = Feature(get_aa2charge())
 # Prepare a FeatureSet
-# fs = FeatureSet("simple")
+fs = FeatureSet("simple")
 # Add the feature to new feature set:
-# fs.add(avg_hydropathy_feat)
-# fs.add(sum_abs_charge_feat)
-# fs.add(avg_polarity_feat)
-# fs.add(freq_feat, name='freequency')
-# fs.add(charge_feat, name='charge')
+fs.add(avg_hydropathy_feat)
+fs.add(sum_abs_charge_feat)
+fs.add(avg_polarity_feat)
+fs.add(freq_feat, name='freequency')
+fs.add(charge_feat, name='charge')
 
 
 # result_seqset = fs(seqset)
