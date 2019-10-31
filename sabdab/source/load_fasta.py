@@ -49,11 +49,11 @@ def fasta_files_to_seqsets(fasta_files, seqtype = 'seqres|region:'):
         seqset_Lchain.add(sequence_Lchain)
     return seqset_Hchain, seqset_Lchain
 
-def build_index_feature_set(aa_index_feats):
-    #TODO: add functionality for other feature functions
-    # Input: a list of tuples, each containing an amino acid index ID, 
-    # the function (see below options), window size (sliding), and default value
-    # for elements beyond the standard 20 aminoacids.
+def build_index_feature_set(aa_feats):
+    # Input: a list of tuples, each containing a featurization function, its input
+    # (ie amino acid index ID), the function to be applied across residues (see below 
+    # options), window size (sliding), and default value for elements beyond the standard 
+    # 20 aminoacids.
     # Output: a FeatureSet
 
     # Function options: 
@@ -69,8 +69,11 @@ def build_index_feature_set(aa_index_feats):
 
     # Prepare a FeatureSet
     fs = FeatureSet("simple")
-    for (index,function,window, default) in aa_index_feats:
-        feat = Feature(get_aaindex_file(index, default=default)).then(eval(function),window=window)
+    for (feat_function, ff_input, seq_function, window, default) in aa_feats:
+        if ff_input is None:
+            feat = Feature(eval(feat_function(default=default))).then(eval(seq_function),window=window)
+        else:
+            feat = Feature(eval(feat_function(ff_input, default=default))).then(eval(seq_function),window=window)
         # Add the feature to the feature set
         fs.add(feat) 
     return fs
