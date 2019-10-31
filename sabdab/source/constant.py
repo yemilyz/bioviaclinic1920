@@ -40,6 +40,10 @@ SABDAB_SUMMARY_FILE = os.path.join(REPO_DIR, 'sabdab_summary_filtered.tsv')
 SABDAB_DATASET_DIR = os.path.join(REPO_DIR, 'sabdab_filtered_dataset')
 PDB_DIR = os.path.join(REPO_DIR, 'sabdab_filtered_pdb')
 
+
+HCHAIN_FASTA_FILE = os.path.join(REPO_DIR, 'sabdab_sequences_VH.fa')
+LCHAIN_FASTA_FILE = os.path.join(REPO_DIR, 'sabdab_sequences_VL.fa')
+
 AA_INDEX_IDS = ['ARGP820101', 'BIGC670101', 'CHAM820101', 
         'CHAM820102', 'CHAM830107', 'FASG760101',
         'FASG760104', 'FASG760105',  'FAUJ880108', 'FAUJ880111']

@@ -29,7 +29,10 @@ def get_filepaths(filetype='sequence'):
                     for _ , pdb_enty in pdb_entries.iterrows():
                         hchain_fa = pdb_enty['Hchain_fa']
                         lchain_fa = pdb_enty['Lchain_fa']
-                        hl_pair = sorted(list(filter(lambda x: ((hchain_fa in x) or (lchain_fa in x)), files_in_dir)))
+                        h_file = list(filter(lambda x: (hchain_fa in x), files_in_dir))
+                        l_file = list(filter(lambda x: (lchain_fa in x), files_in_dir))
+                        hl_pair = h_file + l_file
+                        print(hl_pair)
                         files.append(hl_pair)
                         # for now, use one sequence per ab 
                         break
