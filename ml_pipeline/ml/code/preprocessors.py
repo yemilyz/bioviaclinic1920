@@ -38,7 +38,7 @@ class Preprocessor(ABC):
 class Imputer(Preprocessor):
     def __init__(self):
         self.param_grid_ = None
-        self.transformer_ = preprocessing.Imputer(strategy='most_frequent')
+        self.transformer_ = preprocessing.SimpleImputer(strategy='most_frequent')
 
 class Scaler(Preprocessor):
     def __init__(self):
