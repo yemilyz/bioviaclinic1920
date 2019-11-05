@@ -10,6 +10,7 @@ from abc import ABC
 
 # sklearn modules
 from sklearn import preprocessing
+from sklearn import impute
 
 ######################################################################
 # classes
@@ -38,7 +39,7 @@ class Preprocessor(ABC):
 class Imputer(Preprocessor):
     def __init__(self):
         self.param_grid_ = None
-        self.transformer_ = preprocessing.SimpleImputer(strategy='most_frequent')
+        self.transformer_ = impute.SimpleImputer(strategy='constant', fill_value=0)
 
 class Scaler(Preprocessor):
     def __init__(self):

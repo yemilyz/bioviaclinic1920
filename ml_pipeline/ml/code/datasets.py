@@ -69,11 +69,11 @@ def titanic():
 def DI():
     """Load DI dataset"""
 
-    target_names = ["High", "Low"]
+    target_names = ["Low", "High"]
     labels = [0, 1]
 
     # read csv
-    df = pd.read_csv("data/labeled_data_modified.csv")
+    df = pd.read_csv("data/labeled_data_modified_test.csv")
 
     # part b: process
     df = df.drop(['Name','Developability Index (All)'], axis=1)

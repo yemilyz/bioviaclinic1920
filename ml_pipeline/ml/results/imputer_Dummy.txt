@@ -1,0 +1,42 @@
+Best parameters set found on development set:
+
+{}
+
+
+Detailed classification report (training set):
+
+Confusion Matrix
+       Low  High
+Low   257   273
+High  278   255
+
+accuracy:  0.4816556914393227
+
+              precision    recall  f1-score   support
+
+         Low       0.48      0.48      0.48       530
+        High       0.48      0.48      0.48       533
+
+   micro avg       0.48      0.48      0.48      1063
+   macro avg       0.48      0.48      0.48      1063
+weighted avg       0.48      0.48      0.48      1063
+
+
+
+Detailed classification report (test set):
+
+Confusion Matrix
+       Low  High
+Low    67    79
+High   62    58
+
+accuracy:  0.4699248120300752
+
+              precision    recall  f1-score   support
+
+         Low       0.52      0.46      0.49       146
+        High       0.42      0.48      0.45       120
+
+   micro avg       0.47      0.47      0.47       266
+   macro avg       0.47      0.47      0.47       266
+weighted avg       0.48      0.47      0.47       266

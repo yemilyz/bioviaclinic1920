@@ -1,0 +1,6 @@
+FEATURES_CSV = 'features.csv'
+SEQUENCE_FASTA = 'sabdab_sequences_VH.fa'
+FEATURES_SEQS_CSV = 'features_seq.csv'
+DI_LABELS_CSV = 'DI_labels.csv'
+LABELED_DATA_CSV = 'labeled_data.csv'
+LABELED_DATA_MODIFIED_CSV = 'labeled_data_modified.csv'
