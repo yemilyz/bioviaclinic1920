@@ -1,59 +1,24 @@
 from functools import reduce
-from quantiprot.utils.io import load_fasta_file
-from quantiprot.utils.sequence import SequenceSet, Sequence
 from quantiprot.utils.feature import Feature, FeatureSet
 from quantiprot.utils.mapping import simplify
+from quantiprot.utils.io import load_fasta_file
 from quantiprot.metrics.aaindex import get_aaindex_file, get_aa2charge, get_aa2hydropathy, get_aa2volume
 from quantiprot.metrics.basic import identity, average, sum_absolute, uniq_count
 from quantiprot.metrics.basic import average
 from quantiprot.metrics.basic import identity
 from quantiprot.utils.sequence import compact, columns
-
 import numpy as np
+import os
+
 from utils import get_filepaths
-from constant import AA_INDEX_IDS
+from constant import AA_INDEX_IDS, HCHAIN_FASTA_FILE, LCHAIN_FASTA_FILE
+from io_fasta import fasta_files_to_seqsets, write_seqset_to_fasta
 
-
-def fasta_file_to_sequence(fasta_file, seqtype):
-    """
-    Takes a list of 2 fasta file paths and loads the files. Then
-    takes the matching sequence type (region or full) and adds the 2 sequences
-    into a seqset
-    """
-    seqs = load_fasta_file(fasta_file)
-    for seq in seqs:
-        if seqtype in seq.identifier:
-            return seq
-
-# def concat_HL_pairs(seqs):
-#     """
-#     Takes a SequenceSet object of size 2 and makes a new Sequence object by
-#     concatenating the 2 given sequences
-#     """
-#     identifier = seqs[0].identifier.split('|')[0].split('_')[0]
-#     # identifier = seqs[0].identifier.split('|')[0] + seqs[1].identifier.split('|')[0].split('_')[-1]
-#     feature = seqs[0].feature
-#     data = seqs[0].data + seqs[1].data
-#     return Sequence(identifier, feature, data)
-
-def fasta_files_to_seqsets(fasta_files, seqtype = 'seqres|region:'):
-    """ Wrapper function to take in a list of lists of fasta filepath pairs and
-    makes a SequenceSet containing all antibody heavy+light chain sequences
-    """
-    seqset_Hchain = SequenceSet("Hchain Sequences")
-    seqset_Lchain = SequenceSet("Lchain Sequences")
-    for fasta_files_Hchain, fasta_files_Lchain in fasta_files:
-        sequence_Hchain = fasta_file_to_sequence(fasta_files_Hchain, seqtype)
-        sequence_Lchain = fasta_file_to_sequence(fasta_files_Lchain, seqtype)
-        seqset_Hchain.add(sequence_Hchain)
-        seqset_Lchain.add(sequence_Lchain)
-    return seqset_Hchain, seqset_Lchain
-
-def build_index_feature_set(aa_feats):
-    # Input: a list of tuples, each containing a featurization function, its input
-    # (ie amino acid index ID), the function to be applied across residues (see below 
-    # options), window size (sliding), and default value for elements beyond the standard 
-    # 20 aminoacids.
+def build_index_feature_set(aa_index_feats):
+    #TODO: add functionality for other feature functions
+    # Input: a list of tuples, each containing an amino acid index ID, 
+    # the function (see below options), window size (sliding), and default value
+    # for elements beyond the standard 20 aminoacids.
     # Output: a FeatureSet
 
     # Function options: 
@@ -69,11 +34,8 @@ def build_index_feature_set(aa_feats):
 
     # Prepare a FeatureSet
     fs = FeatureSet("simple")
-    for (feat_function, ff_input, seq_function, window, default) in aa_feats:
-        if ff_input is None:
-            feat = Feature(eval(feat_function(default=default))).then(eval(seq_function),window=window)
-        else:
-            feat = Feature(eval(feat_function(ff_input, default=default))).then(eval(seq_function),window=window)
+    for (index,function,window, default) in aa_index_feats:
+        feat = Feature(get_aaindex_file(index, default=default)).then(eval(function),window=window)
         # Add the feature to the feature set
         fs.add(feat) 
     return fs
@@ -102,8 +64,8 @@ def main():
     default = [0]*len(AA_INDEX_IDS)
     aa_index_feats = zip(AA_INDEX_IDS, function_list, windows, default)
     # Process sequences
-    fasta_files = get_filepaths(filetype='sequence')
-    seqset_Hchain, seqset_Lchain = fasta_files_to_seqsets(fasta_files)
+    seqset_Hchain, seqset_Lchain = load_fasta_file(HCHAIN_FASTA_FILE), load_fasta_file(LCHAIN_FASTA_FILE)
+
     featureset = build_index_feature_set(aa_index_feats)
     feat_mat = featurize_HLchains(seqset_Hchain, seqset_Lchain, featureset)
     print('final feature matrix shape', feat_mat.shape)
