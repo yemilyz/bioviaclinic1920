@@ -9,9 +9,10 @@ from quantiprot.metrics.basic import identity
 from quantiprot.utils.sequence import compact, columns
 import numpy as np
 import os
+import pandas as pd
 
 from utils import get_filepaths
-from constant import AA_INDEX_IDS, HCHAIN_FASTA_FILE, LCHAIN_FASTA_FILE
+from constant import AA_INDEX_IDS, HCHAIN_FASTA_FILE, LCHAIN_FASTA_FILE, REPO_DIR
 from io_fasta import fasta_files_to_seqsets, write_seqset_to_fasta
 
 def build_index_feature_set(aa_index_feats):
@@ -50,8 +51,11 @@ def featurize_HLchains(seqset_Hchain, seqset_Lchain, featureset):
     compact_Hchain = compact(result_Hchain)
     compact_Lchain = compact(result_Lchain)
     for cH, cL in zip(compact_Hchain, compact_Lchain):
-        cH.data = list(reduce(lambda x,y: x+y, cH.data))
-        cL.data = list(reduce(lambda x,y: x+y, cL.data))
+        if isinstance(cH.data[0], list):
+            cH.data = list(reduce(lambda x,y: x+y, cH.data))
+            cL.data = list(reduce(lambda x,y: x+y, cL.data))
+        else:
+            break
     mat_Hchain = np.matrix(columns(compact_Hchain, transpose=True))
     mat_Lchain = np.matrix(columns(compact_Lchain, transpose=True))
     feat_mat = np.concatenate((mat_Hchain, mat_Lchain), axis=1)
@@ -60,7 +64,7 @@ def featurize_HLchains(seqset_Hchain, seqset_Lchain, featureset):
 def main():
     # testing
     function_list = ["average"]*len(AA_INDEX_IDS)
-    windows = [9]*len(AA_INDEX_IDS)
+    windows = [0]*len(AA_INDEX_IDS)
     default = [0]*len(AA_INDEX_IDS)
     aa_index_feats = zip(AA_INDEX_IDS, function_list, windows, default)
     # Process sequences
@@ -68,6 +72,8 @@ def main():
 
     featureset = build_index_feature_set(aa_index_feats)
     feat_mat = featurize_HLchains(seqset_Hchain, seqset_Lchain, featureset)
+    pd.DataFrame(feat_mat).to_csv(os.path.join(REPO_DIR, "features.csv"))
+
     print('final feature matrix shape', feat_mat.shape)
 
 
