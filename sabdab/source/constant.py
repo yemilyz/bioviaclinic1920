@@ -44,6 +44,9 @@ PDB_DIR = os.path.join(REPO_DIR, 'sabdab_filtered_pdb')
 HCHAIN_FASTA_FILE = os.path.join(REPO_DIR, 'sabdab_sequences_VH.fa')
 LCHAIN_FASTA_FILE = os.path.join(REPO_DIR, 'sabdab_sequences_VL.fa')
 
+# Hydrophobicity index, Residue Volume, Polarizability Parameter
+# Free Energy of Solution in Water (kCal/mole), Charge Transfer Capability Parameter,
+# Molecular Weight, pK-N, pK-C, Localized Electrical Effect, Positive Charge
 AA_INDEX_IDS = ['ARGP820101', 'BIGC670101', 'CHAM820101', 
         'CHAM820102', 'CHAM830107', 'FASG760101',
-        'FASG760104', 'FASG760105',  'FAUJ880108', 'FAUJ880111']
+        'FASG760104', 'FASG760105',  'FAUJ880108', 'FAUJ880111', 'FAUJ880112']

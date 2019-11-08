@@ -62,7 +62,9 @@ def featurize_HLchains(seqset_Hchain, seqset_Lchain, featureset):
     ids = [name.split('|')[0].split('_')[0] for name in compact_Lchain.ids()]
     feat_mat = pd.DataFrame(feat_mat)
     feat_mat['pdb_code'] = ids
-    # feat_mat.columns = ['pdb_code'] + feat_mat.columns[:-1]
+    names_list = list(feat_mat.columns)
+    names_list = [names_list[-1]] + names_list[:-1]
+    feat_mat = feat_mat[names_list]
     return feat_mat
 
 def main():
@@ -76,9 +78,7 @@ def main():
 
     featureset = build_index_feature_set(aa_index_feats)
     feat_mat = featurize_HLchains(seqset_Hchain, seqset_Lchain, featureset)
-    print(feat_mat.head())
-    feat_mat.to_csv(os.path.join(REPO_DIR, "features.csv"))
-    
+    feat_mat.to_csv(os.path.join(REPO_DIR, "features.csv"), index=False)
 
     print('final feature matrix shape', feat_mat.shape)
 
