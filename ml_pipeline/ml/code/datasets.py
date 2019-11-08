@@ -26,12 +26,6 @@ def DI():
 
     # part b: process
     df = df.drop(['Name', 'DI Classification'], axis=1)
-    # df = df.replace({'female': 0, 'male': 1})
-    # df = pd.concat((df[['Embarked']],
-    #       pd.get_dummies(df, columns=['Embarked'], drop_first=True)),
-    #       axis=1)
-    # df = df.drop(['Embarked'], axis=1)
-    # get features, labels, and feature_names
     X = df.drop("Developability Index (All)", axis=1)
     y = df["Developability Index (All)"]
     feature_names = X.columns
