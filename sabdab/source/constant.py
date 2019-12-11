@@ -40,13 +40,27 @@ SABDAB_SUMMARY_FILE = os.path.join(REPO_DIR, 'sabdab_summary_filtered.tsv')
 SABDAB_DATASET_DIR = os.path.join(REPO_DIR, 'sabdab_filtered_dataset')
 PDB_DIR = os.path.join(REPO_DIR, 'sabdab_filtered_pdb')
 
+DATA_DIR = os.path.join(REPO_DIR, 'data')
+HCHAIN_FASTA_FILE = os.path.join(DATA_DIR, 'sabdab_sequences_VH.fa')
+LCHAIN_FASTA_FILE = os.path.join(DATA_DIR, 'sabdab_sequences_VL.fa')
+DI_LABELS_CVS = os.path.join(DATA_DIR, 'DI_all_labels.csv')
 
-HCHAIN_FASTA_FILE = os.path.join(REPO_DIR, 'sabdab_sequences_VH.fa')
-LCHAIN_FASTA_FILE = os.path.join(REPO_DIR, 'sabdab_sequences_VL.fa')
 
 # Hydrophobicity index, Residue Volume, Polarizability Parameter
 # Free Energy of Solution in Water (kCal/mole), Charge Transfer Capability Parameter,
 # Molecular Weight, pK-N, pK-C, Localized Electrical Effect, Positive Charge
-AA_INDEX_IDS = ['ARGP820101', 'BIGC670101', 'CHAM820101', 
-        'CHAM820102', 'CHAM830107', 'FASG760101',
-        'FASG760104', 'FASG760105',  'FAUJ880108', 'FAUJ880111', 'FAUJ880112']
+# AA_INDEX_IDS = ['ARGP820101', 'BIGC670101', 'CHAM820101', 
+#         'CHAM820102', 'CHAM830107', 'FASG760101',
+#         'FASG760104', 'FASG760105',  'FAUJ880108', 'FAUJ880111', 'FAUJ880112']
+
+# Hydropathy index
+AA_INDEX_IDS = ['KYTJ820101']
+
+# Feature array from EMBOSS PEPSTATS
+FEATURE_ARRAY_NAMES = ['molecularWeight', 'numResidues', 'averageResidueWeight', 
+                 'charge', 'isoelectricPoint', 'molExtinctCoeff', 
+                 'molExtinctCoeffCystineBridges', 'extinctCoeff', 
+                 'extinctCoeffCystineBridges', 'IEIB']
+
+SUPPORTED_GRAPH_TYPES = ['ps', 'hpgl', 'hp7470', 'hp7580', 'meta', 'cps', 
+                         'x11', 'tek', 'tekt', 'none', 'data', 'xterm', 'svg']
