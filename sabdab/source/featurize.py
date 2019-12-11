@@ -71,15 +71,6 @@ def featurize_HLchains(seqset_Hchain, seqset_Lchain, featureset):
     mat_Hchain = np.matrix(columns(compact_Hchain, transpose=True))
     mat_Lchain = np.matrix(columns(compact_Lchain, transpose=True))
 
-    # feat_mat = pd.concat([final_Lchain, final_Hchain], axis=1)
-    # feat_mat = np.concatenate((final_Hchain, final_Lchain), axis=1)
-    # ids = [name.split('|')[0].split('_')[0] for name in compact_Lchain.ids()]
-    # feat_mat = pd.DataFrame(feat_mat)
-    # feat_mat['pdb_code'] = ids
-
-    # names_list = list(feat_mat.columns)
-    # names_list = [names_list[-1]] + names_list[:-1]
-    # feat_mat = feat_mat[names_list]
     return pd.DataFrame(mat_Hchain, columns=['VH_'+str(i)+'_HydrophobicMoment' for i in range(mat_Hchain.shape[1])]), \
            pd.DataFrame(mat_Lchain, columns=['VL_'+str(i)+'_HydrophobicMoment' for i in range(mat_Lchain.shape[1])])
 

@@ -16,7 +16,8 @@ from sklearn.dummy import DummyClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neural_network import MLPClassifier
-
+from sklearn.linear_model import LogisticRegression
+from sklearn.naive_bayes import GaussianNB
 
 ######################################################################
 # classes
@@ -86,6 +87,11 @@ class MLP(Classifier):
     def __init__(self, n, d):
         self.estimator_ = MLPClassifier(max_iter=int(10e3))
         self.param_grid_ = {'hidden_layer_sizes': [(100,), (50,), (100, 100)]}
+
+class Bayes(Classifier):
+    def __init__(self, n, d):
+        self.estimator_ = GaussianNB()
+        self.param_grid_ = {}
 
 
 ######################################################################
