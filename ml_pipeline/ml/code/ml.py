@@ -15,6 +15,7 @@ import matplotlib.pyplot as plt
 # numpy, pandas, and sklearn modules
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
@@ -104,7 +105,6 @@ def make_pipeline(preprocessor_list, classifier, n, d):
     return pipe, param_grid
 
 
-
 def report_metrics(y_true, y_pred, labels=None, target_names=None):
     """Report main classification metrics.
 
@@ -139,6 +139,9 @@ def report_metrics(y_true, y_pred, labels=None, target_names=None):
     p, r, f1, s = metrics.precision_recall_fscore_support(y_true, y_pred,
                                                           labels=labels,
                                                           average="weighted")
+    print("precision: ",p)
+    print("recall: ",r)
+    print("f1: ", f1)
     # print report (redundant with above but easier)
     report = metrics.classification_report(y_true, y_pred, labels, target_names)
     print(report)
@@ -188,7 +191,20 @@ def run(dataset, preprocessor_list, classifier):
     print("Detailed classification report (test set):\n")
     y_true, y_pred = y_test, search.predict(X_test)
     res_test = report_metrics(y_true, y_pred, labels, target_names)
+    print("\n")
 
+    # fpr, tpr, threshold = metrics.roc_curve(y_true, y_pred)
+    # roc_auc = metrics.auc(fpr, tpr)
+    # plt.figure()
+    # plt.title('Receiver Operating Characteristic')
+    # plt.plot(fpr, tpr, 'b', label = 'AUC = %0.2f' % roc_auc)
+    # plt.legend(loc = 'lower right')
+    # plt.plot([0, 1], [0, 1],'r--')
+    # plt.xlim([0, 1])
+    # plt.ylim([0, 1])
+    # plt.ylabel('True Positive Rate')
+    # plt.xlabel('False Positive Rate')
+    # plt.savefig("out.png")
 
     # save to file
     pp_string = ''

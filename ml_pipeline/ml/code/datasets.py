@@ -22,12 +22,12 @@ def DI():
     labels = [0, 1]
 
     # read csv
-    df = pd.read_csv("data/labeled_data_modified_test.csv")
+    df = pd.read_csv("data/features_label.csv")
 
     # part b: process
-    df = df.drop(['Name', 'DI Classification'], axis=1)
-    X = df.drop("Developability Index (All)", axis=1)
-    y = df["Developability Index (All)"]
+    df = df.drop(['pdb_code', 'Developability Index (All)'], axis=1)
+    X = df.drop('DI Classification', axis=1)
+    y = df['DI Classification']
     feature_names = X.columns
 
     return X, y, labels, target_names, feature_names
