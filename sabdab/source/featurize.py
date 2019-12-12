@@ -76,26 +76,25 @@ def featurize_HLchains(seqset_Hchain, seqset_Lchain, featureset):
 
 def add_DI_labels(di_label_csv, feature_matrix):
     di = pd.read_csv(di_label_csv)
-
     if (di.columns[0] == 'Name'):
-        di.rename(columns={'Name':'pdb_code'})
+        di.rename(columns={'Name':'pdb_code'}, inplace=True)
 
     di['pdb_code'] = di['pdb_code'].astype(str).str.lower()
+    di['pdb_code'] = di['pdb_code'].map(lambda pdb_code: pdb_code.split('_')[0])
     di = di.drop_duplicates()
-
+    print(di.shape)
     new_df = feature_matrix.merge(di, on='pdb_code')
     return new_df
 
 def classifyDI(row):
-    if row['Developability Index (All)'] < 99:
+    if row['Developability Index (Fv)'] < 99:
         return 0
     else:
         return 1
 
-def add_DI_classification_labels(labelled_matrix):
-    labelled_matrix['DI Classification'] = \
-        labelled_matrix.apply(lambda row: classifyDI(row), axis=1)
-    return labelled_matrix
+def add_DI_classification_labels(labeled_matrix):
+    labeled_matrix['DI Classification'] = labeled_matrix.apply(lambda row: classifyDI(row), axis=1)
+    return labeled_matrix
 
 def get_ids_to_array(seqset_Lchain):
     """ Assumes that the ids of the L chain and H chain are in the same order
@@ -246,14 +245,15 @@ def main():
     df_aafeatures_Hchain, df_aafeatures_Lchain = \
         featurize_HLchains(seqset_Hchain, seqset_Lchain, featureset)
     feat_mat = concat_dataframes_and_pdbcodes(array_ids, df_pepstats_Hchain, df_pepstats_Lchain, df_charge_Hchain, df_charge_Lchain, df_aafeatures_Hchain, df_aafeatures_Lchain)
+    print(feat_mat.shape)
     feat_mat.to_csv(os.path.join(DATA_DIR, "features.csv"), index=False)
 
-    # labeled_mat = add_DI_labels(DI_LABELS_CVS, feat_mat)
-    # print('labelled matrix shape', labeled_mat.shape)
-    # labeled_mat.to_csv(os.path.join(REPO_DIR, "features_label.csv"), index=False)
-    # classif_labeled_mat = add_DI_classification_labels(labeled_mat)
-    # classif_labeled_mat.to_csv(os.path.join(REPO_DIR, "features_label.csv"), index=False)
-    # print('classified feature matrix shape', classif_labeled_mat.shape)
+    labeled_mat = add_DI_labels(DI_LABELS_CVS, feat_mat)
+    print('labeled matrix shape', labeled_mat.shape)
+    # labeled_mat.to_csv(os.path.join(DATA_DIR, "features_label.csv"), index=False)
+    classif_labeled_mat = add_DI_classification_labels(labeled_mat)
+    classif_labeled_mat.to_csv(os.path.join(DATA_DIR, "features_label.csv"), index=False)
+    print('classified feature matrix shape', classif_labeled_mat.shape)
 
 if __name__ == '__main__':
     main()

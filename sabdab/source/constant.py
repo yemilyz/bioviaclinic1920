@@ -43,7 +43,7 @@ PDB_DIR = os.path.join(REPO_DIR, 'sabdab_filtered_pdb')
 DATA_DIR = os.path.join(REPO_DIR, 'data')
 HCHAIN_FASTA_FILE = os.path.join(DATA_DIR, 'sabdab_sequences_VH.fa')
 LCHAIN_FASTA_FILE = os.path.join(DATA_DIR, 'sabdab_sequences_VL.fa')
-DI_LABELS_CVS = os.path.join(DATA_DIR, 'DI_all_labels.csv')
+DI_LABELS_CVS = os.path.join(DATA_DIR, 'DI_Fv_labels_clean.csv')
 
 
 # Hydrophobicity index, Residue Volume, Polarizability Parameter
