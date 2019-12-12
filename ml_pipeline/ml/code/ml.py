@@ -9,6 +9,8 @@ Description : Main ML Pipeline
 import os
 import argparse
 import json
+import matplotlib.pyplot as plt
+
 
 # numpy, pandas, and sklearn modules
 import numpy as np
@@ -23,7 +25,7 @@ from sklearn.externals import joblib
 # local ML modules
 import datasets as datasets
 import classifiers
-import preprocessors as preprocessors
+# import preprocessors as preprocessors
 
 
 ######################################################################
@@ -56,14 +58,14 @@ def get_parser():
                         help="[{}]".format(' | '.join(classifiers.CLASSIFIERS)))
 
     # optional arguments
-    if preprocessors.PREPROCESSORS:
-        parser.add_argument("-p", "--preprocessor", dest="preprocessors",
-                            metavar="<preprocessor>", 
-                            default=[], action="append",
-                            choices=preprocessors.PREPROCESSORS,
-                            help="[{}]".format(' | '.join(preprocessors.PREPROCESSORS)))
-    else:
-        parser.set_defaults(preprocessors=[])
+    # if preprocessors.PREPROCESSORS:
+        # parser.add_argument("-p", "--preprocessor", dest="preprocessors",
+        #                     metavar="<preprocessor>", 
+        #                     default=[], action="append",
+        #                     choices=preprocessors.PREPROCESSORS,
+        #                     help="[{}]".format(' | '.join(preprocessors.PREPROCESSORS)))
+    # else:
+    parser.set_defaults(preprocessors=[])
 
     return parser
 
@@ -83,11 +85,11 @@ def make_pipeline(preprocessor_list, classifier, n, d):
     param_grid = {}
 
     # get preprocessor(s) and hyperparameters to tune using cross-validation
-    for  pp in preprocessor_list:
-        process = getattr(preprocessors, pp)()
-        name = type(process).__name__
-        transform = process.transformer_
-        steps.append((name, transform))
+    # for pp in preprocessor_list:
+    #     process = getattr(preprocessors, pp)()
+    #     name = type(process).__name__
+    #     transform = process.transformer_
+    #     steps.append((name, transform))
 
     # get classifier and hyperparameters to tune using cross-validation
     clf = getattr(classifiers, classifier)(n,d)
@@ -171,7 +173,7 @@ def run(dataset, preprocessor_list, classifier):
 
     # tune model using randomized search
     n_iter = min(N_ITER, sz)    # cap max number of iterations
-    search = RandomizedSearchCV(pipe, param_grid, n_iter=n_iter, cv=CV)
+    search = RandomizedSearchCV(pipe, param_grid, n_iter=n_iter, cv=CV, refit='precision', scoring=['recall', 'precision', 'accuracy'])
     search.fit(X_train, y_train)
     print("Best parameters set found on development set:\n")
     print(search.best_params_)
@@ -202,6 +204,8 @@ def run(dataset, preprocessor_list, classifier):
     print(search.best_estimator_)
     joblib.dump(search.best_estimator_, joblib_file)
 
+    pd.DataFrame(search.cv_results_).to_csv('data/'+classifier + 'cv_results.csv', index=False)
+
     # results
     json_file = prefix + "_results.json"
     res = {"C_train":      res_train[0].tolist(),
@@ -210,6 +214,7 @@ def run(dataset, preprocessor_list, classifier):
            "scores_test":  res_test[1]}
     with open(json_file, 'w') as outfile:
         json.dump(res, outfile)
+    return search
 
 
 ######################################################################
@@ -229,3 +234,29 @@ def main():
 
 if __name__ == "__main__":
     main()
+    cv = pd.read_csv('data/RFcv_results.csv')
+    print(list(cv))
+
+
+# will fix plotting later
+# ax1 = cv.plot.scatter('param_RF__max_depth', 'mean_train_score', color = 'darkorange', label ='train')
+# cv.plot.scatter('param_RF__max_depth', 'mean_test_score', color = 'b', ax = ax1, label ='test')
+# plt.title("CV for param_RF__max_depth")
+# plt.savefig("results/cv_param_RF__max_depth.png")
+# # plt.show()
+# plt.close()
+
+
+# ax1 = cv.plot.scatter('param_RF__max_features', 'mean_train_score', color = 'darkorange', label ='train')
+# cv.plot.scatter('param_RF__max_features', 'mean_test_score', color = 'b', ax = ax1, label ='test')
+
+# plt.title("CV for param_RF__max_features")
+# plt.savefig("results/cv_param_RF__max_features.png")
+# plt.close()
+
+
+# ax1 = cv.plot.scatter('param_RF__n_estimators', 'mean_train_score', color = 'darkorange', label ='train')
+# cv.plot.scatter('param_RF__n_estimators', 'mean_test_score', color = 'b', ax = ax1, label ='test')
+# plt.title("CV for param_RF__n_estimators")
+# plt.savefig("results/cv_param_RF__n_estimators.png")
+# plt.close()
