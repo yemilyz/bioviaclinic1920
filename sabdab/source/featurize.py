@@ -155,56 +155,58 @@ def emboss_pepstats_parse_to_dataframe(infile, chain_type=''):
     df_pepstats = pd.DataFrame.from_dict(info_dict, orient='index')
     return df_pepstats
 
-def emboss_charge_FASTA(infile, window_size=5, outfile='', outdir='', \
-                        outext='.charge', force_rerun=False, graph=False, \
-                        graph_type=''):
-    """Run EMBOSS charge on a FASTA file.
+def emboss_program_FASTA(infile, program, window_size=5, outfile='', \
+                        outdir='', outext='', force_rerun=False, \
+                        graph=False, graph_type=''):
+    """Run EMBOSS program on a FASTA file.
     Args:
-        infile: Path to FASTA file
-        outfile: Name of output file without extension
-        outdir: Path to output directory
-        outext: Extension of results file, default is ".charge"
-        force_rerun: Flag to rerun pepstats
+        infile: Path to FASTA file, str
+        program: Name of program, str
+        window_size: Size of window, int
+        outfile: Name of output file without extension, str
+        outdir: Path to output directory, str
+        outext: Extension of results file, str
+        force_rerun: Flag to rerun program, boolean
+        graph: Flag to make plot, boolean
+        graph_type: Plot type, requires graph=True to output graph, str
     Returns:
         str: Path to output file.
     """
-
     # Create the output file name
     outfile = ssbio.utils.outfile_maker(inname=infile, outname=outfile, outdir=outdir, outext=outext)
-    # Run charge
-    program = 'charge {} -outfile="{}"'.format(infile, outfile)
+    # Run program
+    program = '{} {} -outfile="{}"'.format(program, infile, outfile)
     if (graph and graph_type in SUPPORTED_GRAPH_TYPES):
         program = program + ' -graph={} -plot=Yes'.format(graph_type)
-    ssbio.utils.command_runner(program, force_rerun_flag=False, outfile_checker='', silent=True)
+    ssbio.utils.command_runner(program, force_rerun_flag=False, outfile_checker='',silent=True)
     return outfile
 
-def emboss_charge_parse_df(infile, chain_type=''):
+def emboss_program_parse_df(infile, program, start_index, chain_type=''):
     with open(infile) as f:
-        sw_charge = f.read().split('CHARGE')[1:]
-
+        sw_program = f.read().split(program.upper())[1:]
     info_dict = {}
-    for index, antibody_charges in enumerate(sw_charge):
-        lines = antibody_charges.split('\n')
-        charge_dict = {}
-        for i, line in enumerate(lines[4:]):
-            res_charge = line.split('\t')
-            clean_res_charge = list(filter(lambda x: x != '', res_charge))
-            if (len(clean_res_charge) == 3 and clean_res_charge[0].isdigit()):
-                charge_name = chain_type + '_' + str(i) + '_embossCharge'
-                charge_dict[charge_name] = float(clean_res_charge[2])
-        info_dict[index] = charge_dict    
-    df_charge = pd.DataFrame.from_dict(info_dict, orient='index')
-    return df_charge
+    for index, antibody in enumerate(sw_program):
+        lines = antibody.split('\n')
+        program_prop_dict = {}
+        for i, line in enumerate(lines[start_index:]):
+            res_program = line.split('\t')
+            clean_res_program = list(filter(lambda x: x != '', res_program))
+            program_name = chain_type + '_' + str(i) + '_emboss' + program.capitalize()
+            if (len(clean_res_program) > 0 and clean_res_program[0].isdigit()):
+                if (len(clean_res_program) == 3):
+                    program_prop_dict[program_name] = float(clean_res_program[2]) 
+                else: 
+                    program_prop_dict[program_name] = float(clean_res_program[1])
+        info_dict[index] = program_prop_dict    
+    df_program = pd.DataFrame.from_dict(info_dict, orient='index')
+    return df_program
 
-def concat_dataframes_and_pdbcodes(array_ids, \
-                      df_pepstats_Hchain, \
-                      df_pepstats_Lchain, \
-                      df_charge_Hchain, \
-                      df_charge_Lchain, \
-                      df_aafeatures_Hchain, \
-                      df_aafeatures_Lchain):
+def concat_dataframes_and_pdbcodes(array_ids, *args):
+    df_list = []
+    for arg in args:
+        df_list.append(arg)
     df_final = \
-        pd.concat([df_pepstats_Hchain,df_charge_Hchain, df_aafeatures_Hchain, df_pepstats_Lchain, df_charge_Lchain, df_aafeatures_Lchain], join='inner', axis=1)
+        pd.concat(df_list, join='inner', axis=1)
     df_final['pdb_code'] = array_ids
     columns_list = list(df_final.columns)
     columns_list = [columns_list[-1]] + columns_list[:-1]
@@ -235,16 +237,25 @@ def main():
     df_pepstats_Hchain = emboss_pepstats_parse_to_dataframe(file_pepstats_Hchain, 'VH')
     df_pepstats_Lchain = emboss_pepstats_parse_to_dataframe(file_pepstats_Lchain, 'VL')
 
-    file_charge_Hchain = emboss_charge_FASTA(HCHAIN_FASTA_FILE, outfile='sw_charge_Hchain', outdir='../data/')
-    file_charge_Lchain = emboss_charge_FASTA(LCHAIN_FASTA_FILE, outfile='sw_charge_Lchain', outdir='../data/')
+    file_charge_Hchain = emboss_program_FASTA(HCHAIN_FASTA_FILE, 'charge', outfile='sw_charge_Hchain', outdir='../data/', outext='.charge')
+    file_charge_Lchain = emboss_program_FASTA(LCHAIN_FASTA_FILE, 'charge' ,outfile='sw_charge_Lchain', outdir='../data/', outext='.charge')
 
-    df_charge_Hchain = emboss_charge_parse_df(file_charge_Hchain, 'VH')
-    df_charge_Lchain = emboss_charge_parse_df(file_charge_Lchain, 'VL')
+    df_charge_Hchain = emboss_program_parse_df(file_charge_Hchain, 'charge', 4, chain_type='VH')
+    df_charge_Lchain = emboss_program_parse_df(file_charge_Lchain, 'charge', 4, chain_type='VL')
 
+    file_hmoment_Hchain = emboss_program_FASTA(HCHAIN_FASTA_FILE, 'hmoment', outfile='sw_hmoment_Hchain', outdir='../data/', outext='.hmoment')
+    file_hmoment_Lchain = emboss_program_FASTA(LCHAIN_FASTA_FILE, 'hmoment', outfile='sw_hmoment_Lchain', outdir='../data/', outext='.hmoment')
+
+    df_hmoment_Hchain = emboss_program_parse_df(file_hmoment_Hchain, 'hmoment', 5, chain_type='VH')
+    df_hmoment_Lchain = emboss_program_parse_df(file_hmoment_Lchain, 'hmoment', 5, chain_type='VL')
+
+    print(df_hmoment_Hchain)
+    print(df_hmoment_Hchain.shape)
     featureset = build_index_feature_set(aa_index_feats)
     df_aafeatures_Hchain, df_aafeatures_Lchain = \
         featurize_HLchains(seqset_Hchain, seqset_Lchain, featureset)
-    feat_mat = concat_dataframes_and_pdbcodes(array_ids, df_pepstats_Hchain, df_pepstats_Lchain, df_charge_Hchain, df_charge_Lchain, df_aafeatures_Hchain, df_aafeatures_Lchain)
+    feat_mat = concat_dataframes_and_pdbcodes(array_ids, df_pepstats_Hchain, df_pepstats_Lchain, df_charge_Hchain, df_charge_Lchain, df_aafeatures_Hchain, df_aafeatures_Lchain, df_hmoment_Hchain, df_hmoment_Lchain)
+    # print(feat_mat)
     print(feat_mat.shape)
     feat_mat.to_csv(os.path.join(DATA_DIR, "features.csv"), index=False)
 
