@@ -149,6 +149,22 @@ def report_metrics(y_true, y_pred, labels=None, target_names=None):
     return C, (a, p, r, f1)
 
 
+def reportCV(cv_data):
+    cv_data.fillna(0, inplace=True)
+    for colname in cv_data.columns.tolist():
+        if colname.startswith('param_'):
+            fig, axes = plt.subplots(nrows=1, ncols=3, sharey=True)
+            cv_data.plot.scatter(colname, 'mean_test_accuracy', color = 'darkorange', s=8, ax=axes[0], label ='accuracy')
+            cv_data.plot.scatter(colname, 'mean_test_precision', color = 'b', s=8, ax=axes[1], label ='precision')
+            cv_data.plot.scatter(colname, 'mean_test_precision', color = 'darkgreen', s=8, ax=axes[2], label ='recall')
+            axes[1].set_title("CV test metrics for {}".format(colname),fontsize= 12) # title of plot
+            # cv_data.plot.scatter(colname, 'mean_test_precision', color = 'b', s=3, alpha = 0.4, label ='precision')
+            plt.savefig("results/cv_{}.png".format(colname))
+            plt.close()
+
+
+
+
 
 def run(dataset, preprocessor_list, classifier):
     """Run ML pipeline.
@@ -193,6 +209,12 @@ def run(dataset, preprocessor_list, classifier):
     res_test = report_metrics(y_true, y_pred, labels, target_names)
     print("\n")
 
+
+    
+    cv_data = pd.DataFrame(search.cv_results_)
+    cv_data.to_csv('data/{}_cv_results.csv'.format(classifier), index=False)
+    reportCV(cv_data)
+
     # fpr, tpr, threshold = metrics.roc_curve(y_true, y_pred)
     # roc_auc = metrics.auc(fpr, tpr)
     # plt.figure()
@@ -220,7 +242,7 @@ def run(dataset, preprocessor_list, classifier):
     print(search.best_estimator_)
     joblib.dump(search.best_estimator_, joblib_file)
 
-    pd.DataFrame(search.cv_results_).to_csv('data/'+classifier + 'cv_results.csv', index=False)
+    
 
     # results
     json_file = prefix + "_results.json"
@@ -230,7 +252,7 @@ def run(dataset, preprocessor_list, classifier):
            "scores_test":  res_test[1]}
     with open(json_file, 'w') as outfile:
         json.dump(res, outfile)
-    return search
+    # return search
 
 
 ######################################################################
@@ -250,29 +272,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-    cv = pd.read_csv('data/RFcv_results.csv')
-    print(list(cv))
 
-
-# will fix plotting later
-# ax1 = cv.plot.scatter('param_RF__max_depth', 'mean_train_score', color = 'darkorange', label ='train')
-# cv.plot.scatter('param_RF__max_depth', 'mean_test_score', color = 'b', ax = ax1, label ='test')
-# plt.title("CV for param_RF__max_depth")
-# plt.savefig("results/cv_param_RF__max_depth.png")
-# # plt.show()
-# plt.close()
-
-
-# ax1 = cv.plot.scatter('param_RF__max_features', 'mean_train_score', color = 'darkorange', label ='train')
-# cv.plot.scatter('param_RF__max_features', 'mean_test_score', color = 'b', ax = ax1, label ='test')
-
-# plt.title("CV for param_RF__max_features")
-# plt.savefig("results/cv_param_RF__max_features.png")
-# plt.close()
-
-
-# ax1 = cv.plot.scatter('param_RF__n_estimators', 'mean_train_score', color = 'darkorange', label ='train')
-# cv.plot.scatter('param_RF__n_estimators', 'mean_test_score', color = 'b', ax = ax1, label ='test')
-# plt.title("CV for param_RF__n_estimators")
-# plt.savefig("results/cv_param_RF__n_estimators.png")
-# plt.close()
