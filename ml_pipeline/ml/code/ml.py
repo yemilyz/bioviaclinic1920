@@ -9,6 +9,8 @@ Description : Main ML Pipeline
 import os
 import argparse
 import json
+import matplotlib.pyplot as plt
+
 
 # numpy, pandas, and sklearn modules
 import numpy as np
@@ -24,7 +26,7 @@ from sklearn.externals import joblib
 # local ML modules
 import datasets as datasets
 import classifiers
-import preprocessors as preprocessors
+# import preprocessors as preprocessors
 
 
 ######################################################################
@@ -57,14 +59,14 @@ def get_parser():
                         help="[{}]".format(' | '.join(classifiers.CLASSIFIERS)))
 
     # optional arguments
-    if preprocessors.PREPROCESSORS:
-        parser.add_argument("-p", "--preprocessor", dest="preprocessors",
-                            metavar="<preprocessor>", 
-                            default=[], action="append",
-                            choices=preprocessors.PREPROCESSORS,
-                            help="[{}]".format(' | '.join(preprocessors.PREPROCESSORS)))
-    else:
-        parser.set_defaults(preprocessors=[])
+    # if preprocessors.PREPROCESSORS:
+        # parser.add_argument("-p", "--preprocessor", dest="preprocessors",
+        #                     metavar="<preprocessor>", 
+        #                     default=[], action="append",
+        #                     choices=preprocessors.PREPROCESSORS,
+        #                     help="[{}]".format(' | '.join(preprocessors.PREPROCESSORS)))
+    # else:
+    parser.set_defaults(preprocessors=[])
 
     return parser
 
@@ -84,11 +86,11 @@ def make_pipeline(preprocessor_list, classifier, n, d):
     param_grid = {}
 
     # get preprocessor(s) and hyperparameters to tune using cross-validation
-    for  pp in preprocessor_list:
-        process = getattr(preprocessors, pp)()
-        name = type(process).__name__
-        transform = process.transformer_
-        steps.append((name, transform))
+    # for pp in preprocessor_list:
+    #     process = getattr(preprocessors, pp)()
+    #     name = type(process).__name__
+    #     transform = process.transformer_
+    #     steps.append((name, transform))
 
     # get classifier and hyperparameters to tune using cross-validation
     clf = getattr(classifiers, classifier)(n,d)
@@ -147,6 +149,22 @@ def report_metrics(y_true, y_pred, labels=None, target_names=None):
     return C, (a, p, r, f1)
 
 
+def reportCV(cv_data):
+    cv_data.fillna(0, inplace=True)
+    for colname in cv_data.columns.tolist():
+        if colname.startswith('param_'):
+            fig, axes = plt.subplots(nrows=1, ncols=3, sharey=True)
+            cv_data.plot.scatter(colname, 'mean_test_accuracy', color = 'darkorange', s=8, ax=axes[0], label ='accuracy')
+            cv_data.plot.scatter(colname, 'mean_test_precision', color = 'b', s=8, ax=axes[1], label ='precision')
+            cv_data.plot.scatter(colname, 'mean_test_precision', color = 'darkgreen', s=8, ax=axes[2], label ='recall')
+            axes[1].set_title("CV test metrics for {}".format(colname),fontsize= 12) # title of plot
+            # cv_data.plot.scatter(colname, 'mean_test_precision', color = 'b', s=3, alpha = 0.4, label ='precision')
+            plt.savefig("results/cv_{}.png".format(colname))
+            plt.close()
+
+
+
+
 
 def run(dataset, preprocessor_list, classifier):
     """Run ML pipeline.
@@ -174,7 +192,7 @@ def run(dataset, preprocessor_list, classifier):
 
     # tune model using randomized search
     n_iter = min(N_ITER, sz)    # cap max number of iterations
-    search = RandomizedSearchCV(pipe, param_grid, n_iter=n_iter, cv=CV)
+    search = RandomizedSearchCV(pipe, param_grid, n_iter=n_iter, cv=CV, refit='precision', scoring=['recall', 'precision', 'accuracy'])
     search.fit(X_train, y_train)
     print("Best parameters set found on development set:\n")
     print(search.best_params_)
@@ -190,6 +208,12 @@ def run(dataset, preprocessor_list, classifier):
     y_true, y_pred = y_test, search.predict(X_test)
     res_test = report_metrics(y_true, y_pred, labels, target_names)
     print("\n")
+
+
+    
+    cv_data = pd.DataFrame(search.cv_results_)
+    cv_data.to_csv('data/{}_cv_results.csv'.format(classifier), index=False)
+    reportCV(cv_data)
 
     # fpr, tpr, threshold = metrics.roc_curve(y_true, y_pred)
     # roc_auc = metrics.auc(fpr, tpr)
@@ -218,6 +242,8 @@ def run(dataset, preprocessor_list, classifier):
     print(search.best_estimator_)
     joblib.dump(search.best_estimator_, joblib_file)
 
+    
+
     # results
     json_file = prefix + "_results.json"
     res = {"C_train":      res_train[0].tolist(),
@@ -226,6 +252,7 @@ def run(dataset, preprocessor_list, classifier):
            "scores_test":  res_test[1]}
     with open(json_file, 'w') as outfile:
         json.dump(res, outfile)
+    # return search
 
 
 ######################################################################
@@ -245,3 +272,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
