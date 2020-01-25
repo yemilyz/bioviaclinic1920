@@ -37,9 +37,10 @@ import os
 REPO_DIR = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..',))
 SABDAB_SUMMARY_ALL_FILE = os.path.join(REPO_DIR, 'sabdab_summary_all.tsv')
 SABDAB_SUMMARY_FILE = os.path.join(REPO_DIR, 'sabdab_summary_filtered.tsv')
-SABDAB_DATASET_DIR = os.path.join(REPO_DIR, 'sabdab_filtered_dataset')
+SABDAB_DATASET_DIR = os.path.join(REPO_DIR, 'sabdab_dataset')
 PDB_DIR = os.path.join(REPO_DIR, 'sabdab_filtered_pdb')
 
+CLEAN_PDB_DIR =  os.path.join(REPO_DIR, 'sabdab_filtered_clean_pdb')
 DATA_DIR = os.path.join(REPO_DIR, 'data')
 HCHAIN_FASTA_FILE = os.path.join(DATA_DIR, 'sabdab_sequences_VH.fa')
 LCHAIN_FASTA_FILE = os.path.join(DATA_DIR, 'sabdab_sequences_VL.fa')

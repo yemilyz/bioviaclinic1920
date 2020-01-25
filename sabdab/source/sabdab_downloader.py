@@ -1,6 +1,6 @@
 from __future__ import with_statement
 import shutil
-
+import time
 description='''
 
 
@@ -57,42 +57,73 @@ Copyright (C) 2013 James Dunbar
 
 import argparse, sys, os, urllib
 
+TRIES = 3
+REST = 0.2
+
 def getpdb(pdb_entry, out_path):
     """
     Get the PDB file from sabdab.     
     Check that it has successfully downloaded.
     """
     out_file = os.path.join( out_path, "%s.pdb"%pdb_entry)
+    if os.path.exists(out_file):
+        return True
     urllib.urlretrieve("http://opig.stats.ox.ac.uk/webapps/abdb/web_front/data/entries/%s/structure/%s.pdb"%(pdb_entry,pdb_entry), out_file)
     if os.path.isfile(out_file):
         Retrieved = open(out_file).read()
         if not Retrieved.count("ATOM"):
             print "Failed to retrieve PDB file from SAbDab"
             os.remove(out_file)
-            return False
+            raise Exception
         else:
             return True
     else:
-        return False    
-    
+        raise Exception
+
+def getpdb_retry(pdb_entry, out_path):
+    got_data = False
+    for i in range(TRIES):
+        print 'pdb try ' + str(i)
+        try:
+            got_data = getpdb(pdb_entry, out_path)
+        except Exception:
+            time.sleep(REST)
+            continue
+        break
+    return got_data
+
 def getchothpdb(pdb_entry, out_path):
     """
     Get the chothia PDB file from sabdab.     
     Check that it has successfully downloaded.
     """
     out_file = os.path.join( out_path, "%s.pdb"%pdb_entry)
+    if os.path.exists(out_file):
+        return True
     urllib.urlretrieve("http://opig.stats.ox.ac.uk/webapps/abdb/web_front/data/entries/%s/structure/chothia/%s.pdb"%(pdb_entry,pdb_entry), out_file)
     if os.path.isfile(out_file):
         Retrieved = open(out_file).read()
         if not Retrieved.count("ATOM"):
-            print "Failed to retrieve PDB file from SAbDab"
+            print "Failed to retrieve chothia PDB file from SAbDab"
             os.remove(out_file)
-            return False
+            raise Exception
         else:
             return True
     else:
-        return False    
-    
+        raise Exception
+
+def getchothpdb_retry(pdb_entry, out_path):
+    got_data = False
+    for i in range(TRIES):
+        print 'chothpdb try ' + str(i)
+        try:
+            got_data = getchothpdb(pdb_entry, out_path)
+        except:
+            time.sleep(REST)
+            continue
+        break
+    return got_data
+
 def getsequence(entry, fab_list, out_path):
     """
     Get the sequence files     
@@ -101,44 +132,60 @@ def getsequence(entry, fab_list, out_path):
     """
     
     out_file = os.path.join( out_path, "%s_raw.pdb"%entry)
-    urllib.urlretrieve("http://opig.stats.ox.ac.uk/webapps/abdb/web_front/data/entries/%s/sequences/%s_raw.fa"%(entry,entry), out_file)
-    if os.path.isfile(out_file):
-        Retrieved = open(out_file).read()
-        if not Retrieved.count(">%s"%entry):
-            print "Failed to retrieve sequence file from SAbDab."
-            os.remove(out_file)
-            return False
-    else:
-        return False    
+    if not os.path.exists(out_file):
+        urllib.urlretrieve("http://opig.stats.ox.ac.uk/webapps/abdb/web_front/data/entries/%s/sequences/%s_raw.fa"%(entry,entry), out_file)
+        if os.path.isfile(out_file):
+            Retrieved = open(out_file).read()
+            if not Retrieved.count(">%s"%entry):
+                print "Failed to retrieve sequence file from SAbDab."
+                os.remove(out_file)
+                raise
+        else:
+            raise
 
     for fab in fab_list:
         Hchain = fab[1]
         if Hchain!="NA":
+            Hchain = Hchain.upper()
             out_file = os.path.join( out_path, "%s_%s_VH.fa"%(entry,Hchain) )
-            urllib.urlretrieve("http://opig.stats.ox.ac.uk/webapps/abdb/web_front/data/entries/%s/sequences/%s_%s_VH.fa"%(entry,entry,Hchain), out_file)
-            if os.path.isfile(out_file):
-                Retrieved = open(out_file).read()
-                if not Retrieved.count(">%s"%entry):
-                    print "Failed to retrieve sequence file from SAbDab."
-                    os.remove(out_file)
-                    return False
-            else:
-                return False    
-
+            if not os.path.exists(out_file):
+                urllib.urlretrieve("http://opig.stats.ox.ac.uk/webapps/abdb/web_front/data/entries/%s/sequences/%s_%s_VH.fa"%(entry,entry,Hchain), out_file)
+                if os.path.isfile(out_file):
+                    Retrieved = open(out_file).read()
+                    if not Retrieved.count(">%s"%entry):
+                        print "Failed to retrieve H chain sequence file from SAbDab."
+                        os.remove(out_file)
+                        raise
+                else:
+                    raise
         Lchain = fab[2]
         if Lchain!="NA":
+            Lchain = Lchain.upper()
             out_file = os.path.join( out_path, "%s_%s_VL.fa"%(entry,Lchain) )
-            urllib.urlretrieve("http://opig.stats.ox.ac.uk/webapps/abdb/web_front/data/entries/%s/sequences/%s_%s_VL.fa"%(entry,entry,Lchain), out_file)
-            if os.path.isfile(out_file):
-                Retrieved = open(out_file).read()
-                if not Retrieved.count(">%s"%entry):
-                    print "Failed to retrieve sequence file from SAbDab."
-                    os.remove(out_file)
-                    return False
-            else:
-                return False
-
+            if not os.path.exists(out_file):
+                urllib.urlretrieve("http://opig.stats.ox.ac.uk/webapps/abdb/web_front/data/entries/%s/sequences/%s_%s_VL.fa"%(entry,entry,Lchain), out_file)
+                if os.path.isfile(out_file):
+                    Retrieved = open(out_file).read()
+                    if not Retrieved.count(">%s"%entry):
+                        print "Failed to retrieve L chain sequence file from SAbDab."
+                        os.remove(out_file)
+                        raise
+                else:
+                    raise
     return True
+
+
+def getsequence_retry(entry, fab_list, out_path):
+    got_data = False
+    for i in range(TRIES):
+        print 'sequence try ' + str(i)
+        try:
+            got_data = getsequence(entry, fab_list, out_path)
+        except:
+            time.sleep(REST)
+            continue
+        break
+    return got_data
 
 def getannotation(entry, fab_list, out_path):
     """
@@ -148,31 +195,47 @@ def getannotation(entry, fab_list, out_path):
     for fab in fab_list:
         Hchain = fab[1]
         if Hchain!="NA":
+            Hchain = Hchain.upper()
             out_file = os.path.join( out_path, "%s_%s_VH.ann"%(entry,Hchain) )
-            urllib.urlretrieve("http://opig.stats.ox.ac.uk/webapps/abdb/web_front/data/entries/%s/annotation/%s_%s_VH.ann"%(entry,entry,Hchain), out_file)
-            if os.path.isfile(out_file):
-                Retrieved = open(out_file).read()
-                if not Retrieved.count("H3"):
-                    print "Failed to retrieve annotation file from SAbDab."
-                    os.remove(out_file)
-                    return False
-            else:
-                return False    
+            if not os.path.exists(out_file):
+                urllib.urlretrieve("http://opig.stats.ox.ac.uk/webapps/abdb/web_front/data/entries/%s/annotation/%s_%s_VH.ann"%(entry,entry,Hchain), out_file)
+                if os.path.isfile(out_file):
+                    Retrieved = open(out_file).read()
+                    if not Retrieved.count("H3"):
+                        print "Failed to retrieve Hchain annotation file from SAbDab."
+                        os.remove(out_file)
+                        raise
+                else:
+                    raise
 
         Lchain = fab[2]
         if Lchain!="NA":
+            Lchain = Lchain.upper()
             out_file = os.path.join( out_path, "%s_%s_VL.ann"%(entry,Lchain) )
-            urllib.urlretrieve("http://opig.stats.ox.ac.uk/webapps/abdb/web_front/data/entries/%s/annotation/%s_%s_VL.ann"%(entry,entry,Lchain), out_file)
-            if os.path.isfile(out_file):
-                Retrieved = open(out_file).read()
-                if not Retrieved.count("L3"):
-                    print "Failed to retrieve annotation file from SAbDab."
-                    os.remove(out_file)
-                    return False
-            else:
-                return False    
-
+            if not os.path.exists(out_file):
+                urllib.urlretrieve("http://opig.stats.ox.ac.uk/webapps/abdb/web_front/data/entries/%s/annotation/%s_%s_VL.ann"%(entry,entry,Lchain), out_file)
+                if os.path.isfile(out_file):
+                    Retrieved = open(out_file).read()
+                    if not Retrieved.count("L3"):
+                        print "Failed to retrieve Lchain annotation file from SAbDab."
+                        os.remove(out_file)
+                        raise
+                else:
+                    raise
     return True
+
+def getannotation_retry(entry, fab_list, out_path):
+    got_data = False
+    for i in range(TRIES):
+        print 'annotation try ' + str(i)
+        try:
+            got_data = getannotation(entry, fab_list, out_path)
+        except:
+            time.sleep(REST)
+            continue
+        break
+    return got_data
+
 
 def getabangle(entry, fab_list, out_path):
     """
@@ -184,17 +247,30 @@ def getabangle(entry, fab_list, out_path):
             continue
         else:
             out_file = os.path.join( out_path, "%s.abangle"%(entry) )
-            urllib.urlretrieve("http://opig.stats.ox.ac.uk/webapps/abdb/web_front/data/entries/%s/abangle/%s.abangle"%(entry,entry), out_file)
-            if os.path.isfile(out_file):
-                Retrieved = open(out_file).read()
-                if not Retrieved.count(entry):
-                    print "Failed to retrieve abangle file from SAbDab."
-                    os.remove(out_file)
-                    return False
-            else:
-                return False    
-            return True
+            if not os.path.exists(out_file):
+                urllib.urlretrieve("http://opig.stats.ox.ac.uk/webapps/abdb/web_front/data/entries/%s/abangle/%s.abangle"%(entry,entry), out_file)
+                if os.path.isfile(out_file):
+                    Retrieved = open(out_file).read()
+                    if not Retrieved.count(entry):
+                        print "Failed to retrieve abangle file from SAbDab."
+                        os.remove(out_file)
+                        raise
+                else:
+                    raise
+                return True
     return True
+  
+def getabangle_retry(entry, fab_list, out_path):
+    got_data = False
+    for i in range(TRIES):
+        print 'abangle try ' + str(i)
+        try:
+            got_data = getabangle(entry, fab_list, out_path)
+        except:
+            time.sleep(REST)
+            continue
+        break
+    return got_data
 
 def getimgt(entry, fab_list, out_path):
     """
@@ -204,30 +280,47 @@ def getimgt(entry, fab_list, out_path):
     for fab in fab_list:
         Hchain = fab[1]
         if Hchain!="NA":
+            Hchain = Hchain.upper()
             out_file = os.path.join( out_path, "%s_%s_H.ann"%(entry,Hchain) )
-            urllib.urlretrieve("http://opig.stats.ox.ac.uk/webapps/abdb/web_front/data/entries/%s/imgt/%s_%s_H.imgt"%(entry,entry,Hchain), out_file)
-            if os.path.isfile(out_file):
-                Retrieved = open(out_file).read()
-                if not Retrieved.count("gene_type"):
-                    print "Failed to retrieve imgt file from SAbDab."
-                    os.remove(out_file)
-                    return False
-            else:
-                return False    
+            if not os.path.exists(out_file):
+                urllib.urlretrieve("http://opig.stats.ox.ac.uk/webapps/abdb/web_front/data/entries/%s/imgt/%s_%s_H.imgt"%(entry,entry,Hchain), out_file)
+                if os.path.isfile(out_file):
+                    Retrieved = open(out_file).read()
+                    if not Retrieved.count("gene_type"):
+                        print "Failed to retrieve HChain imgt file from SAbDab."
+                        os.remove(out_file)
+                        raise
+                else:
+                    raise
 
         Lchain = fab[2]
         if Lchain!="NA":
+            Lchain = Lchain.upper()
             out_file = os.path.join( out_path, "%s_%s_L.ann"%(entry,Lchain))
-            urllib.urlretrieve("http://opig.stats.ox.ac.uk/webapps/abdb/web_front/data/entries/%s/imgt/%s_%s_L.imgt"%(entry,entry,Lchain), out_file)
-            if os.path.isfile(out_file):
-                Retrieved = open(out_file).read()
-                if not Retrieved.count("gene_type"):
-                    print "Failed to retrieve imgt file from SAbDab."
-                    os.remove(out_file)
-                    return False
-            else:
-                return False
+            if not os.path.exists(out_file):
+                urllib.urlretrieve("http://opig.stats.ox.ac.uk/webapps/abdb/web_front/data/entries/%s/imgt/%s_%s_L.imgt"%(entry,entry,Lchain), out_file)
+                if os.path.isfile(out_file):
+                    Retrieved = open(out_file).read()
+                    if not Retrieved.count("gene_type"):
+                        print "Failed to retrieve LChain imgt file from SAbDab."
+                        os.remove(out_file)
+                        raise
+                else:
+                    raise
     return True
+
+def getimgt_retry(entry, fab_list, out_path):
+    got_data = False
+    for i in range(TRIES):
+        print 'imgt try ' + str(i)
+        try:
+            got_data = getimgt(entry, fab_list, out_path)
+        except:
+            time.sleep(REST)
+            continue
+        break
+    return got_data
+
 
 if __name__ == "__main__":
 
@@ -242,7 +335,7 @@ if __name__ == "__main__":
     parser.add_argument( '--imgt',action="store_true", help="Download the imgt information for the structure.", dest="imgt")
 
     args= parser.parse_args()
-    
+
     if len(sys.argv)<2:
         parser.print_help()
         sys.exit(0)
@@ -310,88 +403,105 @@ if __name__ == "__main__":
     
     for pdb_entry in data:
         print "Getting data for %s"%pdb_entry
-        got_data=False
+        got_data=True
         pdb_entry_dir = os.path.join(output_path, pdb_entry)
         try:
             os.mkdir(pdb_entry_dir)
         except:
-            continue
+            pass
         if args.original_pdb or args.chothia_pdb:
             struc_out_path = os.path.join(pdb_entry_dir,"structure")
-            os.mkdir(struc_out_path)
+            try:
+                os.mkdir(struc_out_path)
+            except:
+                pass
             if args.original_pdb:
-                if getpdb(pdb_entry, struc_out_path):
-                    got_data=True
-                else:
-                    try:
-                        shutil.rmtree(pdb_entry_dir)
-                    except:
-                        print("what?")
-                        pass 
-
+                if not getpdb_retry(pdb_entry, struc_out_path):
+                    got_data=False
+                # else:
+                #     try:
+                #         shutil.rmtree(pdb_entry_dir)
+                #     except:
+                #         print("what?")
+                #         pass
                 
             if args.chothia_pdb:
                 choth_struc_out_path = os.path.join(struc_out_path,"chothia")
-                os.mkdir(choth_struc_out_path)
-                if getchothpdb(pdb_entry, choth_struc_out_path):
-                    got_data=True
-                else:
-                    try:
-                        shutil.rmtree(pdb_entry_dir)
-                    except:
-                        print("what?")
-                        pass 
-                                      
-            
+                try:
+                    os.mkdir(choth_struc_out_path)
+                except:
+                    pass
+                if not getchothpdb_retry(pdb_entry, choth_struc_out_path):
+                    got_data=False
+                # else:
+                #     try:
+                #         shutil.rmtree(pdb_entry_dir)
+                #     except:
+                #         print("what?")
+                #         pass   
         if args.sequence:
             seq_out_path = os.path.join(pdb_entry_dir,"sequence")
-            os.mkdir(seq_out_path)
-            if getsequence(pdb_entry, data[pdb_entry] , seq_out_path):
-                got_data=True
-            else:
-                try:
-                    shutil.rmtree(pdb_entry_dir)
-                except:
-                    print("what?")
-                    pass
+            try:
+                os.mkdir(seq_out_path)
+            except:
+                pass
+            if not getsequence_retry(pdb_entry, data[pdb_entry] , seq_out_path):
+                got_data=False
+            # else:
+            #     got_data=False
+            #     try:
+            #         shutil.rmtree(pdb_entry_dir)
+            #     except:
+            #         print("what?")
+            #         pass
                 
         if args.annotation:
             annotation_out_path = os.path.join(pdb_entry_dir,"annotation")
-            os.mkdir(annotation_out_path)
-            if getannotation(pdb_entry, data[pdb_entry] , annotation_out_path):
-                got_data=True
-            else:
-                try:
-                    shutil.rmtree(annotation_out_path)
-                except:
-                    print("what?")
-                    pass
+            try:
+                os.mkdir(annotation_out_path)
+            except:
+                pass
+            if not getannotation_retry(pdb_entry, data[pdb_entry] , annotation_out_path):
+                pass
+                # got_data=False
+            # else:
+            #     try:
+            #         shutil.rmtree(annotation_out_path)
+            #     except:
+            #         print("what?")
+            #         pass
                 
         if args.abangle:
             abangle_out_path = os.path.join(pdb_entry_dir,"abangle")
-            os.mkdir(abangle_out_path)
-            if getabangle(pdb_entry, data[pdb_entry] , abangle_out_path):
-                got_data=True
-            else:
-                try:
-                    shutil.rmtree(abangle_out_path)
-                except:
-                    print("what?")
-                    pass
-
-                
+            try:
+                os.mkdir(abangle_out_path)
+            except:
+                pass
+            if not getabangle_retry(pdb_entry, data[pdb_entry] , abangle_out_path):
+                pass
+                # got_data=False
+            # else:
+            #     try:
+            #         shutil.rmtree(abangle_out_path)
+            #     except:
+            #         print("what?")
+            #         pass
                 
         if args.imgt:
             imgt_out_path = os.path.join(pdb_entry_dir,"imgt")
-            os.mkdir(imgt_out_path)
-            if getimgt(pdb_entry, data[pdb_entry] , imgt_out_path):
-                got_data=True
-            else:
-                try:
-                    shutil.rmtree(imgt_out_path)
-                except:
-                    print("what?")
-                    pass
+            try:
+                os.mkdir(imgt_out_path)
+            except:
+                pass
+            if not getimgt_retry(pdb_entry, data[pdb_entry] , imgt_out_path):
+                pass
+                # got_data=False
+            # else:
+            #     try:
+            #         shutil.rmtree(imgt_out_path)
+            #     except:
+            #         print("what?")
+            #         pass
 
         if not got_data:
             try:

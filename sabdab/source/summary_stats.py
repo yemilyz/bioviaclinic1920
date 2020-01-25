@@ -45,6 +45,8 @@ if __name__ == '__main__':
     data = pd.read_csv(filepath, sep="\t", parse_dates=['date'], date_parser=dateparse)
     data_filtered = data.dropna(subset = ['Hchain', 'Lchain'])
     data_filtered = data_filtered.loc[data_filtered['resolution']!='NOT']
+    data_filtered['Hchain'] = [h.upper()  if pdb != '5xli' else h for pdb, h in zip(data_filtered['pdb'].tolist(), data_filtered['Hchain'].tolist())]
+    data_filtered['Lchain'] = [l.upper()  if pdb != '5xli' else l for pdb, l in zip(data_filtered['pdb'].tolist(), data_filtered['Lchain'].tolist())]
     data_filtered['HLchain'] = data_filtered['Hchain'] + data_filtered['Lchain']
     data_filtered_res = data_filtered.loc[pd.to_numeric(data_filtered['resolution'], errors ='coerce')< 3]
     plot_all_histograms(data_filtered_res, figdir)
@@ -53,5 +55,4 @@ if __name__ == '__main__':
     data_filtered_res['Lchain_fa'] = data_filtered_res['pdb'] + '_' + data_filtered_res['Lchain'] + "_VL.fa"
 
     data_filtered_res.to_csv(SABDAB_SUMMARY_FILE, sep='\t', index=False)
-
 

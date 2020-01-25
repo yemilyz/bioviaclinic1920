@@ -1,6 +1,8 @@
 
 from quantiprot.utils.io import load_fasta_file
 from quantiprot.utils.sequence import SequenceSet, Sequence
+from utils import get_filepaths
+from constant import HCHAIN_FASTA_FILE, LCHAIN_FASTA_FILE
 
 def fasta_file_to_sequence(fasta_file, seqtype):
     """
@@ -45,5 +47,9 @@ def write_seqset_to_fasta(seqset, output_file):
             data = "".join(seq.data)
             f.write(">{}\n{}\n".format(ident, data))
 
-
-    
+if __name__ == "__main__":
+    files_paths = get_filepaths()
+    print(len(files_paths))
+    hseq, lseq = fasta_files_to_seqsets(files_paths)
+    write_seqset_to_fasta(hseq, HCHAIN_FASTA_FILE)
+    write_seqset_to_fasta(lseq, LCHAIN_FASTA_FILE)
