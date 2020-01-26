@@ -182,14 +182,14 @@ exported if this protocol is published as a web service.&lt;/p&gt;
 			</sci:arg>
 			<sci:arg name="RegistrationDate" type="StringType" required="false" visibility="nevershow" multi="false">
 				<sci:help>The date this component was registered.</sci:help>
-				<sci:value>Sat Jan 25 15:19:02 2020</sci:value>
+				<sci:value>Sat Jan 25 15:59:37 2020</sci:value>
 			</sci:arg>
 			<sci:arg name="RegistrationVersion" type="StringType" required="false" visibility="nevershow" multi="false">
 				<sci:help>The server version when this component was registered</sci:help>
 				<sci:value>19.1.0.1963</sci:value>
 			</sci:arg>
 			<sci:arg name="ComponentDisplayName" type="StringType" required="false" visibility="nevershow" multi="false">
-				<sci:value>MLModelTesting</sci:value>
+				<sci:value>NaiveBayesTrainingAndEvaulation</sci:value>
 			</sci:arg>
 			<sci:arg name="ProtocolAutoLayout" type="BoolType" required="false" visibility="nevershow" multi="false">
 				<sci:help>Protocol AutoLayout</sci:help>
@@ -1050,7 +1050,7 @@ end if;
 					</sci:arg>
 					<sci:arg name="TestForGood" type="ExpressionType" required="true" visibility="visible" multi="false">
 						<sci:help>A Boolean PilotScript expression that is used to distinguish the &quot;good&quot; samples from the &quot;bad&quot; (baseline) samples. The expression should be True for each &quot;good&quot; sample and False for all others.</sci:help>
-						<sci:value>Dev</sci:value>
+						<sci:value>Dev == True;</sci:value>
 					</sci:arg>
 					<sci:arg name="UseProperties" type="StringType" required="true" visibility="visible" multi="false" expanded="true">
 						<sci:help>The properties to learn from.  Options are:
@@ -6575,7 +6575,7 @@ and so are accessible from all protocols.</sci:help>
 						<sci:value>1590 -275</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentDisabled" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:value>2</sci:value>
+						<sci:value>0</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentIcon" type="StringType" required="true" visibility="nevershow" multi="false">
 						<sci:value>ViewerNode</sci:value>
@@ -7705,10 +7705,10 @@ Merge Molecules&lt;/a&gt; (which requires the Chemistry Collection).&lt;/p&gt;
 					</sci:arg>
 					<sci:arg name="ComponentCheckpoint" type="StringType" required="false" visibility="nevershow" multi="false">
 						<sci:help>Checkpoint Identifier</sci:help>
-						<sci:value>{736B9D4A-995E-4680-891F-594B0CC9D442}</sci:value>
-						<sci:value>3</sci:value>
-						<sci:value>0</sci:value>
-						<sci:value>1</sci:value>
+						<sci:legalval selected="true">{736B9D4A-995E-4680-891F-594B0CC9D442}</sci:legalval>
+						<sci:legalval selected="true">1</sci:legalval>
+						<sci:legalval selected="true">-1</sci:legalval>
+						<sci:legalval selected="true">1</sci:legalval>
 					</sci:arg>
 				</sci:component>
 			</sci:data>
@@ -10665,7 +10665,7 @@ and so are accessible from all protocols.</sci:help>
 			<sci:connectid from="79" to="80" type="true"/>
 			<sci:connectid from="86" to="83" type="true"/>
 			<sci:connectid from="83" to="87" type="true"/>
-			<sci:version iVal="4"/>
+			<sci:version iVal="6"/>
 		</sci:protocol>
 	</sci:dbitem>
 <!-- Exported protocol -->
