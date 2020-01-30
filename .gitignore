@@ -1,7 +1,6 @@
 sabdab_dataset/*
 *.pyc
 *.pdb
-*.fa
 *.tsv
 *.imgt
 *.ann
