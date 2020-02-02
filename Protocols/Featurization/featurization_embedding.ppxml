@@ -174,7 +174,7 @@ exported if this protocol is published as a web service.&lt;/p&gt;
 			</sci:arg>
 			<sci:arg name="RegistrationDate" type="StringType" required="false" visibility="nevershow" multi="false">
 				<sci:help>The date this component was registered.</sci:help>
-				<sci:value>Sun Feb  2 14:16:54 2020</sci:value>
+				<sci:value>Sun Feb  2 15:03:07 2020</sci:value>
 			</sci:arg>
 			<sci:arg name="RegistrationVersion" type="StringType" required="false" visibility="nevershow" multi="false">
 				<sci:help>The server version when this component was registered</sci:help>
@@ -604,7 +604,7 @@ end if;
 						<sci:value>0</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentDisabled" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:value>0</sci:value>
+						<sci:value>1</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentIcon" type="StringType" required="true" visibility="nevershow" multi="false">
 						<sci:value>DOCUMENTNODE</sci:value>
@@ -639,7 +639,7 @@ end if;
 						<sci:member>Initial Expression</sci:member>
 						<sci:member>Final Expression</sci:member>
 						<sci:member>Keep Calculated Properties</sci:member>
-						<sci:value>pdb_code := Substring(Name, 1, 4);</sci:value>
+						<sci:value>name := Substring(Name, 1, 4);</sci:value>
 					</sci:arg>
 					<sci:arg name="Initial Expression" type="ExpressionType" required="false" visibility="visible" multi="false" implbase="{0995D675-7EE2-432C-95DF-E91C14052B22}">
 						<sci:help>&lt;p&gt;
@@ -738,7 +738,7 @@ end if;</sci:value>
 						<sci:value>EXPRESSIONNODE</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentDisabled" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:value>0</sci:value>
+						<sci:value>1</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentGUID" type="StringType" required="false" visibility="nevershow" multi="false">
 						<sci:value>{0995D675-7EE2-432C-95DF-E91C14052B22}</sci:value>
@@ -792,136 +792,6 @@ creates a property named &quot;A&quot; and sets the value to &quot;10&quot;.&lt;
 					<sci:arg name="Component Path" type="StringType" required="false" visibility="nevershow" multi="false">
 						<sci:help>The original path within the database of this component.</sci:help>
 						<sci:value>Components\Data Access and Manipulation\Property Manipulators\Custom Manipulator (PilotScript)</sci:value>
-					</sci:arg>
-				</sci:component>
-			</sci:data>
-			<sci:data object="SciTegic.PropertyFunctions.1">
-				<sci:component name="Remove Properties" version="2">
-					<sci:arg name="PropertyList" type="PropertyNameType" required="true" visibility="visible" multi="true">
-						<sci:help>The names of properties to remove from each data record entering the component</sci:help>
-						<sci:value>Name</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentAttributes" type="StringType" required="false" visibility="hidden" multi="true">
-						<sci:help>Component Attributes</sci:help>
-						<sci:legalval selected="true">ComponentTakesInput</sci:legalval>
-						<sci:legalval selected="true">ComponentReturnsPass</sci:legalval>
-						<sci:legalval>ComponentReturnsFail</sci:legalval>
-						<sci:legalval>ComponentRunsLocal</sci:legalval>
-					</sci:arg>
-					<sci:arg name="OnDataTypeError" type="StringType" required="true" visibility="hidden" multi="false">
-						<sci:help>When an expected data type is not found during processing:  
-  Halt: Terminate the execution of the network
-  Fail: Continue execution of the network, passing data out the Fail(red) port
-  Pass: Continue execution of the network, passing data out the Pass(green) port</sci:help>
-						<sci:legalval selected="true">Halt</sci:legalval>
-						<sci:legalval>Fail</sci:legalval>
-						<sci:legalval>Pass</sci:legalval>
-					</sci:arg>
-					<sci:arg name="OnGeneralError" type="StringType" required="true" visibility="hidden" multi="false">
-						<sci:help>When an recoverable error occurs during processing:  
-  Halt: Terminate the execution of the network
-  Fail: Continue execution of the network, passing data out the Fail(red) port
-  Pass: Continue execution of the network, passing data out the Pass(green) port</sci:help>
-						<sci:legalval selected="true">Halt</sci:legalval>
-						<sci:legalval>Fail</sci:legalval>
-						<sci:legalval>Pass</sci:legalval>
-					</sci:arg>
-					<sci:arg name="CustomErrorText" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>Custom Error Message</sci:help>
-					</sci:arg>
-					<sci:arg name="Action" type="StringType" required="true" visibility="nevershow" multi="false">
-						<sci:help>the action to perform</sci:help>
-						<sci:value>Remove</sci:value>
-					</sci:arg>
-					<sci:arg name="Registrant" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The user who registered this component.</sci:help>
-						<sci:value>scitegic/generic</sci:value>
-					</sci:arg>
-					<sci:arg name="RegistrationDate" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The date this component was registered.</sci:help>
-						<sci:value>Tue Sep 13 07:18:43 2016</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentDisplayName" type="StringType" required="false" visibility="nevershow" multi="false"/>
-					<sci:arg name="ComponentAutoDisplayName" type="ExpressionType" required="false" visibility="nevershow" multi="false">
-						<sci:help>Automatically update the component display name when the &quot;PropertyList&quot; property is changed. This feature is turned off after the user manually changes the display name of the component in Protocol workspace.</sci:help>
-						<sci:value>#propertyList := Parameter(&apos;PropertyList&apos;);
-#displayName := &apos;&apos;;
-for #i in 1 .. numvalues(#propertyList) loop
-  #prop := trim(#propertyList[#i]);
-  if (strlength(#prop) &gt; 0) then
-    if (strlength(#displayName) &gt; 0) then
-	  #displayName .= &apos;, &apos;;
-	end if;
-    #displayName .= #prop;
-  end if;
-end loop;
-if(strlength(#displayName) &gt; 0) then		
-	&apos;Remove &apos; . #displayName;
-else
-	&quot;&quot;;
-end if;</sci:value>
-					</sci:arg>
-					<sci:arg name="ProtocolAutoLayout" type="BoolType" required="false" visibility="nevershow" multi="false">
-						<sci:help>Protocol AutoLayout</sci:help>
-						<sci:value>true</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentDisabled" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:value>0</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentIcon" type="StringType" required="true" visibility="nevershow" multi="false">
-						<sci:value>EXPRESSIONNODE</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentRevision" type="LongType" required="true" visibility="nevershow" multi="false">
-						<sci:help>Component Revision</sci:help>
-						<sci:value>100</sci:value>
-					</sci:arg>
-					<sci:arg name="DerivedFrom" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The component this component is based upon.</sci:help>
-						<sci:value>SubProtocol</sci:value>
-					</sci:arg>
-					<sci:arg name="ProtocolScale" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:help>Protocol Scale</sci:help>
-						<sci:value>0</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>690 -95</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentGUID" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>{C2ED35FF-5397-4877-AADB-10F1A15D60E2}</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentHelp" type="StringType" required="false" visibility="nevershow" multi="true">
-						<sci:value>100</sci:value>
-						<sci:value>Removes the specified properties</sci:value>
-						<sci:value>For each data record that enters the component, the properties specified by &lt;i&gt;PropertyList&lt;/i&gt; are removed from the  record. 
-
-&lt;p&gt;&lt;b&gt;See Also:&lt;/b&gt;&lt;/p&gt;
-&lt;p&gt;To keep only a few properties from a long list, it may be more efficient to instead use &lt;a href=&quot;javascript:DoLink(&apos;{456195EF-9708-4367-B3DD-21EBF3796604}&apos;)&quot;&gt;Keep Properties&lt;/a&gt;.&lt;/p&gt;</sci:value>
-						<sci:value>Generic</sci:value>
-						<sci:value/>
-						<sci:value>Generic</sci:value>
-						<sci:value>Data records with the specified properties removed</sci:value>
-						<sci:value>None</sci:value>
-						<sci:value/>
-					</sci:arg>
-					<sci:arg name="RegistrationVersion" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The server version when this component was registered</sci:help>
-						<sci:value>17.1.0.119</sci:value>
-					</sci:arg>
-					<sci:arg name="Component Sticky Notes" type="StringType" required="false" visibility="nevershow" multi="false"/>
-					<sci:arg name="ByReference" type="BoolType" required="false" visibility="nevershow" multi="false">
-						<sci:help>By Ref</sci:help>
-						<sci:value>0</sci:value>
-					</sci:arg>
-					<sci:arg name="Protocol Sticky Notes" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>Protocol Sticky Notes</sci:help>
-					</sci:arg>
-					<sci:arg name="ComponentLocalID" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:help>Local Component Identifier</sci:help>
-						<sci:value>5</sci:value>
-					</sci:arg>
-					<sci:arg name="Component Path" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The original path within the database of this component.</sci:help>
-						<sci:value>Components\Data Access and Manipulation\Property Manipulators\Remove Properties</sci:value>
 					</sci:arg>
 				</sci:component>
 			</sci:data>
@@ -1081,7 +951,7 @@ end if;
 			</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>990 -95</sci:value>
+						<sci:value>690 -95</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentIcon" type="StringType" required="true" visibility="nevershow" multi="false">
 						<sci:value>DATABASENODE</sci:value>
@@ -1094,7 +964,7 @@ end if;
 						<sci:value>Cache Writer</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentDisabled" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:value>0</sci:value>
+						<sci:value>1</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentHelp" type="StringType" required="false" visibility="nevershow" multi="true">
 						<sci:value>100</sci:value>
@@ -1155,7 +1025,6 @@ end if;
 					</sci:arg>
 					<sci:arg name="Maximum" type="StringType" required="false" visibility="visible" multi="false">
 						<sci:help>The maximum number of sequences to read (all if value is empty)</sci:help>
-						<sci:value>4</sci:value>
 					</sci:arg>
 					<sci:arg name="SourceTag" type="StringType" required="true" visibility="visible" multi="false">
 						<sci:help>The type of tag to create to identify the source of data records. A property called &quot;SourceTag&quot; is created and holds the value indicated.
@@ -5291,210 +5160,6 @@ creates a property named &quot;A&quot; and sets the value to &quot;10&quot;.&lt;
 					<sci:version iVal="1"/>
 				</sci:protocol>
 			</sci:data>
-			<sci:data object="SciTegic.MergeProperties.1">
-				<sci:component name="Merge All Data" version="2">
-					<sci:arg name="Merge Behavior" type="GroupType" required="false" visibility="visible" multi="false" expanded="true">
-						<sci:help>Options controlling the details of how properties are merged together</sci:help>
-						<sci:member>WhenMerging</sci:member>
-						<sci:member>KeepAllNullString</sci:member>
-						<sci:member>KeepAllPreferredNodeName</sci:member>
-						<sci:member>PrefixUsingProperty</sci:member>
-					</sci:arg>
-					<sci:arg name="WhenMerging" type="StringType" required="true" visibility="visible" multi="false">
-						<sci:help>&lt;p&gt;Provides fine control over how multiple values are treated when merging data records together.&lt;/p&gt;
- 
-&lt;ul&gt;
-&lt;li&gt;OverwriteOrCreate: Copies all properties of each merged record sequentially, overwriting any values that may already exist (instead of generating an array).&lt;/li&gt;
-&lt;li&gt;OverwriteExisting: Only copies properties that already exist on the first merged record, overwriting those original values (instead of creating an array).&lt;/li&gt;
-&lt;li&gt;CreateIfNew: Leaves any existing properties alone, and writes only new properties.&lt;/li&gt;
-&lt;li&gt;AppendOrCreate: Appends (as an array) if a property already exists, otherwise creates it.&lt;/li&gt;
-&lt;li&gt;AppendExisting: Appends (as an array) only to currently existing properties, and discards other new property values.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-</sci:help>
-						<sci:legalval>OverwriteOrCreate</sci:legalval>
-						<sci:legalval>OverwriteExisting</sci:legalval>
-						<sci:legalval>CreateIfNew</sci:legalval>
-						<sci:legalval selected="true">AppendOrCreate</sci:legalval>
-						<sci:legalval>AppendExisting</sci:legalval>
-					</sci:arg>
-					<sci:arg name="KeepAllNullString" type="StringType" required="false" visibility="visible" multi="false">
-						<sci:help>&lt;p&gt;This string is used during append to pad out empty values. It keeps the number of values of generated arrays of values the same, and in sync, for multiple samples. The default value is None, which causes no padding to occur.&lt;/p&gt;
-</sci:help>
-						<sci:enabledscript>SetDisabledDetails(&apos;To enable, set MergeBehavior to KeepAll&apos;);
-Parameter(&apos;MergeBehavior&apos;) eq &apos;KeepAll&apos;</sci:enabledscript>
-						<sci:value>None</sci:value>
-					</sci:arg>
-					<sci:arg name="KeepAllPreferredNodeName" type="StringType" required="false" visibility="visible" multi="false">
-						<sci:help>&lt;p&gt;If defined, this contains a name that is used to prioritize which underlying data record should be kept.  If not defined, the first data record is kept; if this is defined, and at least one of the data records contains a node of this type, then the first example of that type is kept.&lt;/p&gt;</sci:help>
-						<sci:enabledscript>SetDisabledDetails(&apos;To enable, set MergeBehavior to KeepAll&apos;);
-Parameter(&apos;MergeBehavior&apos;) eq &apos;KeepAll&apos;</sci:enabledscript>
-						<sci:value>Molecule</sci:value>
-					</sci:arg>
-					<sci:arg name="PrefixUsingProperty" type="StringType" required="false" visibility="visible" multi="false">
-						<sci:help>&lt;p&gt;When multiple values for a property are retained, the original property name is prefixed differently for each original value it must hold. The prefix is constructed from the value of this property, followed by an underscore.
-When not specified, a prefix is not used and multiple values are separated as an array (such as property[1], property[2], etc).&lt;/p&gt;
-
-
-</sci:help>
-					</sci:arg>
-					<sci:arg name="OutputFrequency" type="BoolType" required="true" visibility="visible" multi="false">
-						<sci:help>&lt;p&gt;Add a property called &quot;Frequency&quot; that contains the number of individual data records included in the resulting merged record. This value is simply the total number of input records.&lt;/p&gt;
-</sci:help>
-						<sci:legalval>True</sci:legalval>
-						<sci:legalval selected="true">False</sci:legalval>
-					</sci:arg>
-					<sci:arg name="ComponentAttributes" type="StringType" required="false" visibility="hidden" multi="true">
-						<sci:help>Component Attributes</sci:help>
-						<sci:legalval selected="true">ComponentTakesInput</sci:legalval>
-						<sci:legalval selected="true">ComponentReturnsPass</sci:legalval>
-						<sci:legalval>ComponentReturnsFail</sci:legalval>
-						<sci:legalval>ComponentRunsLocal</sci:legalval>
-					</sci:arg>
-					<sci:arg name="OnDataTypeError" type="StringType" required="true" visibility="hidden" multi="false">
-						<sci:legalval selected="true">Halt</sci:legalval>
-						<sci:legalval>Fail</sci:legalval>
-						<sci:legalval>Pass</sci:legalval>
-					</sci:arg>
-					<sci:arg name="OnGeneralError" type="StringType" required="true" visibility="hidden" multi="false">
-						<sci:legalval selected="true">Halt</sci:legalval>
-						<sci:legalval>Fail</sci:legalval>
-						<sci:legalval>Pass</sci:legalval>
-					</sci:arg>
-					<sci:arg name="CustomErrorText" type="StringType" required="false" visibility="nevershow" multi="false"/>
-					<sci:arg name="MergeBehavior" type="StringType" required="true" visibility="nevershow" multi="false" expanded="true">
-						<sci:help>&lt;p&gt;Controls how properties, other than the &lt;i&gt;MergeUsing&lt;/i&gt; property, are handled.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;KeepAll: Keeps all property values by appending values into an array.&lt;/li&gt;
-&lt;li&gt;KeepFirst: Keeps only the properties and values from the first example received.  All properties and values from subsequent records matching the property specified by &lt;i&gt;MergeUsing&lt;/i&gt; are discarded.&lt;/li&gt;
-&lt;/ul&gt; 
-</sci:help>
-						<sci:legalval selected="true">KeepAll</sci:legalval>
-						<sci:legalval>KeepFirst</sci:legalval>
-					</sci:arg>
-					<sci:arg name="MergeUsing" type="StringType" required="true" visibility="nevershow" multi="false">
-						<sci:help>&lt;p&gt;Name of the property (or a comma-separated list of properties) that will be used to merge on.  Data records having the same value for this property will be merged.  This property must contain scalar (i.e., non-array) data.
-
-&lt;p&gt;If multiple properties are specified, the values must be the same for all of the properties (unless &lt;i&gt;MergeUsingListType&lt;/i&gt; is set to UseFirstDefinedValue).&lt;/p&gt;
-</sci:help>
-						<sci:member>MergeUsingListType</sci:member>
-						<sci:member>MergePropertyType</sci:member>
-						<sci:member>AcceptNonNumericStringsAsNumbers</sci:member>
-						<sci:member>IgnoreCase</sci:member>
-						<sci:value>N/A</sci:value>
-					</sci:arg>
-					<sci:arg name="MergeUsingListType" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>&lt;p&gt;How &lt;i&gt;MergeUsing&lt;/i&gt; properties are interpreted when more than one property is listed:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;UseFirstDefinedValue: Use only the first property in the list that has a defined value for a record as the merge key.&lt;/li&gt;
-&lt;li&gt;UseAllValues: Use the concatentation of values of all properties listed as the merge key.&lt;/li&gt;
-&lt;/ul&gt;</sci:help>
-						<sci:legalval>UseFirstDefinedValue</sci:legalval>
-						<sci:legalval selected="true">UseAllValues</sci:legalval>
-					</sci:arg>
-					<sci:arg name="MergePropertyType" type="StringType" required="true" visibility="nevershow" multi="false">
-						<sci:help>&lt;p&gt;The types of values found in the property specified by &lt;i&gt;MergeUsing&lt;/i&gt;:
-
-&lt;ul&gt;
-&lt;li&gt;IsNumeric: All numbers are converted to doubles for comparison (e.g., 1 = 1.0).&lt;/li&gt;
-&lt;li&gt;IsText: All comparisons are made as string values.&lt;/li&gt;
-&lt;li&gt;IsDate: The key is considered a date.&lt;/li&gt;
-&lt;li&gt;IsFingerprint: The key is considered a fingerprint.  Fingerprint bits are sorted before making the comparison.&lt;/li&gt;
-&lt;/ul&gt;
-</sci:help>
-						<sci:legalval>IsNumeric</sci:legalval>
-						<sci:legalval selected="true">IsText</sci:legalval>
-						<sci:legalval>IsDate</sci:legalval>
-						<sci:legalval>IsFingerprint</sci:legalval>
-					</sci:arg>
-					<sci:arg name="IgnoreCase" type="BoolType" required="true" visibility="nevershow" multi="false">
-						<sci:help>&lt;p&gt;Considers lower-case and upper-case letters as equivalent when determining the identity of &lt;i&gt;MergeUsing&lt;/i&gt; property values.&lt;/p&gt;
-</sci:help>
-						<sci:enabledscript>SetDisabledDetails(&apos;To enable, set MergePropertyType to IsText&apos;);
-Parameter(&apos;MergePropertyType&apos;) eq &apos;IsText&apos;</sci:enabledscript>
-						<sci:legalval>True</sci:legalval>
-						<sci:legalval selected="true">False</sci:legalval>
-					</sci:arg>
-					<sci:arg name="AcceptNonNumericStringsAsNumbers" type="BoolType" required="false" visibility="nevershow" multi="false">
-						<sci:help>Determines whether &lt;b&gt;all&lt;/b&gt; string values for the MergeUsing property -- even non-numeric ones such as &apos;abc&apos; or &apos;1.0c&apos; -- will be coerced to numbers when  MergePropertyType is set to IsNumeric.  
-
-If set to True, then a string such as &apos;abc&apos; that does not begin with a numeric portion will be coerced to zero, while a string such as &apos;1.0c&apos; that begins with a numeric portion will be coerced to the corresponding number (in this case 1.0).  
-
-If set to False, then records containing non-numeric strings for the MergeUsing property will be sent out the Fail port.</sci:help>
-						<sci:legalval>True</sci:legalval>
-						<sci:legalval selected="true">False</sci:legalval>
-					</sci:arg>
-					<sci:arg name="Registrant" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The user who registered this component.</sci:help>
-						<sci:value>scitegic/generic</sci:value>
-					</sci:arg>
-					<sci:arg name="RegistrationDate" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The date this component was registered.</sci:help>
-						<sci:value>Fri Mar 11 13:00:58 2011</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentDisplayName" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>Merge All Data</sci:value>
-					</sci:arg>
-					<sci:arg name="DerivedFrom" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The component this component is based upon.</sci:help>
-						<sci:value>Merge Data</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentDisabled" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:value>0</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentIcon" type="StringType" required="true" visibility="nevershow" multi="false">
-						<sci:value>JOINNODE</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentGUID" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>{C00EFC73-DE7C-4932-AFD6-55D1DFA7792C}</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>390 -455</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentHelp" type="StringType" required="false" visibility="nevershow" multi="true">
-						<sci:value>100</sci:value>
-						<sci:value>Merges properties of all input data records into a single output data record</sci:value>
-						<sci:value>&lt;p&gt;Performs faster than &lt;a href=&quot;javascript:DoLink(&apos;{1E393621-138C-466E-8A2B-275A3FAB26E3}&apos;)&quot;&gt;Merge Data&lt;/a&gt; for the special case where all input records are to be merged into one.
-&lt;i&gt;MergeBehavior&lt;/i&gt; controls how properties are handled.&lt;/p&gt;
-
-&lt;p&gt;&lt;b&gt;See Also: &lt;/b&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;If you wish to merge data records that share identical values of a specified property, use &lt;a href=&quot;javascript:DoLink(&apos;{1E393621-138C-466E-8A2B-275A3FAB26E3}&apos;)&quot;&gt;Merge Data&lt;/a&gt;.&lt;/p&gt;
-&lt;/ul&gt;</sci:value>
-						<sci:value>Generic</sci:value>
-						<sci:value>Data records to be merged</sci:value>
-						<sci:value>Generic</sci:value>
-						<sci:value>A single data record containing all merged properties of the input records</sci:value>
-						<sci:value>None</sci:value>
-						<sci:value/>
-					</sci:arg>
-					<sci:arg name="RegistrationVersion" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The server version when this component was registered</sci:help>
-						<sci:value>8.4.5.20</sci:value>
-					</sci:arg>
-					<sci:arg name="Component Sticky Notes" type="StringType" required="false" visibility="nevershow" multi="false"/>
-					<sci:arg name="ReplaceNullsInFirstRecord" type="BoolType" required="false" visibility="nevershow" multi="false" uimpl="false">
-						<sci:help>Specifies whether to replace nulls in the first merged record when KeepAllNullString is specified.</sci:help>
-						<sci:legalval selected="true">True</sci:legalval>
-						<sci:legalval>False</sci:legalval>
-					</sci:arg>
-					<sci:arg name="ComponentLocalID" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:help>Local Component Identifier</sci:help>
-						<sci:value>46</sci:value>
-					</sci:arg>
-					<sci:arg name="Merge All" type="BoolType" required="false" visibility="nevershow" multi="false" uimpl="false">
-						<sci:help>Internal parameter indicating that all data records are to be merged into one, irrespective of the value of the &lt;i&gt;MergeUsing&lt;/i&gt; Property.</sci:help>
-						<sci:legalval selected="true">True</sci:legalval>
-						<sci:legalval>False</sci:legalval>
-					</sci:arg>
-					<sci:arg name="Component Path" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The original path within the database of this component.</sci:help>
-						<sci:value>Components\Data Access and Manipulation\Data Manipulators\Merge All Data</sci:value>
-					</sci:arg>
-				</sci:component>
-			</sci:data>
 			<sci:data object="SciTegic.Protocol.1">
 				<sci:component name="Subprotocol" version="2">
 					<sci:arg name="RunToCompletion" type="StringType" required="false" visibility="visible" multi="false" uimpl="false">
@@ -5679,7 +5344,7 @@ Parameter(&apos;Parallel Processing Options&apos;);</sci:enabledscript>
 						<sci:value>{17001C74-63CE-4B4B-B37C-F0EAA19CE4AA}</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>690 -455</sci:value>
+						<sci:value>390 -455</sci:value>
 					</sci:arg>
 					<sci:arg name="ByReference" type="BoolType" required="false" visibility="nevershow" multi="false">
 						<sci:help>By Ref</sci:help>
@@ -5738,7 +5403,7 @@ Shortcuts&lt;/a&gt;.
 					</sci:arg>
 					<sci:arg name="ComponentLocalID" type="LongType" required="false" visibility="nevershow" multi="false">
 						<sci:help>Local Component Identifier</sci:help>
-						<sci:value>47</sci:value>
+						<sci:value>51</sci:value>
 					</sci:arg>
 					<sci:arg name="Component Path" type="StringType" required="false" visibility="nevershow" multi="false">
 						<sci:help>The original path within the database of this component.</sci:help>
@@ -5753,7 +5418,7 @@ Shortcuts&lt;/a&gt;.
 								<sci:member>Initial Expression</sci:member>
 								<sci:member>Final Expression</sci:member>
 								<sci:member>Keep Calculated Properties</sci:member>
-								<sci:value>pdb_code := Substring(provenance, 1, 4);</sci:value>
+								<sci:value>name := Substring(provenance, 1, 4);</sci:value>
 							</sci:arg>
 							<sci:arg name="Initial Expression" type="ExpressionType" required="false" visibility="visible" multi="false" implbase="{0995D675-7EE2-432C-95DF-E91C14052B22}">
 								<sci:help>&lt;p&gt;
@@ -6127,6 +5792,210 @@ Parameter(&apos;Parallel Processing Options&apos;);</sci:enabledscript>
 					</sci:data>
 					<sci:connectid from="0" to="1" type="true"/>
 				</sci:protocol>
+			</sci:data>
+			<sci:data object="SciTegic.MergeProperties.1">
+				<sci:component name="Merge All Data" version="2">
+					<sci:arg name="Merge Behavior" type="GroupType" required="false" visibility="visible" multi="false" expanded="true">
+						<sci:help>Options controlling the details of how properties are merged together</sci:help>
+						<sci:member>WhenMerging</sci:member>
+						<sci:member>KeepAllNullString</sci:member>
+						<sci:member>KeepAllPreferredNodeName</sci:member>
+						<sci:member>PrefixUsingProperty</sci:member>
+					</sci:arg>
+					<sci:arg name="WhenMerging" type="StringType" required="true" visibility="visible" multi="false">
+						<sci:help>&lt;p&gt;Provides fine control over how multiple values are treated when merging data records together.&lt;/p&gt;
+ 
+&lt;ul&gt;
+&lt;li&gt;OverwriteOrCreate: Copies all properties of each merged record sequentially, overwriting any values that may already exist (instead of generating an array).&lt;/li&gt;
+&lt;li&gt;OverwriteExisting: Only copies properties that already exist on the first merged record, overwriting those original values (instead of creating an array).&lt;/li&gt;
+&lt;li&gt;CreateIfNew: Leaves any existing properties alone, and writes only new properties.&lt;/li&gt;
+&lt;li&gt;AppendOrCreate: Appends (as an array) if a property already exists, otherwise creates it.&lt;/li&gt;
+&lt;li&gt;AppendExisting: Appends (as an array) only to currently existing properties, and discards other new property values.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+</sci:help>
+						<sci:legalval>OverwriteOrCreate</sci:legalval>
+						<sci:legalval>OverwriteExisting</sci:legalval>
+						<sci:legalval>CreateIfNew</sci:legalval>
+						<sci:legalval selected="true">AppendOrCreate</sci:legalval>
+						<sci:legalval>AppendExisting</sci:legalval>
+					</sci:arg>
+					<sci:arg name="KeepAllNullString" type="StringType" required="false" visibility="visible" multi="false">
+						<sci:help>&lt;p&gt;This string is used during append to pad out empty values. It keeps the number of values of generated arrays of values the same, and in sync, for multiple samples. The default value is None, which causes no padding to occur.&lt;/p&gt;
+</sci:help>
+						<sci:enabledscript>SetDisabledDetails(&apos;To enable, set MergeBehavior to KeepAll&apos;);
+Parameter(&apos;MergeBehavior&apos;) eq &apos;KeepAll&apos;</sci:enabledscript>
+						<sci:value>None</sci:value>
+					</sci:arg>
+					<sci:arg name="KeepAllPreferredNodeName" type="StringType" required="false" visibility="visible" multi="false">
+						<sci:help>&lt;p&gt;If defined, this contains a name that is used to prioritize which underlying data record should be kept.  If not defined, the first data record is kept; if this is defined, and at least one of the data records contains a node of this type, then the first example of that type is kept.&lt;/p&gt;</sci:help>
+						<sci:enabledscript>SetDisabledDetails(&apos;To enable, set MergeBehavior to KeepAll&apos;);
+Parameter(&apos;MergeBehavior&apos;) eq &apos;KeepAll&apos;</sci:enabledscript>
+						<sci:value>Molecule</sci:value>
+					</sci:arg>
+					<sci:arg name="PrefixUsingProperty" type="StringType" required="false" visibility="visible" multi="false">
+						<sci:help>&lt;p&gt;When multiple values for a property are retained, the original property name is prefixed differently for each original value it must hold. The prefix is constructed from the value of this property, followed by an underscore.
+When not specified, a prefix is not used and multiple values are separated as an array (such as property[1], property[2], etc).&lt;/p&gt;
+
+
+</sci:help>
+					</sci:arg>
+					<sci:arg name="OutputFrequency" type="BoolType" required="true" visibility="visible" multi="false">
+						<sci:help>&lt;p&gt;Add a property called &quot;Frequency&quot; that contains the number of individual data records included in the resulting merged record. This value is simply the total number of input records.&lt;/p&gt;
+</sci:help>
+						<sci:legalval>True</sci:legalval>
+						<sci:legalval selected="true">False</sci:legalval>
+					</sci:arg>
+					<sci:arg name="ComponentAttributes" type="StringType" required="false" visibility="hidden" multi="true">
+						<sci:help>Component Attributes</sci:help>
+						<sci:legalval selected="true">ComponentTakesInput</sci:legalval>
+						<sci:legalval selected="true">ComponentReturnsPass</sci:legalval>
+						<sci:legalval>ComponentReturnsFail</sci:legalval>
+						<sci:legalval>ComponentRunsLocal</sci:legalval>
+					</sci:arg>
+					<sci:arg name="OnDataTypeError" type="StringType" required="true" visibility="hidden" multi="false">
+						<sci:legalval selected="true">Halt</sci:legalval>
+						<sci:legalval>Fail</sci:legalval>
+						<sci:legalval>Pass</sci:legalval>
+					</sci:arg>
+					<sci:arg name="OnGeneralError" type="StringType" required="true" visibility="hidden" multi="false">
+						<sci:legalval selected="true">Halt</sci:legalval>
+						<sci:legalval>Fail</sci:legalval>
+						<sci:legalval>Pass</sci:legalval>
+					</sci:arg>
+					<sci:arg name="CustomErrorText" type="StringType" required="false" visibility="nevershow" multi="false"/>
+					<sci:arg name="MergeBehavior" type="StringType" required="true" visibility="nevershow" multi="false" expanded="true">
+						<sci:help>&lt;p&gt;Controls how properties, other than the &lt;i&gt;MergeUsing&lt;/i&gt; property, are handled.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;KeepAll: Keeps all property values by appending values into an array.&lt;/li&gt;
+&lt;li&gt;KeepFirst: Keeps only the properties and values from the first example received.  All properties and values from subsequent records matching the property specified by &lt;i&gt;MergeUsing&lt;/i&gt; are discarded.&lt;/li&gt;
+&lt;/ul&gt; 
+</sci:help>
+						<sci:legalval selected="true">KeepAll</sci:legalval>
+						<sci:legalval>KeepFirst</sci:legalval>
+					</sci:arg>
+					<sci:arg name="MergeUsing" type="StringType" required="true" visibility="nevershow" multi="false">
+						<sci:help>&lt;p&gt;Name of the property (or a comma-separated list of properties) that will be used to merge on.  Data records having the same value for this property will be merged.  This property must contain scalar (i.e., non-array) data.
+
+&lt;p&gt;If multiple properties are specified, the values must be the same for all of the properties (unless &lt;i&gt;MergeUsingListType&lt;/i&gt; is set to UseFirstDefinedValue).&lt;/p&gt;
+</sci:help>
+						<sci:member>MergeUsingListType</sci:member>
+						<sci:member>MergePropertyType</sci:member>
+						<sci:member>AcceptNonNumericStringsAsNumbers</sci:member>
+						<sci:member>IgnoreCase</sci:member>
+						<sci:value>N/A</sci:value>
+					</sci:arg>
+					<sci:arg name="MergeUsingListType" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>&lt;p&gt;How &lt;i&gt;MergeUsing&lt;/i&gt; properties are interpreted when more than one property is listed:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;UseFirstDefinedValue: Use only the first property in the list that has a defined value for a record as the merge key.&lt;/li&gt;
+&lt;li&gt;UseAllValues: Use the concatentation of values of all properties listed as the merge key.&lt;/li&gt;
+&lt;/ul&gt;</sci:help>
+						<sci:legalval>UseFirstDefinedValue</sci:legalval>
+						<sci:legalval selected="true">UseAllValues</sci:legalval>
+					</sci:arg>
+					<sci:arg name="MergePropertyType" type="StringType" required="true" visibility="nevershow" multi="false">
+						<sci:help>&lt;p&gt;The types of values found in the property specified by &lt;i&gt;MergeUsing&lt;/i&gt;:
+
+&lt;ul&gt;
+&lt;li&gt;IsNumeric: All numbers are converted to doubles for comparison (e.g., 1 = 1.0).&lt;/li&gt;
+&lt;li&gt;IsText: All comparisons are made as string values.&lt;/li&gt;
+&lt;li&gt;IsDate: The key is considered a date.&lt;/li&gt;
+&lt;li&gt;IsFingerprint: The key is considered a fingerprint.  Fingerprint bits are sorted before making the comparison.&lt;/li&gt;
+&lt;/ul&gt;
+</sci:help>
+						<sci:legalval>IsNumeric</sci:legalval>
+						<sci:legalval selected="true">IsText</sci:legalval>
+						<sci:legalval>IsDate</sci:legalval>
+						<sci:legalval>IsFingerprint</sci:legalval>
+					</sci:arg>
+					<sci:arg name="IgnoreCase" type="BoolType" required="true" visibility="nevershow" multi="false">
+						<sci:help>&lt;p&gt;Considers lower-case and upper-case letters as equivalent when determining the identity of &lt;i&gt;MergeUsing&lt;/i&gt; property values.&lt;/p&gt;
+</sci:help>
+						<sci:enabledscript>SetDisabledDetails(&apos;To enable, set MergePropertyType to IsText&apos;);
+Parameter(&apos;MergePropertyType&apos;) eq &apos;IsText&apos;</sci:enabledscript>
+						<sci:legalval>True</sci:legalval>
+						<sci:legalval selected="true">False</sci:legalval>
+					</sci:arg>
+					<sci:arg name="AcceptNonNumericStringsAsNumbers" type="BoolType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Determines whether &lt;b&gt;all&lt;/b&gt; string values for the MergeUsing property -- even non-numeric ones such as &apos;abc&apos; or &apos;1.0c&apos; -- will be coerced to numbers when  MergePropertyType is set to IsNumeric.  
+
+If set to True, then a string such as &apos;abc&apos; that does not begin with a numeric portion will be coerced to zero, while a string such as &apos;1.0c&apos; that begins with a numeric portion will be coerced to the corresponding number (in this case 1.0).  
+
+If set to False, then records containing non-numeric strings for the MergeUsing property will be sent out the Fail port.</sci:help>
+						<sci:legalval>True</sci:legalval>
+						<sci:legalval selected="true">False</sci:legalval>
+					</sci:arg>
+					<sci:arg name="Registrant" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The user who registered this component.</sci:help>
+						<sci:value>scitegic/generic</sci:value>
+					</sci:arg>
+					<sci:arg name="RegistrationDate" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The date this component was registered.</sci:help>
+						<sci:value>Fri Mar 11 13:00:58 2011</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentDisplayName" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:value>Merge All Data</sci:value>
+					</sci:arg>
+					<sci:arg name="DerivedFrom" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The component this component is based upon.</sci:help>
+						<sci:value>Merge Data</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentDisabled" type="LongType" required="false" visibility="nevershow" multi="false">
+						<sci:value>0</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentIcon" type="StringType" required="true" visibility="nevershow" multi="false">
+						<sci:value>JOINNODE</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentGUID" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:value>{C00EFC73-DE7C-4932-AFD6-55D1DFA7792C}</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:value>690 -455</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentHelp" type="StringType" required="false" visibility="nevershow" multi="true">
+						<sci:value>100</sci:value>
+						<sci:value>Merges properties of all input data records into a single output data record</sci:value>
+						<sci:value>&lt;p&gt;Performs faster than &lt;a href=&quot;javascript:DoLink(&apos;{1E393621-138C-466E-8A2B-275A3FAB26E3}&apos;)&quot;&gt;Merge Data&lt;/a&gt; for the special case where all input records are to be merged into one.
+&lt;i&gt;MergeBehavior&lt;/i&gt; controls how properties are handled.&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;See Also: &lt;/b&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;If you wish to merge data records that share identical values of a specified property, use &lt;a href=&quot;javascript:DoLink(&apos;{1E393621-138C-466E-8A2B-275A3FAB26E3}&apos;)&quot;&gt;Merge Data&lt;/a&gt;.&lt;/p&gt;
+&lt;/ul&gt;</sci:value>
+						<sci:value>Generic</sci:value>
+						<sci:value>Data records to be merged</sci:value>
+						<sci:value>Generic</sci:value>
+						<sci:value>A single data record containing all merged properties of the input records</sci:value>
+						<sci:value>None</sci:value>
+						<sci:value/>
+					</sci:arg>
+					<sci:arg name="RegistrationVersion" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The server version when this component was registered</sci:help>
+						<sci:value>8.4.5.20</sci:value>
+					</sci:arg>
+					<sci:arg name="Component Sticky Notes" type="StringType" required="false" visibility="nevershow" multi="false"/>
+					<sci:arg name="ReplaceNullsInFirstRecord" type="BoolType" required="false" visibility="nevershow" multi="false" uimpl="false">
+						<sci:help>Specifies whether to replace nulls in the first merged record when KeepAllNullString is specified.</sci:help>
+						<sci:legalval selected="true">True</sci:legalval>
+						<sci:legalval>False</sci:legalval>
+					</sci:arg>
+					<sci:arg name="ComponentLocalID" type="LongType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Local Component Identifier</sci:help>
+						<sci:value>46</sci:value>
+					</sci:arg>
+					<sci:arg name="Merge All" type="BoolType" required="false" visibility="nevershow" multi="false" uimpl="false">
+						<sci:help>Internal parameter indicating that all data records are to be merged into one, irrespective of the value of the &lt;i&gt;MergeUsing&lt;/i&gt; Property.</sci:help>
+						<sci:legalval selected="true">True</sci:legalval>
+						<sci:legalval>False</sci:legalval>
+					</sci:arg>
+					<sci:arg name="Component Path" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The original path within the database of this component.</sci:help>
+						<sci:value>Components\Data Access and Manipulation\Data Manipulators\Merge All Data</sci:value>
+					</sci:arg>
+				</sci:component>
 			</sci:data>
 			<sci:data object="SciTegic.ComponentPythonPlugin.1">
 				<sci:component name="Python (on Server)" version="2">
@@ -6898,7 +6767,7 @@ end if;
 						<sci:value>{9B0081A4-6085-4FF0-BD12-AEB8B7BD9CB5}</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>1890 -815</sci:value>
+						<sci:value>2190 -635</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentHelp" type="StringType" required="false" visibility="nevershow" multi="true">
 						<sci:value>100</sci:value>
@@ -6933,6 +6802,336 @@ end if;
 					</sci:arg>
 				</sci:component>
 			</sci:data>
+			<sci:data object="SciTegic.PropertyFunctions.1">
+				<sci:component name="Remove Properties" version="2">
+					<sci:arg name="PropertyList" type="PropertyNameType" required="true" visibility="visible" multi="true">
+						<sci:help>The names of properties to remove from each data record entering the component</sci:help>
+						<sci:value>accessionNumber</sci:value>
+						<sci:value>displayID</sci:value>
+						<sci:value>provenance</sci:value>
+						<sci:value>alphabet</sci:value>
+						<sci:value>data</sci:value>
+						<sci:value>description</sci:value>
+						<sci:value>length</sci:value>
+						<sci:value>originalFastaID</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentAttributes" type="StringType" required="false" visibility="hidden" multi="true">
+						<sci:help>Component Attributes</sci:help>
+						<sci:legalval selected="true">ComponentTakesInput</sci:legalval>
+						<sci:legalval selected="true">ComponentReturnsPass</sci:legalval>
+						<sci:legalval>ComponentReturnsFail</sci:legalval>
+						<sci:legalval>ComponentRunsLocal</sci:legalval>
+					</sci:arg>
+					<sci:arg name="OnDataTypeError" type="StringType" required="true" visibility="hidden" multi="false">
+						<sci:help>When an expected data type is not found during processing:  
+  Halt: Terminate the execution of the network
+  Fail: Continue execution of the network, passing data out the Fail(red) port
+  Pass: Continue execution of the network, passing data out the Pass(green) port</sci:help>
+						<sci:legalval selected="true">Halt</sci:legalval>
+						<sci:legalval>Fail</sci:legalval>
+						<sci:legalval>Pass</sci:legalval>
+					</sci:arg>
+					<sci:arg name="OnGeneralError" type="StringType" required="true" visibility="hidden" multi="false">
+						<sci:help>When an recoverable error occurs during processing:  
+  Halt: Terminate the execution of the network
+  Fail: Continue execution of the network, passing data out the Fail(red) port
+  Pass: Continue execution of the network, passing data out the Pass(green) port</sci:help>
+						<sci:legalval selected="true">Halt</sci:legalval>
+						<sci:legalval>Fail</sci:legalval>
+						<sci:legalval>Pass</sci:legalval>
+					</sci:arg>
+					<sci:arg name="CustomErrorText" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Custom Error Message</sci:help>
+					</sci:arg>
+					<sci:arg name="Action" type="StringType" required="true" visibility="nevershow" multi="false">
+						<sci:help>the action to perform</sci:help>
+						<sci:value>Remove</sci:value>
+					</sci:arg>
+					<sci:arg name="Registrant" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The user who registered this component.</sci:help>
+						<sci:value>scitegic/generic</sci:value>
+					</sci:arg>
+					<sci:arg name="RegistrationDate" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The date this component was registered.</sci:help>
+						<sci:value>Tue Sep 13 07:18:43 2016</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentDisplayName" type="StringType" required="false" visibility="nevershow" multi="false"/>
+					<sci:arg name="ComponentAutoDisplayName" type="ExpressionType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Automatically update the component display name when the &quot;PropertyList&quot; property is changed. This feature is turned off after the user manually changes the display name of the component in Protocol workspace.</sci:help>
+						<sci:value>#propertyList := Parameter(&apos;PropertyList&apos;);
+#displayName := &apos;&apos;;
+for #i in 1 .. numvalues(#propertyList) loop
+  #prop := trim(#propertyList[#i]);
+  if (strlength(#prop) &gt; 0) then
+    if (strlength(#displayName) &gt; 0) then
+	  #displayName .= &apos;, &apos;;
+	end if;
+    #displayName .= #prop;
+  end if;
+end loop;
+if(strlength(#displayName) &gt; 0) then		
+	&apos;Remove &apos; . #displayName;
+else
+	&quot;&quot;;
+end if;</sci:value>
+					</sci:arg>
+					<sci:arg name="ProtocolAutoLayout" type="BoolType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Protocol AutoLayout</sci:help>
+						<sci:value>true</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentDisabled" type="LongType" required="false" visibility="nevershow" multi="false">
+						<sci:value>0</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentIcon" type="StringType" required="true" visibility="nevershow" multi="false">
+						<sci:value>EXPRESSIONNODE</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentRevision" type="LongType" required="true" visibility="nevershow" multi="false">
+						<sci:help>Component Revision</sci:help>
+						<sci:value>100</sci:value>
+					</sci:arg>
+					<sci:arg name="DerivedFrom" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The component this component is based upon.</sci:help>
+						<sci:value>SubProtocol</sci:value>
+					</sci:arg>
+					<sci:arg name="ProtocolScale" type="LongType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Protocol Scale</sci:help>
+						<sci:value>0</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:value>1890 -815</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentGUID" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:value>{C2ED35FF-5397-4877-AADB-10F1A15D60E2}</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentHelp" type="StringType" required="false" visibility="nevershow" multi="true">
+						<sci:value>100</sci:value>
+						<sci:value>Removes the specified properties</sci:value>
+						<sci:value>For each data record that enters the component, the properties specified by &lt;i&gt;PropertyList&lt;/i&gt; are removed from the  record. 
+
+&lt;p&gt;&lt;b&gt;See Also:&lt;/b&gt;&lt;/p&gt;
+&lt;p&gt;To keep only a few properties from a long list, it may be more efficient to instead use &lt;a href=&quot;javascript:DoLink(&apos;{456195EF-9708-4367-B3DD-21EBF3796604}&apos;)&quot;&gt;Keep Properties&lt;/a&gt;.&lt;/p&gt;</sci:value>
+						<sci:value>Generic</sci:value>
+						<sci:value/>
+						<sci:value>Generic</sci:value>
+						<sci:value>Data records with the specified properties removed</sci:value>
+						<sci:value>None</sci:value>
+						<sci:value/>
+					</sci:arg>
+					<sci:arg name="RegistrationVersion" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The server version when this component was registered</sci:help>
+						<sci:value>17.1.0.119</sci:value>
+					</sci:arg>
+					<sci:arg name="Component Sticky Notes" type="StringType" required="false" visibility="nevershow" multi="false"/>
+					<sci:arg name="ByReference" type="BoolType" required="false" visibility="nevershow" multi="false">
+						<sci:help>By Ref</sci:help>
+						<sci:value>0</sci:value>
+					</sci:arg>
+					<sci:arg name="Protocol Sticky Notes" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Protocol Sticky Notes</sci:help>
+					</sci:arg>
+					<sci:arg name="ComponentLocalID" type="LongType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Local Component Identifier</sci:help>
+						<sci:value>53</sci:value>
+					</sci:arg>
+					<sci:arg name="Component Path" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The original path within the database of this component.</sci:help>
+						<sci:value>Components\Data Access and Manipulation\Property Manipulators\Remove Properties</sci:value>
+					</sci:arg>
+				</sci:component>
+			</sci:data>
+			<sci:data object="SciTegic.Protocol.1">
+				<sci:component name="HTML Table Viewer" version="2">
+					<sci:arg name="Maximum Rows" type="LongType" required="true" visibility="visible" multi="false">
+						<sci:help>Specifies the maximum number of table rows in the HTML page</sci:help>
+						<sci:value>2000</sci:value>
+					</sci:arg>
+					<sci:arg name="Rows Per Page" type="LongType" required="false" visibility="visible" multi="false">
+						<sci:help>The number of rows displayed on each page</sci:help>
+						<sci:value>25</sci:value>
+					</sci:arg>
+					<sci:arg name="Title" type="StringType" required="false" visibility="visible" multi="false">
+						<sci:help>The optional title of the HTML document</sci:help>
+					</sci:arg>
+					<sci:arg name="Freeze Table Header" type="BoolType" required="false" visibility="visible" multi="false" uimpl="false">
+						<sci:help>&lt;p&gt;When set to True, this table&apos;s header and title will remain visible when the table is scrolled vertically.&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;Notes:&lt;/b&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+	&lt;li&gt;This feature only applies to HTML reports.&lt;/li&gt;
+	&lt;li&gt;The fixed header behavior depends on what container (e.g., plain browser window, Tile component, Dynamic Content Container) that the Table is piped into.&lt;/li&gt; 
+	&lt;li&gt;To create a table of fixed pixel height, set this parameter to True and pipe this table into a Dynamic Content Container of fixed (i.e., non-percentage) height.&lt;/li&gt;
+&lt;/ul&gt;</sci:help>
+						<sci:legalval>True</sci:legalval>
+						<sci:legalval selected="true">False</sci:legalval>
+					</sci:arg>
+					<sci:arg name="Use Default Browser" type="BoolType" required="false" visibility="visible" multi="false" expanded="true" legalvalsenforced="false" uimpl="false">
+						<sci:metaproplist>
+							<sci:propval name="SCI_PromotionRenameRule">UsingParent</sci:propval>
+							<sci:mpropval name="SCI_PromotedFrom" type="StringType">
+								<sci:value>Browser</sci:value>
+							</sci:mpropval>
+						</sci:metaproplist>
+						<sci:help>&lt;p&gt;
+This parameter is only relevant when running the protocol in the Pipeline Pilot Professional Client.
+&lt;/p&gt;
+&lt;p&gt;
+The value specifies whether to use your default desktop web browser to view the HTML table. When set to False, Internet Explorer is used as a standard fallback option. If IE is your default browser, it is used in either case.
+&lt;/p&gt;
+</sci:help>
+						<sci:legalval selected="true">True</sci:legalval>
+						<sci:legalval>False</sci:legalval>
+					</sci:arg>
+					<sci:arg name="Tempfiles" type="StringType" required="false" visibility="visible" multi="false" implbase="{7B3502D7-FA57-4EB5-838B-FE6AB0BF0E69}" uimpl="true">
+						<sci:help>Lists the set of temporary files which will be converted by the network to true temporary file names</sci:help>
+						<sci:value>temphtml</sci:value>
+					</sci:arg>
+					<sci:arg name="DeclareLocal" type="StringType" required="false" visibility="visible" multi="false" implbase="{17001C74-63CE-4B4B-B37C-F0EAA19CE4AA}" uimpl="true">
+						<sci:help>Lists a set of properties (without the @) to be created on the property list for this protocol.
+Other properties are created on the global property list
+and so are accessible from all protocols.</sci:help>
+						<sci:value>HTML Filename</sci:value>
+					</sci:arg>
+					<sci:arg name="RunToCompletion" type="BoolType" required="false" visibility="visible" multi="false" implbase="{7B3502D7-FA57-4EB5-838B-FE6AB0BF0E69}" uimpl="true">
+						<sci:help>When the network is run, whether we process once or until done for each process call</sci:help>
+						<sci:legalval>True</sci:legalval>
+						<sci:legalval selected="true">False</sci:legalval>
+					</sci:arg>
+					<sci:arg name="Internet Explorer" type="StringType" required="false" visibility="visible" multi="false" uimpl="true">
+						<sci:help>The location for Internet Explorer</sci:help>
+						<sci:value>internetexplorer.application</sci:value>
+					</sci:arg>
+					<sci:arg name="Chrome" type="StringType" required="false" visibility="visible" multi="false" uimpl="true">
+						<sci:help>The location for Chrome</sci:help>
+						<sci:value>&quot;C:\Program Files (x86)\Google\Chrome\Application\chrome.exe&quot;</sci:value>
+					</sci:arg>
+					<sci:arg name="Firefox" type="StringType" required="false" visibility="visible" multi="false" expanded="true" uimpl="true">
+						<sci:help>The location for Firefox</sci:help>
+						<sci:value>&quot;C:\Program Files (x86)\Mozilla Firefox\firefox.exe&quot;</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentAttributes" type="StringType" required="false" visibility="hidden" multi="true">
+						<sci:help>Component Attributes</sci:help>
+						<sci:legalval selected="true">ComponentTakesInput</sci:legalval>
+						<sci:legalval>ComponentReturnsPass</sci:legalval>
+						<sci:legalval>ComponentReturnsFail</sci:legalval>
+						<sci:legalval>ComponentRunsLocal</sci:legalval>
+					</sci:arg>
+					<sci:arg name="OnDataTypeError" type="StringType" required="true" visibility="hidden" multi="false">
+						<sci:legalval selected="true">Halt</sci:legalval>
+						<sci:legalval>Fail</sci:legalval>
+						<sci:legalval>Pass</sci:legalval>
+					</sci:arg>
+					<sci:arg name="OnGeneralError" type="StringType" required="true" visibility="hidden" multi="false">
+						<sci:legalval selected="true">Halt</sci:legalval>
+						<sci:legalval>Fail</sci:legalval>
+						<sci:legalval>Pass</sci:legalval>
+					</sci:arg>
+					<sci:arg name="CustomErrorText" type="StringType" required="false" visibility="nevershow" multi="false"/>
+					<sci:arg name="Protocol Options" type="StringType" required="false" visibility="nevershow" multi="true">
+						<sci:help>Protocol Options</sci:help>
+						<sci:legalval selected="true">Make Shortcut by Default</sci:legalval>
+						<sci:legalval>Cant Replace With Copy</sci:legalval>
+						<sci:legalval>Cant Open</sci:legalval>
+					</sci:arg>
+					<sci:arg name="Registrant" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The user who registered this component.</sci:help>
+						<sci:value>scitegic/generic</sci:value>
+					</sci:arg>
+					<sci:arg name="RegistrationDate" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The date this component was registered.</sci:help>
+						<sci:value>Fri Oct 23 17:05:34 2015</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentDisplayName" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:value>HTML Table Viewer</sci:value>
+					</sci:arg>
+					<sci:arg name="ProtocolAutoLayout" type="BoolType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Protocol AutoLayout</sci:help>
+						<sci:value>true</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:value>2190 -1007</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentDisabled" type="LongType" required="false" visibility="nevershow" multi="false">
+						<sci:value>0</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentIcon" type="StringType" required="true" visibility="nevershow" multi="false">
+						<sci:value>ViewerNode</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentRevision" type="LongType" required="true" visibility="nevershow" multi="false">
+						<sci:help>Component Revision</sci:help>
+						<sci:value>100</sci:value>
+					</sci:arg>
+					<sci:arg name="ProtocolCommentSize" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>ProtocolCommentSize</sci:help>
+						<sci:value>1100 500</sci:value>
+					</sci:arg>
+					<sci:arg name="DerivedFrom" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The component this component is based upon.</sci:help>
+						<sci:value>SubProtocol</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentGUID" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:value>{F6A20C96-BC1C-48f3-82E9-4D8F023F82EE}</sci:value>
+					</sci:arg>
+					<sci:arg name="ProtocolScale" type="LongType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Protocol Scale</sci:help>
+						<sci:value>0</sci:value>
+					</sci:arg>
+					<sci:arg name="ByReference" type="BoolType" required="false" visibility="nevershow" multi="false">
+						<sci:help>By Ref</sci:help>
+						<sci:value>1</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentHelp" type="StringType" required="false" visibility="nevershow" multi="true">
+						<sci:value>100</sci:value>
+						<sci:value>Displays data records as HTML in a web browser</sci:value>
+						<sci:value>&lt;p&gt;Generates and displays an HTML table page of data records, with one record per row. Each property becomes a column in the table and each value a cell.
+&lt;p&gt;
+&lt;b&gt;Notes:&lt;/b&gt;
+&lt;ul&gt;
+&lt;li&gt;Molecules will be displayed if present.&lt;/li&gt;
+&lt;li&gt;For hierarchical data records, only top level properties are displayed.&lt;/li&gt;
+&lt;li&gt;Any grouped data is displayed in nested tables.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;b&gt;See Also:&lt;/b&gt;
+&lt;ul&gt;
+&lt;li&gt;If you prefer not to view the grouped data, use &lt;a href=&quot;javascript:DoLink(&apos;{ACCDEEEF-FEED-4B27-B263-BA531EABFC9C}&apos;)&quot;&gt;Delete Children&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;For more control over the display of molecules, use &lt;a href=&quot;javascript:DoLink(&apos;{485D30CD-737C-4AD3-89C9-F81CB20E47AE}&apos;)&quot;&gt;HTML Molecular Table Viewer&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+</sci:value>
+						<sci:value>Generic</sci:value>
+						<sci:value/>
+						<sci:value>None</sci:value>
+						<sci:value/>
+						<sci:value>None</sci:value>
+						<sci:value/>
+					</sci:arg>
+					<sci:arg name="RegistrationVersion" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The server version when this component was registered</sci:help>
+						<sci:value>16.1.0.1089</sci:value>
+					</sci:arg>
+					<sci:arg name="Component Sticky Notes" type="StringType" required="false" visibility="nevershow" multi="false"/>
+					<sci:arg name="Protocol Sticky Notes" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Protocol Sticky Notes</sci:help>
+					</sci:arg>
+					<sci:arg name="ProtocolScale2" type="LongType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Protocol Scale</sci:help>
+						<sci:value>100</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentLocalID" type="LongType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Local Component Identifier</sci:help>
+						<sci:value>54</sci:value>
+					</sci:arg>
+					<sci:arg name="SubProtocolMadeLinkIntoCopy" type="BoolType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Subprotocol Made Link Into Copy</sci:help>
+						<sci:value>0</sci:value>
+					</sci:arg>
+					<sci:arg name="Component Path" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The original path within the database of this component.</sci:help>
+						<sci:value>Components\Data Access and Manipulation\Viewers\HTML Table Viewer</sci:value>
+					</sci:arg>
+				</sci:component>
+				<sci:protocol/>
+			</sci:data>
 			<sci:data object="SciTegic.Protocol.1">
 				<sci:component name="FASTA Sequence Reader" version="2">
 					<sci:arg name="Source" type="URLType" required="true" visibility="visible" multi="false" expanded="true">
@@ -6951,7 +7150,6 @@ end if;
 					</sci:arg>
 					<sci:arg name="Maximum" type="StringType" required="false" visibility="visible" multi="false">
 						<sci:help>The maximum number of sequences to read (all if value is empty)</sci:help>
-						<sci:value>4</sci:value>
 					</sci:arg>
 					<sci:arg name="SourceTag" type="StringType" required="true" visibility="visible" multi="false">
 						<sci:help>The type of tag to create to identify the source of data records. A property called &quot;SourceTag&quot; is created and holds the value indicated.
@@ -7055,7 +7253,7 @@ end if;
 						<sci:value>{C69008B3-4E12-4C1D-8A9C-0DD2FB8F6743}</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>90 -995</sci:value>
+						<sci:value>90 -1175</sci:value>
 					</sci:arg>
 					<sci:arg name="ProtocolScale" type="LongType" required="false" visibility="nevershow" multi="false">
 						<sci:help>Protocol Scale</sci:help>
@@ -11087,210 +11285,6 @@ creates a property named &quot;A&quot; and sets the value to &quot;10&quot;.&lt;
 					<sci:version iVal="1"/>
 				</sci:protocol>
 			</sci:data>
-			<sci:data object="SciTegic.MergeProperties.1">
-				<sci:component name="Merge All Data" version="2">
-					<sci:arg name="Merge Behavior" type="GroupType" required="false" visibility="visible" multi="false" expanded="true">
-						<sci:help>Options controlling the details of how properties are merged together</sci:help>
-						<sci:member>WhenMerging</sci:member>
-						<sci:member>KeepAllNullString</sci:member>
-						<sci:member>KeepAllPreferredNodeName</sci:member>
-						<sci:member>PrefixUsingProperty</sci:member>
-					</sci:arg>
-					<sci:arg name="WhenMerging" type="StringType" required="true" visibility="visible" multi="false">
-						<sci:help>&lt;p&gt;Provides fine control over how multiple values are treated when merging data records together.&lt;/p&gt;
- 
-&lt;ul&gt;
-&lt;li&gt;OverwriteOrCreate: Copies all properties of each merged record sequentially, overwriting any values that may already exist (instead of generating an array).&lt;/li&gt;
-&lt;li&gt;OverwriteExisting: Only copies properties that already exist on the first merged record, overwriting those original values (instead of creating an array).&lt;/li&gt;
-&lt;li&gt;CreateIfNew: Leaves any existing properties alone, and writes only new properties.&lt;/li&gt;
-&lt;li&gt;AppendOrCreate: Appends (as an array) if a property already exists, otherwise creates it.&lt;/li&gt;
-&lt;li&gt;AppendExisting: Appends (as an array) only to currently existing properties, and discards other new property values.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-</sci:help>
-						<sci:legalval>OverwriteOrCreate</sci:legalval>
-						<sci:legalval>OverwriteExisting</sci:legalval>
-						<sci:legalval>CreateIfNew</sci:legalval>
-						<sci:legalval selected="true">AppendOrCreate</sci:legalval>
-						<sci:legalval>AppendExisting</sci:legalval>
-					</sci:arg>
-					<sci:arg name="KeepAllNullString" type="StringType" required="false" visibility="visible" multi="false">
-						<sci:help>&lt;p&gt;This string is used during append to pad out empty values. It keeps the number of values of generated arrays of values the same, and in sync, for multiple samples. The default value is None, which causes no padding to occur.&lt;/p&gt;
-</sci:help>
-						<sci:enabledscript>SetDisabledDetails(&apos;To enable, set MergeBehavior to KeepAll&apos;);
-Parameter(&apos;MergeBehavior&apos;) eq &apos;KeepAll&apos;</sci:enabledscript>
-						<sci:value>None</sci:value>
-					</sci:arg>
-					<sci:arg name="KeepAllPreferredNodeName" type="StringType" required="false" visibility="visible" multi="false">
-						<sci:help>&lt;p&gt;If defined, this contains a name that is used to prioritize which underlying data record should be kept.  If not defined, the first data record is kept; if this is defined, and at least one of the data records contains a node of this type, then the first example of that type is kept.&lt;/p&gt;</sci:help>
-						<sci:enabledscript>SetDisabledDetails(&apos;To enable, set MergeBehavior to KeepAll&apos;);
-Parameter(&apos;MergeBehavior&apos;) eq &apos;KeepAll&apos;</sci:enabledscript>
-						<sci:value>Molecule</sci:value>
-					</sci:arg>
-					<sci:arg name="PrefixUsingProperty" type="StringType" required="false" visibility="visible" multi="false">
-						<sci:help>&lt;p&gt;When multiple values for a property are retained, the original property name is prefixed differently for each original value it must hold. The prefix is constructed from the value of this property, followed by an underscore.
-When not specified, a prefix is not used and multiple values are separated as an array (such as property[1], property[2], etc).&lt;/p&gt;
-
-
-</sci:help>
-					</sci:arg>
-					<sci:arg name="OutputFrequency" type="BoolType" required="true" visibility="visible" multi="false">
-						<sci:help>&lt;p&gt;Add a property called &quot;Frequency&quot; that contains the number of individual data records included in the resulting merged record. This value is simply the total number of input records.&lt;/p&gt;
-</sci:help>
-						<sci:legalval>True</sci:legalval>
-						<sci:legalval selected="true">False</sci:legalval>
-					</sci:arg>
-					<sci:arg name="ComponentAttributes" type="StringType" required="false" visibility="hidden" multi="true">
-						<sci:help>Component Attributes</sci:help>
-						<sci:legalval selected="true">ComponentTakesInput</sci:legalval>
-						<sci:legalval selected="true">ComponentReturnsPass</sci:legalval>
-						<sci:legalval>ComponentReturnsFail</sci:legalval>
-						<sci:legalval>ComponentRunsLocal</sci:legalval>
-					</sci:arg>
-					<sci:arg name="OnDataTypeError" type="StringType" required="true" visibility="hidden" multi="false">
-						<sci:legalval selected="true">Halt</sci:legalval>
-						<sci:legalval>Fail</sci:legalval>
-						<sci:legalval>Pass</sci:legalval>
-					</sci:arg>
-					<sci:arg name="OnGeneralError" type="StringType" required="true" visibility="hidden" multi="false">
-						<sci:legalval selected="true">Halt</sci:legalval>
-						<sci:legalval>Fail</sci:legalval>
-						<sci:legalval>Pass</sci:legalval>
-					</sci:arg>
-					<sci:arg name="CustomErrorText" type="StringType" required="false" visibility="nevershow" multi="false"/>
-					<sci:arg name="MergeBehavior" type="StringType" required="true" visibility="nevershow" multi="false" expanded="true">
-						<sci:help>&lt;p&gt;Controls how properties, other than the &lt;i&gt;MergeUsing&lt;/i&gt; property, are handled.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;KeepAll: Keeps all property values by appending values into an array.&lt;/li&gt;
-&lt;li&gt;KeepFirst: Keeps only the properties and values from the first example received.  All properties and values from subsequent records matching the property specified by &lt;i&gt;MergeUsing&lt;/i&gt; are discarded.&lt;/li&gt;
-&lt;/ul&gt; 
-</sci:help>
-						<sci:legalval selected="true">KeepAll</sci:legalval>
-						<sci:legalval>KeepFirst</sci:legalval>
-					</sci:arg>
-					<sci:arg name="MergeUsing" type="StringType" required="true" visibility="nevershow" multi="false">
-						<sci:help>&lt;p&gt;Name of the property (or a comma-separated list of properties) that will be used to merge on.  Data records having the same value for this property will be merged.  This property must contain scalar (i.e., non-array) data.
-
-&lt;p&gt;If multiple properties are specified, the values must be the same for all of the properties (unless &lt;i&gt;MergeUsingListType&lt;/i&gt; is set to UseFirstDefinedValue).&lt;/p&gt;
-</sci:help>
-						<sci:member>MergeUsingListType</sci:member>
-						<sci:member>MergePropertyType</sci:member>
-						<sci:member>AcceptNonNumericStringsAsNumbers</sci:member>
-						<sci:member>IgnoreCase</sci:member>
-						<sci:value>N/A</sci:value>
-					</sci:arg>
-					<sci:arg name="MergeUsingListType" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>&lt;p&gt;How &lt;i&gt;MergeUsing&lt;/i&gt; properties are interpreted when more than one property is listed:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;UseFirstDefinedValue: Use only the first property in the list that has a defined value for a record as the merge key.&lt;/li&gt;
-&lt;li&gt;UseAllValues: Use the concatentation of values of all properties listed as the merge key.&lt;/li&gt;
-&lt;/ul&gt;</sci:help>
-						<sci:legalval>UseFirstDefinedValue</sci:legalval>
-						<sci:legalval selected="true">UseAllValues</sci:legalval>
-					</sci:arg>
-					<sci:arg name="MergePropertyType" type="StringType" required="true" visibility="nevershow" multi="false">
-						<sci:help>&lt;p&gt;The types of values found in the property specified by &lt;i&gt;MergeUsing&lt;/i&gt;:
-
-&lt;ul&gt;
-&lt;li&gt;IsNumeric: All numbers are converted to doubles for comparison (e.g., 1 = 1.0).&lt;/li&gt;
-&lt;li&gt;IsText: All comparisons are made as string values.&lt;/li&gt;
-&lt;li&gt;IsDate: The key is considered a date.&lt;/li&gt;
-&lt;li&gt;IsFingerprint: The key is considered a fingerprint.  Fingerprint bits are sorted before making the comparison.&lt;/li&gt;
-&lt;/ul&gt;
-</sci:help>
-						<sci:legalval>IsNumeric</sci:legalval>
-						<sci:legalval selected="true">IsText</sci:legalval>
-						<sci:legalval>IsDate</sci:legalval>
-						<sci:legalval>IsFingerprint</sci:legalval>
-					</sci:arg>
-					<sci:arg name="IgnoreCase" type="BoolType" required="true" visibility="nevershow" multi="false">
-						<sci:help>&lt;p&gt;Considers lower-case and upper-case letters as equivalent when determining the identity of &lt;i&gt;MergeUsing&lt;/i&gt; property values.&lt;/p&gt;
-</sci:help>
-						<sci:enabledscript>SetDisabledDetails(&apos;To enable, set MergePropertyType to IsText&apos;);
-Parameter(&apos;MergePropertyType&apos;) eq &apos;IsText&apos;</sci:enabledscript>
-						<sci:legalval>True</sci:legalval>
-						<sci:legalval selected="true">False</sci:legalval>
-					</sci:arg>
-					<sci:arg name="AcceptNonNumericStringsAsNumbers" type="BoolType" required="false" visibility="nevershow" multi="false">
-						<sci:help>Determines whether &lt;b&gt;all&lt;/b&gt; string values for the MergeUsing property -- even non-numeric ones such as &apos;abc&apos; or &apos;1.0c&apos; -- will be coerced to numbers when  MergePropertyType is set to IsNumeric.  
-
-If set to True, then a string such as &apos;abc&apos; that does not begin with a numeric portion will be coerced to zero, while a string such as &apos;1.0c&apos; that begins with a numeric portion will be coerced to the corresponding number (in this case 1.0).  
-
-If set to False, then records containing non-numeric strings for the MergeUsing property will be sent out the Fail port.</sci:help>
-						<sci:legalval>True</sci:legalval>
-						<sci:legalval selected="true">False</sci:legalval>
-					</sci:arg>
-					<sci:arg name="Registrant" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The user who registered this component.</sci:help>
-						<sci:value>scitegic/generic</sci:value>
-					</sci:arg>
-					<sci:arg name="RegistrationDate" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The date this component was registered.</sci:help>
-						<sci:value>Fri Mar 11 13:00:58 2011</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentDisplayName" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>Merge All Data</sci:value>
-					</sci:arg>
-					<sci:arg name="DerivedFrom" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The component this component is based upon.</sci:help>
-						<sci:value>Merge Data</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentDisabled" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:value>0</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentIcon" type="StringType" required="true" visibility="nevershow" multi="false">
-						<sci:value>JOINNODE</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentGUID" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>{C00EFC73-DE7C-4932-AFD6-55D1DFA7792C}</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>390 -995</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentHelp" type="StringType" required="false" visibility="nevershow" multi="true">
-						<sci:value>100</sci:value>
-						<sci:value>Merges properties of all input data records into a single output data record</sci:value>
-						<sci:value>&lt;p&gt;Performs faster than &lt;a href=&quot;javascript:DoLink(&apos;{1E393621-138C-466E-8A2B-275A3FAB26E3}&apos;)&quot;&gt;Merge Data&lt;/a&gt; for the special case where all input records are to be merged into one.
-&lt;i&gt;MergeBehavior&lt;/i&gt; controls how properties are handled.&lt;/p&gt;
-
-&lt;p&gt;&lt;b&gt;See Also: &lt;/b&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;If you wish to merge data records that share identical values of a specified property, use &lt;a href=&quot;javascript:DoLink(&apos;{1E393621-138C-466E-8A2B-275A3FAB26E3}&apos;)&quot;&gt;Merge Data&lt;/a&gt;.&lt;/p&gt;
-&lt;/ul&gt;</sci:value>
-						<sci:value>Generic</sci:value>
-						<sci:value>Data records to be merged</sci:value>
-						<sci:value>Generic</sci:value>
-						<sci:value>A single data record containing all merged properties of the input records</sci:value>
-						<sci:value>None</sci:value>
-						<sci:value/>
-					</sci:arg>
-					<sci:arg name="RegistrationVersion" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The server version when this component was registered</sci:help>
-						<sci:value>8.4.5.20</sci:value>
-					</sci:arg>
-					<sci:arg name="Component Sticky Notes" type="StringType" required="false" visibility="nevershow" multi="false"/>
-					<sci:arg name="ReplaceNullsInFirstRecord" type="BoolType" required="false" visibility="nevershow" multi="false" uimpl="false">
-						<sci:help>Specifies whether to replace nulls in the first merged record when KeepAllNullString is specified.</sci:help>
-						<sci:legalval selected="true">True</sci:legalval>
-						<sci:legalval>False</sci:legalval>
-					</sci:arg>
-					<sci:arg name="ComponentLocalID" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:help>Local Component Identifier</sci:help>
-						<sci:value>41</sci:value>
-					</sci:arg>
-					<sci:arg name="Merge All" type="BoolType" required="false" visibility="nevershow" multi="false" uimpl="false">
-						<sci:help>Internal parameter indicating that all data records are to be merged into one, irrespective of the value of the &lt;i&gt;MergeUsing&lt;/i&gt; Property.</sci:help>
-						<sci:legalval selected="true">True</sci:legalval>
-						<sci:legalval>False</sci:legalval>
-					</sci:arg>
-					<sci:arg name="Component Path" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The original path within the database of this component.</sci:help>
-						<sci:value>Components\Data Access and Manipulation\Data Manipulators\Merge All Data</sci:value>
-					</sci:arg>
-				</sci:component>
-			</sci:data>
 			<sci:data object="SciTegic.Protocol.1">
 				<sci:component name="Subprotocol" version="2">
 					<sci:arg name="RunToCompletion" type="StringType" required="false" visibility="visible" multi="false" uimpl="false">
@@ -11475,7 +11469,7 @@ Parameter(&apos;Parallel Processing Options&apos;);</sci:enabledscript>
 						<sci:value>{17001C74-63CE-4B4B-B37C-F0EAA19CE4AA}</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>690 -995</sci:value>
+						<sci:value>390 -1175</sci:value>
 					</sci:arg>
 					<sci:arg name="ByReference" type="BoolType" required="false" visibility="nevershow" multi="false">
 						<sci:help>By Ref</sci:help>
@@ -11534,7 +11528,7 @@ Shortcuts&lt;/a&gt;.
 					</sci:arg>
 					<sci:arg name="ComponentLocalID" type="LongType" required="false" visibility="nevershow" multi="false">
 						<sci:help>Local Component Identifier</sci:help>
-						<sci:value>42</sci:value>
+						<sci:value>52</sci:value>
 					</sci:arg>
 					<sci:arg name="Component Path" type="StringType" required="false" visibility="nevershow" multi="false">
 						<sci:help>The original path within the database of this component.</sci:help>
@@ -11549,7 +11543,7 @@ Shortcuts&lt;/a&gt;.
 								<sci:member>Initial Expression</sci:member>
 								<sci:member>Final Expression</sci:member>
 								<sci:member>Keep Calculated Properties</sci:member>
-								<sci:value>pdb_code := Substring(provenance, 1, 4);</sci:value>
+								<sci:value>name := Substring(provenance, 1, 4);</sci:value>
 							</sci:arg>
 							<sci:arg name="Initial Expression" type="ExpressionType" required="false" visibility="visible" multi="false" implbase="{0995D675-7EE2-432C-95DF-E91C14052B22}">
 								<sci:help>&lt;p&gt;
@@ -11924,6 +11918,210 @@ Parameter(&apos;Parallel Processing Options&apos;);</sci:enabledscript>
 					<sci:connectid from="0" to="1" type="true"/>
 				</sci:protocol>
 			</sci:data>
+			<sci:data object="SciTegic.MergeProperties.1">
+				<sci:component name="Merge All Data" version="2">
+					<sci:arg name="Merge Behavior" type="GroupType" required="false" visibility="visible" multi="false" expanded="true">
+						<sci:help>Options controlling the details of how properties are merged together</sci:help>
+						<sci:member>WhenMerging</sci:member>
+						<sci:member>KeepAllNullString</sci:member>
+						<sci:member>KeepAllPreferredNodeName</sci:member>
+						<sci:member>PrefixUsingProperty</sci:member>
+					</sci:arg>
+					<sci:arg name="WhenMerging" type="StringType" required="true" visibility="visible" multi="false">
+						<sci:help>&lt;p&gt;Provides fine control over how multiple values are treated when merging data records together.&lt;/p&gt;
+ 
+&lt;ul&gt;
+&lt;li&gt;OverwriteOrCreate: Copies all properties of each merged record sequentially, overwriting any values that may already exist (instead of generating an array).&lt;/li&gt;
+&lt;li&gt;OverwriteExisting: Only copies properties that already exist on the first merged record, overwriting those original values (instead of creating an array).&lt;/li&gt;
+&lt;li&gt;CreateIfNew: Leaves any existing properties alone, and writes only new properties.&lt;/li&gt;
+&lt;li&gt;AppendOrCreate: Appends (as an array) if a property already exists, otherwise creates it.&lt;/li&gt;
+&lt;li&gt;AppendExisting: Appends (as an array) only to currently existing properties, and discards other new property values.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+</sci:help>
+						<sci:legalval>OverwriteOrCreate</sci:legalval>
+						<sci:legalval>OverwriteExisting</sci:legalval>
+						<sci:legalval>CreateIfNew</sci:legalval>
+						<sci:legalval selected="true">AppendOrCreate</sci:legalval>
+						<sci:legalval>AppendExisting</sci:legalval>
+					</sci:arg>
+					<sci:arg name="KeepAllNullString" type="StringType" required="false" visibility="visible" multi="false">
+						<sci:help>&lt;p&gt;This string is used during append to pad out empty values. It keeps the number of values of generated arrays of values the same, and in sync, for multiple samples. The default value is None, which causes no padding to occur.&lt;/p&gt;
+</sci:help>
+						<sci:enabledscript>SetDisabledDetails(&apos;To enable, set MergeBehavior to KeepAll&apos;);
+Parameter(&apos;MergeBehavior&apos;) eq &apos;KeepAll&apos;</sci:enabledscript>
+						<sci:value>None</sci:value>
+					</sci:arg>
+					<sci:arg name="KeepAllPreferredNodeName" type="StringType" required="false" visibility="visible" multi="false">
+						<sci:help>&lt;p&gt;If defined, this contains a name that is used to prioritize which underlying data record should be kept.  If not defined, the first data record is kept; if this is defined, and at least one of the data records contains a node of this type, then the first example of that type is kept.&lt;/p&gt;</sci:help>
+						<sci:enabledscript>SetDisabledDetails(&apos;To enable, set MergeBehavior to KeepAll&apos;);
+Parameter(&apos;MergeBehavior&apos;) eq &apos;KeepAll&apos;</sci:enabledscript>
+						<sci:value>Molecule</sci:value>
+					</sci:arg>
+					<sci:arg name="PrefixUsingProperty" type="StringType" required="false" visibility="visible" multi="false">
+						<sci:help>&lt;p&gt;When multiple values for a property are retained, the original property name is prefixed differently for each original value it must hold. The prefix is constructed from the value of this property, followed by an underscore.
+When not specified, a prefix is not used and multiple values are separated as an array (such as property[1], property[2], etc).&lt;/p&gt;
+
+
+</sci:help>
+					</sci:arg>
+					<sci:arg name="OutputFrequency" type="BoolType" required="true" visibility="visible" multi="false">
+						<sci:help>&lt;p&gt;Add a property called &quot;Frequency&quot; that contains the number of individual data records included in the resulting merged record. This value is simply the total number of input records.&lt;/p&gt;
+</sci:help>
+						<sci:legalval>True</sci:legalval>
+						<sci:legalval selected="true">False</sci:legalval>
+					</sci:arg>
+					<sci:arg name="ComponentAttributes" type="StringType" required="false" visibility="hidden" multi="true">
+						<sci:help>Component Attributes</sci:help>
+						<sci:legalval selected="true">ComponentTakesInput</sci:legalval>
+						<sci:legalval selected="true">ComponentReturnsPass</sci:legalval>
+						<sci:legalval>ComponentReturnsFail</sci:legalval>
+						<sci:legalval>ComponentRunsLocal</sci:legalval>
+					</sci:arg>
+					<sci:arg name="OnDataTypeError" type="StringType" required="true" visibility="hidden" multi="false">
+						<sci:legalval selected="true">Halt</sci:legalval>
+						<sci:legalval>Fail</sci:legalval>
+						<sci:legalval>Pass</sci:legalval>
+					</sci:arg>
+					<sci:arg name="OnGeneralError" type="StringType" required="true" visibility="hidden" multi="false">
+						<sci:legalval selected="true">Halt</sci:legalval>
+						<sci:legalval>Fail</sci:legalval>
+						<sci:legalval>Pass</sci:legalval>
+					</sci:arg>
+					<sci:arg name="CustomErrorText" type="StringType" required="false" visibility="nevershow" multi="false"/>
+					<sci:arg name="MergeBehavior" type="StringType" required="true" visibility="nevershow" multi="false" expanded="true">
+						<sci:help>&lt;p&gt;Controls how properties, other than the &lt;i&gt;MergeUsing&lt;/i&gt; property, are handled.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;KeepAll: Keeps all property values by appending values into an array.&lt;/li&gt;
+&lt;li&gt;KeepFirst: Keeps only the properties and values from the first example received.  All properties and values from subsequent records matching the property specified by &lt;i&gt;MergeUsing&lt;/i&gt; are discarded.&lt;/li&gt;
+&lt;/ul&gt; 
+</sci:help>
+						<sci:legalval selected="true">KeepAll</sci:legalval>
+						<sci:legalval>KeepFirst</sci:legalval>
+					</sci:arg>
+					<sci:arg name="MergeUsing" type="StringType" required="true" visibility="nevershow" multi="false">
+						<sci:help>&lt;p&gt;Name of the property (or a comma-separated list of properties) that will be used to merge on.  Data records having the same value for this property will be merged.  This property must contain scalar (i.e., non-array) data.
+
+&lt;p&gt;If multiple properties are specified, the values must be the same for all of the properties (unless &lt;i&gt;MergeUsingListType&lt;/i&gt; is set to UseFirstDefinedValue).&lt;/p&gt;
+</sci:help>
+						<sci:member>MergeUsingListType</sci:member>
+						<sci:member>MergePropertyType</sci:member>
+						<sci:member>AcceptNonNumericStringsAsNumbers</sci:member>
+						<sci:member>IgnoreCase</sci:member>
+						<sci:value>N/A</sci:value>
+					</sci:arg>
+					<sci:arg name="MergeUsingListType" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>&lt;p&gt;How &lt;i&gt;MergeUsing&lt;/i&gt; properties are interpreted when more than one property is listed:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;UseFirstDefinedValue: Use only the first property in the list that has a defined value for a record as the merge key.&lt;/li&gt;
+&lt;li&gt;UseAllValues: Use the concatentation of values of all properties listed as the merge key.&lt;/li&gt;
+&lt;/ul&gt;</sci:help>
+						<sci:legalval>UseFirstDefinedValue</sci:legalval>
+						<sci:legalval selected="true">UseAllValues</sci:legalval>
+					</sci:arg>
+					<sci:arg name="MergePropertyType" type="StringType" required="true" visibility="nevershow" multi="false">
+						<sci:help>&lt;p&gt;The types of values found in the property specified by &lt;i&gt;MergeUsing&lt;/i&gt;:
+
+&lt;ul&gt;
+&lt;li&gt;IsNumeric: All numbers are converted to doubles for comparison (e.g., 1 = 1.0).&lt;/li&gt;
+&lt;li&gt;IsText: All comparisons are made as string values.&lt;/li&gt;
+&lt;li&gt;IsDate: The key is considered a date.&lt;/li&gt;
+&lt;li&gt;IsFingerprint: The key is considered a fingerprint.  Fingerprint bits are sorted before making the comparison.&lt;/li&gt;
+&lt;/ul&gt;
+</sci:help>
+						<sci:legalval>IsNumeric</sci:legalval>
+						<sci:legalval selected="true">IsText</sci:legalval>
+						<sci:legalval>IsDate</sci:legalval>
+						<sci:legalval>IsFingerprint</sci:legalval>
+					</sci:arg>
+					<sci:arg name="IgnoreCase" type="BoolType" required="true" visibility="nevershow" multi="false">
+						<sci:help>&lt;p&gt;Considers lower-case and upper-case letters as equivalent when determining the identity of &lt;i&gt;MergeUsing&lt;/i&gt; property values.&lt;/p&gt;
+</sci:help>
+						<sci:enabledscript>SetDisabledDetails(&apos;To enable, set MergePropertyType to IsText&apos;);
+Parameter(&apos;MergePropertyType&apos;) eq &apos;IsText&apos;</sci:enabledscript>
+						<sci:legalval>True</sci:legalval>
+						<sci:legalval selected="true">False</sci:legalval>
+					</sci:arg>
+					<sci:arg name="AcceptNonNumericStringsAsNumbers" type="BoolType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Determines whether &lt;b&gt;all&lt;/b&gt; string values for the MergeUsing property -- even non-numeric ones such as &apos;abc&apos; or &apos;1.0c&apos; -- will be coerced to numbers when  MergePropertyType is set to IsNumeric.  
+
+If set to True, then a string such as &apos;abc&apos; that does not begin with a numeric portion will be coerced to zero, while a string such as &apos;1.0c&apos; that begins with a numeric portion will be coerced to the corresponding number (in this case 1.0).  
+
+If set to False, then records containing non-numeric strings for the MergeUsing property will be sent out the Fail port.</sci:help>
+						<sci:legalval>True</sci:legalval>
+						<sci:legalval selected="true">False</sci:legalval>
+					</sci:arg>
+					<sci:arg name="Registrant" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The user who registered this component.</sci:help>
+						<sci:value>scitegic/generic</sci:value>
+					</sci:arg>
+					<sci:arg name="RegistrationDate" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The date this component was registered.</sci:help>
+						<sci:value>Fri Mar 11 13:00:58 2011</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentDisplayName" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:value>Merge All Data</sci:value>
+					</sci:arg>
+					<sci:arg name="DerivedFrom" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The component this component is based upon.</sci:help>
+						<sci:value>Merge Data</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentDisabled" type="LongType" required="false" visibility="nevershow" multi="false">
+						<sci:value>0</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentIcon" type="StringType" required="true" visibility="nevershow" multi="false">
+						<sci:value>JOINNODE</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentGUID" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:value>{C00EFC73-DE7C-4932-AFD6-55D1DFA7792C}</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:value>690 -1175</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentHelp" type="StringType" required="false" visibility="nevershow" multi="true">
+						<sci:value>100</sci:value>
+						<sci:value>Merges properties of all input data records into a single output data record</sci:value>
+						<sci:value>&lt;p&gt;Performs faster than &lt;a href=&quot;javascript:DoLink(&apos;{1E393621-138C-466E-8A2B-275A3FAB26E3}&apos;)&quot;&gt;Merge Data&lt;/a&gt; for the special case where all input records are to be merged into one.
+&lt;i&gt;MergeBehavior&lt;/i&gt; controls how properties are handled.&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;See Also: &lt;/b&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;If you wish to merge data records that share identical values of a specified property, use &lt;a href=&quot;javascript:DoLink(&apos;{1E393621-138C-466E-8A2B-275A3FAB26E3}&apos;)&quot;&gt;Merge Data&lt;/a&gt;.&lt;/p&gt;
+&lt;/ul&gt;</sci:value>
+						<sci:value>Generic</sci:value>
+						<sci:value>Data records to be merged</sci:value>
+						<sci:value>Generic</sci:value>
+						<sci:value>A single data record containing all merged properties of the input records</sci:value>
+						<sci:value>None</sci:value>
+						<sci:value/>
+					</sci:arg>
+					<sci:arg name="RegistrationVersion" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The server version when this component was registered</sci:help>
+						<sci:value>8.4.5.20</sci:value>
+					</sci:arg>
+					<sci:arg name="Component Sticky Notes" type="StringType" required="false" visibility="nevershow" multi="false"/>
+					<sci:arg name="ReplaceNullsInFirstRecord" type="BoolType" required="false" visibility="nevershow" multi="false" uimpl="false">
+						<sci:help>Specifies whether to replace nulls in the first merged record when KeepAllNullString is specified.</sci:help>
+						<sci:legalval selected="true">True</sci:legalval>
+						<sci:legalval>False</sci:legalval>
+					</sci:arg>
+					<sci:arg name="ComponentLocalID" type="LongType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Local Component Identifier</sci:help>
+						<sci:value>41</sci:value>
+					</sci:arg>
+					<sci:arg name="Merge All" type="BoolType" required="false" visibility="nevershow" multi="false" uimpl="false">
+						<sci:help>Internal parameter indicating that all data records are to be merged into one, irrespective of the value of the &lt;i&gt;MergeUsing&lt;/i&gt; Property.</sci:help>
+						<sci:legalval selected="true">True</sci:legalval>
+						<sci:legalval>False</sci:legalval>
+					</sci:arg>
+					<sci:arg name="Component Path" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The original path within the database of this component.</sci:help>
+						<sci:value>Components\Data Access and Manipulation\Data Manipulators\Merge All Data</sci:value>
+					</sci:arg>
+				</sci:component>
+			</sci:data>
 			<sci:data object="SciTegic.ComponentPythonPlugin.1">
 				<sci:component name="Python (on Server)" version="2">
 					<sci:arg name="Script" type="PythonScriptType" required="true" visibility="visible" multi="false" expanded="true">
@@ -12039,7 +12237,7 @@ def onFinalize(ctxt):
 						<sci:value>Featurize Sequences</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>990 -995</sci:value>
+						<sci:value>990 -1175</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentIcon" type="StringType" required="true" visibility="nevershow" multi="false">
 						<sci:value>ComponentNode</sci:value>
@@ -12173,7 +12371,7 @@ multiple values will be unmerged. If multiple properties are unmerged, the numbe
 						<sci:value>{5E28C170-2FEC-4A3C-90A6-2DCEAA330E9D}</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>1290 -995</sci:value>
+						<sci:value>1290 -1175</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentHelp" type="StringType" required="false" visibility="nevershow" multi="true">
 						<sci:value>100</sci:value>
@@ -12225,7 +12423,7 @@ JoinUsingListType.) Or, if you provide a property that is an array of values, th
 						<sci:member>IgnoreCase</sci:member>
 						<sci:member>AcceptNonNumericStringsAsNumbers</sci:member>
 						<sci:member>JoinPropertyType</sci:member>
-						<sci:value>pdb_code</sci:value>
+						<sci:value>name</sci:value>
 					</sci:arg>
 					<sci:arg name="JoinUsingListType" type="StringType" required="true" visibility="visible" multi="false">
 						<sci:help>&lt;p&gt;Indicates how &lt;i&gt;JoinUsing&lt;/i&gt; properties are interpreted when more than one property is listed:&lt;/p&gt;
@@ -12459,7 +12657,7 @@ end if;</sci:value>
 						<sci:value>JOINNODE</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>1590 -995</sci:value>
+						<sci:value>1590 -1175</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentHelp" type="StringType" required="false" visibility="nevershow" multi="true">
 						<sci:value>100</sci:value>
@@ -12785,7 +12983,7 @@ end if;
 						<sci:value>Delimited Writer</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentDisabled" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:value>0</sci:value>
+						<sci:value>1</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentIcon" type="StringType" required="true" visibility="nevershow" multi="false">
 						<sci:value>DOCUMENTNODE</sci:value>
@@ -12794,7 +12992,7 @@ end if;
 						<sci:value>{9B0081A4-6085-4FF0-BD12-AEB8B7BD9CB5}</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>3390 -995</sci:value>
+						<sci:value>3090 -1175</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentHelp" type="StringType" required="false" visibility="nevershow" multi="true">
 						<sci:value>100</sci:value>
@@ -13073,13 +13271,13 @@ end if;</sci:value>
 						<sci:value>Join Data from File</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentDisabled" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:value>0</sci:value>
+						<sci:value>1</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentIcon" type="StringType" required="true" visibility="nevershow" multi="false">
 						<sci:value>JOINNODE</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>1890 -1175</sci:value>
+						<sci:value>1890 -1355</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentHelp" type="StringType" required="false" visibility="nevershow" multi="true">
 						<sci:value>100</sci:value>
@@ -13138,143 +13336,6 @@ Data from File&lt;/a&gt; to join against a source data file.&lt;/li&gt;
 					<sci:arg name="Component Path" type="StringType" required="false" visibility="nevershow" multi="false">
 						<sci:help>The original path within the database of this component.</sci:help>
 						<sci:value>Components\Data Access and Manipulation\Data Manipulators\Join Data from Cache</sci:value>
-					</sci:arg>
-				</sci:component>
-			</sci:data>
-			<sci:data object="SciTegic.PropertyFunctions.1">
-				<sci:component name="Remove Properties" version="2">
-					<sci:arg name="PropertyList" type="PropertyNameType" required="true" visibility="visible" multi="true">
-						<sci:help>The names of properties to remove from each data record entering the component</sci:help>
-						<sci:value>accessionNumber</sci:value>
-						<sci:value>displayID</sci:value>
-						<sci:value>provenance</sci:value>
-						<sci:value>alphabet</sci:value>
-						<sci:value>data</sci:value>
-						<sci:value>description</sci:value>
-						<sci:value>length</sci:value>
-						<sci:value>originalFastaID</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentAttributes" type="StringType" required="false" visibility="hidden" multi="true">
-						<sci:help>Component Attributes</sci:help>
-						<sci:legalval selected="true">ComponentTakesInput</sci:legalval>
-						<sci:legalval selected="true">ComponentReturnsPass</sci:legalval>
-						<sci:legalval>ComponentReturnsFail</sci:legalval>
-						<sci:legalval>ComponentRunsLocal</sci:legalval>
-					</sci:arg>
-					<sci:arg name="OnDataTypeError" type="StringType" required="true" visibility="hidden" multi="false">
-						<sci:help>When an expected data type is not found during processing:  
-  Halt: Terminate the execution of the network
-  Fail: Continue execution of the network, passing data out the Fail(red) port
-  Pass: Continue execution of the network, passing data out the Pass(green) port</sci:help>
-						<sci:legalval selected="true">Halt</sci:legalval>
-						<sci:legalval>Fail</sci:legalval>
-						<sci:legalval>Pass</sci:legalval>
-					</sci:arg>
-					<sci:arg name="OnGeneralError" type="StringType" required="true" visibility="hidden" multi="false">
-						<sci:help>When an recoverable error occurs during processing:  
-  Halt: Terminate the execution of the network
-  Fail: Continue execution of the network, passing data out the Fail(red) port
-  Pass: Continue execution of the network, passing data out the Pass(green) port</sci:help>
-						<sci:legalval selected="true">Halt</sci:legalval>
-						<sci:legalval>Fail</sci:legalval>
-						<sci:legalval>Pass</sci:legalval>
-					</sci:arg>
-					<sci:arg name="CustomErrorText" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>Custom Error Message</sci:help>
-					</sci:arg>
-					<sci:arg name="Action" type="StringType" required="true" visibility="nevershow" multi="false">
-						<sci:help>the action to perform</sci:help>
-						<sci:value>Remove</sci:value>
-					</sci:arg>
-					<sci:arg name="Registrant" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The user who registered this component.</sci:help>
-						<sci:value>scitegic/generic</sci:value>
-					</sci:arg>
-					<sci:arg name="RegistrationDate" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The date this component was registered.</sci:help>
-						<sci:value>Tue Sep 13 07:18:43 2016</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentDisplayName" type="StringType" required="false" visibility="nevershow" multi="false"/>
-					<sci:arg name="ComponentAutoDisplayName" type="ExpressionType" required="false" visibility="nevershow" multi="false">
-						<sci:help>Automatically update the component display name when the &quot;PropertyList&quot; property is changed. This feature is turned off after the user manually changes the display name of the component in Protocol workspace.</sci:help>
-						<sci:value>#propertyList := Parameter(&apos;PropertyList&apos;);
-#displayName := &apos;&apos;;
-for #i in 1 .. numvalues(#propertyList) loop
-  #prop := trim(#propertyList[#i]);
-  if (strlength(#prop) &gt; 0) then
-    if (strlength(#displayName) &gt; 0) then
-	  #displayName .= &apos;, &apos;;
-	end if;
-    #displayName .= #prop;
-  end if;
-end loop;
-if(strlength(#displayName) &gt; 0) then		
-	&apos;Remove &apos; . #displayName;
-else
-	&quot;&quot;;
-end if;</sci:value>
-					</sci:arg>
-					<sci:arg name="ProtocolAutoLayout" type="BoolType" required="false" visibility="nevershow" multi="false">
-						<sci:help>Protocol AutoLayout</sci:help>
-						<sci:value>true</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentDisabled" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:value>0</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentIcon" type="StringType" required="true" visibility="nevershow" multi="false">
-						<sci:value>EXPRESSIONNODE</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentRevision" type="LongType" required="true" visibility="nevershow" multi="false">
-						<sci:help>Component Revision</sci:help>
-						<sci:value>100</sci:value>
-					</sci:arg>
-					<sci:arg name="DerivedFrom" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The component this component is based upon.</sci:help>
-						<sci:value>SubProtocol</sci:value>
-					</sci:arg>
-					<sci:arg name="ProtocolScale" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:help>Protocol Scale</sci:help>
-						<sci:value>0</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>2190 -1175</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentGUID" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>{C2ED35FF-5397-4877-AADB-10F1A15D60E2}</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentHelp" type="StringType" required="false" visibility="nevershow" multi="true">
-						<sci:value>100</sci:value>
-						<sci:value>Removes the specified properties</sci:value>
-						<sci:value>For each data record that enters the component, the properties specified by &lt;i&gt;PropertyList&lt;/i&gt; are removed from the  record. 
-
-&lt;p&gt;&lt;b&gt;See Also:&lt;/b&gt;&lt;/p&gt;
-&lt;p&gt;To keep only a few properties from a long list, it may be more efficient to instead use &lt;a href=&quot;javascript:DoLink(&apos;{456195EF-9708-4367-B3DD-21EBF3796604}&apos;)&quot;&gt;Keep Properties&lt;/a&gt;.&lt;/p&gt;</sci:value>
-						<sci:value>Generic</sci:value>
-						<sci:value/>
-						<sci:value>Generic</sci:value>
-						<sci:value>Data records with the specified properties removed</sci:value>
-						<sci:value>None</sci:value>
-						<sci:value/>
-					</sci:arg>
-					<sci:arg name="RegistrationVersion" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The server version when this component was registered</sci:help>
-						<sci:value>17.1.0.119</sci:value>
-					</sci:arg>
-					<sci:arg name="Component Sticky Notes" type="StringType" required="false" visibility="nevershow" multi="false"/>
-					<sci:arg name="ByReference" type="BoolType" required="false" visibility="nevershow" multi="false">
-						<sci:help>By Ref</sci:help>
-						<sci:value>0</sci:value>
-					</sci:arg>
-					<sci:arg name="Protocol Sticky Notes" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>Protocol Sticky Notes</sci:help>
-					</sci:arg>
-					<sci:arg name="ComponentLocalID" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:help>Local Component Identifier</sci:help>
-						<sci:value>32</sci:value>
-					</sci:arg>
-					<sci:arg name="Component Path" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The original path within the database of this component.</sci:help>
-						<sci:value>Components\Data Access and Manipulation\Property Manipulators\Remove Properties</sci:value>
 					</sci:arg>
 				</sci:component>
 			</sci:data>
@@ -13350,7 +13411,7 @@ end if;
 						<sci:value>true</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentDisabled" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:value>0</sci:value>
+						<sci:value>1</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentIcon" type="StringType" required="true" visibility="nevershow" multi="false">
 						<sci:value>EXPRESSIONNODE</sci:value>
@@ -13368,7 +13429,7 @@ end if;
 						<sci:value>0</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>2490 -1175</sci:value>
+						<sci:value>2190 -1355</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentGUID" type="StringType" required="false" visibility="nevershow" multi="false">
 						<sci:value>{04496ABE-C1D2-43D2-83D4-35AC9FC8D501}</sci:value>
@@ -13477,7 +13538,7 @@ end if;
 						<sci:value>1</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentDisabled" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:value>0</sci:value>
+						<sci:value>1</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentIcon" type="StringType" required="true" visibility="nevershow" multi="false">
 						<sci:value>FILTERNODE</sci:value>
@@ -13494,7 +13555,7 @@ end if;
 						<sci:value>{74CB089F-EAA6-4FC4-A247-08453D1ADED4}</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>2790 -1175</sci:value>
+						<sci:value>2490 -1355</sci:value>
 					</sci:arg>
 					<sci:arg name="ProtocolScale" type="LongType" required="false" visibility="nevershow" multi="false">
 						<sci:help>Protocol Scale</sci:help>
@@ -13635,13 +13696,13 @@ end if;</sci:value>
 						<sci:value>EXPRESSIONNODE</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentDisabled" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:value>0</sci:value>
+						<sci:value>1</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentGUID" type="StringType" required="false" visibility="nevershow" multi="false">
 						<sci:value>{0995D675-7EE2-432C-95DF-E91C14052B22}</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>3090 -1175</sci:value>
+						<sci:value>2790 -1355</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentHelp" type="StringType" required="false" visibility="nevershow" multi="true">
 						<sci:value>100</sci:value>
@@ -13802,10 +13863,10 @@ and so are accessible from all protocols.</sci:help>
 						<sci:value>true</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>3390 -1355</sci:value>
+						<sci:value>3090 -1535</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentDisabled" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:value>0</sci:value>
+						<sci:value>1</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentIcon" type="StringType" required="true" visibility="nevershow" multi="false">
 						<sci:value>ViewerNode</sci:value>
@@ -13886,27 +13947,28 @@ and so are accessible from all protocols.</sci:help>
 				<sci:protocol/>
 			</sci:data>
 			<sci:connectid from="3" to="4" type="true"/>
-			<sci:connectid from="4" to="5" type="true"/>
-			<sci:connectid from="5" to="6" type="true"/>
-			<sci:connectid from="45" to="46" type="true"/>
-			<sci:connectid from="46" to="47" type="true"/>
-			<sci:connectid from="47" to="48" type="true"/>
+			<sci:connectid from="4" to="6" type="true"/>
+			<sci:connectid from="45" to="51" type="true"/>
+			<sci:connectid from="51" to="46" type="true"/>
+			<sci:connectid from="51" to="46" type="false"/>
+			<sci:connectid from="46" to="48" type="true"/>
 			<sci:connectid from="48" to="49" type="true"/>
 			<sci:connectid from="49" to="50" type="true"/>
-			<sci:connectid from="40" to="41" type="true"/>
-			<sci:connectid from="41" to="42" type="true"/>
-			<sci:connectid from="42" to="43" type="true"/>
+			<sci:connectid from="53" to="19" type="true"/>
+			<sci:connectid from="53" to="54" type="true"/>
+			<sci:connectid from="40" to="52" type="true"/>
+			<sci:connectid from="52" to="41" type="true"/>
+			<sci:connectid from="41" to="43" type="true"/>
 			<sci:connectid from="43" to="44" type="true"/>
 			<sci:connectid from="44" to="13" type="true"/>
-			<sci:connectid from="13" to="19" type="true"/>
+			<sci:connectid from="13" to="53" type="true"/>
 			<sci:connectid from="13" to="14" type="true"/>
-			<sci:connectid from="14" to="32" type="true"/>
-			<sci:connectid from="32" to="15" type="true"/>
+			<sci:connectid from="14" to="15" type="true"/>
 			<sci:connectid from="15" to="16" type="true"/>
 			<sci:connectid from="16" to="17" type="true"/>
 			<sci:connectid from="17" to="10" type="true"/>
 			<sci:connectid from="17" to="18" type="true"/>
-			<sci:version iVal="5"/>
+			<sci:version iVal="8"/>
 		</sci:protocol>
 	</sci:dbitem>
 <!-- Exported protocol -->
