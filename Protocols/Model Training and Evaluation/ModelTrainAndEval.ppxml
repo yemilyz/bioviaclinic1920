@@ -182,7 +182,7 @@ exported if this protocol is published as a web service.&lt;/p&gt;
 			</sci:arg>
 			<sci:arg name="RegistrationDate" type="StringType" required="false" visibility="nevershow" multi="false">
 				<sci:help>The date this component was registered.</sci:help>
-				<sci:value>Sun Feb  2 14:02:15 2020</sci:value>
+				<sci:value>Sun Feb  2 15:05:28 2020</sci:value>
 			</sci:arg>
 			<sci:arg name="RegistrationVersion" type="StringType" required="false" visibility="nevershow" multi="false">
 				<sci:help>The server version when this component was registered</sci:help>
@@ -2292,7 +2292,7 @@ If your server has a large amount of memory, you can increase performance for la
 						<sci:value>0</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentDisabled" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:value>1</sci:value>
+						<sci:value>0</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentIcon" type="StringType" required="true" visibility="nevershow" multi="false">
 						<sci:value>LEARNNODE</sci:value>
@@ -2403,13 +2403,13 @@ The built-in validation in these learners is generally faster than what is provi
 						<sci:help>Local Component Identifier</sci:help>
 						<sci:value>61</sci:value>
 					</sci:arg>
-					<sci:arg name="Component Path" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The original path within the database of this component.</sci:help>
-						<sci:value>clinic1920\Custom Learners\RPForest_CV</sci:value>
-					</sci:arg>
 					<sci:arg name="SubProtocolMadeLinkIntoCopy" type="BoolType" required="false" visibility="nevershow" multi="false">
 						<sci:help>Subprotocol Made Link Into Copy</sci:help>
 						<sci:value>0</sci:value>
+					</sci:arg>
+					<sci:arg name="Component Path" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The original path within the database of this component.</sci:help>
+						<sci:value>clinic1920\Custom Learners\RPForest_CV</sci:value>
 					</sci:arg>
 				</sci:component>
 				<sci:protocol/>
@@ -3378,13 +3378,13 @@ The built-in validation in these learners is generally faster than what is provi
 						<sci:help>Local Component Identifier</sci:help>
 						<sci:value>60</sci:value>
 					</sci:arg>
-					<sci:arg name="Component Path" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The original path within the database of this component.</sci:help>
-						<sci:value>clinic1920\Custom Learners\LGFB_CV</sci:value>
-					</sci:arg>
 					<sci:arg name="SubProtocolMadeLinkIntoCopy" type="BoolType" required="false" visibility="nevershow" multi="false">
 						<sci:help>Subprotocol Made Link Into Copy</sci:help>
 						<sci:value>0</sci:value>
+					</sci:arg>
+					<sci:arg name="Component Path" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The original path within the database of this component.</sci:help>
+						<sci:value>clinic1920\Custom Learners\LGFB_CV</sci:value>
 					</sci:arg>
 				</sci:component>
 				<sci:protocol/>
@@ -4245,10 +4245,10 @@ Data from File&lt;/a&gt; to join against a source data file.&lt;/li&gt;
 					</sci:arg>
 					<sci:arg name="ComponentCheckpoint" type="StringType" required="false" visibility="nevershow" multi="false">
 						<sci:help>Checkpoint Identifier</sci:help>
-						<sci:value>{6D3184D9-36DF-4CB9-9BED-31B9AB07FF1E}</sci:value>
-						<sci:value>3</sci:value>
-						<sci:value>0</sci:value>
-						<sci:value>1</sci:value>
+						<sci:legalval selected="true">{6D3184D9-36DF-4CB9-9BED-31B9AB07FF1E}</sci:legalval>
+						<sci:legalval selected="true">1</sci:legalval>
+						<sci:legalval selected="true">-1</sci:legalval>
+						<sci:legalval selected="true">1</sci:legalval>
 					</sci:arg>
 					<sci:arg name="Component Path" type="StringType" required="false" visibility="nevershow" multi="false">
 						<sci:help>The original path within the database of this component.</sci:help>
@@ -4480,10 +4480,10 @@ Merge Molecules&lt;/a&gt; (which requires the Chemistry Collection).&lt;/p&gt;
 					</sci:arg>
 					<sci:arg name="ComponentCheckpoint" type="StringType" required="false" visibility="nevershow" multi="false">
 						<sci:help>Checkpoint Identifier</sci:help>
-						<sci:value>{56FA8CCF-17E0-40F4-A6E0-BD1FC802B7BC}</sci:value>
-						<sci:value>3</sci:value>
-						<sci:value>0</sci:value>
-						<sci:value>1</sci:value>
+						<sci:legalval selected="true">{56FA8CCF-17E0-40F4-A6E0-BD1FC802B7BC}</sci:legalval>
+						<sci:legalval selected="true">1</sci:legalval>
+						<sci:legalval selected="true">-1</sci:legalval>
+						<sci:legalval selected="true">1</sci:legalval>
 					</sci:arg>
 					<sci:arg name="Component Path" type="StringType" required="false" visibility="nevershow" multi="false">
 						<sci:help>The original path within the database of this component.</sci:help>
@@ -4600,10 +4600,10 @@ Merge Molecules&lt;/a&gt; (which requires the Chemistry Collection).&lt;/p&gt;
 					</sci:arg>
 					<sci:arg name="ComponentCheckpoint" type="StringType" required="false" visibility="nevershow" multi="false">
 						<sci:help>Checkpoint Identifier</sci:help>
-						<sci:value>{0621CB15-3152-47C9-ABAD-BE301C75BEE9}</sci:value>
-						<sci:value>3</sci:value>
-						<sci:value>0</sci:value>
-						<sci:value>1</sci:value>
+						<sci:legalval selected="true">{0621CB15-3152-47C9-ABAD-BE301C75BEE9}</sci:legalval>
+						<sci:legalval selected="true">1</sci:legalval>
+						<sci:legalval selected="true">-1</sci:legalval>
+						<sci:legalval selected="true">1</sci:legalval>
 					</sci:arg>
 					<sci:arg name="Component Path" type="StringType" required="false" visibility="nevershow" multi="false">
 						<sci:help>The original path within the database of this component.</sci:help>
@@ -5682,484 +5682,6 @@ In addition to displaying a report in a browser, you can specify that the model 
 				<sci:protocol/>
 			</sci:data>
 			<sci:data object="SciTegic.Protocol.1">
-				<sci:component name="Enrichment Plot Viewer" version="2">
-					<sci:arg name="ScoreProperty" type="StringType" required="true" visibility="visible" multi="false">
-						<sci:help>ScoreProperty</sci:help>
-						<sci:value>@modelname</sci:value>
-					</sci:arg>
-					<sci:arg name="TestForGood" type="ExpressionType" required="false" visibility="visible" multi="false" expanded="true">
-						<sci:help>Expression used to test for good.</sci:help>
-						<sci:value>Dev</sci:value>
-					</sci:arg>
-					<sci:arg name="Options" type="StringType" required="false" visibility="visible" multi="true">
-						<sci:help>Settings controlling the viewer&apos;s behavior. Options are:
-&lt;ul&gt;
-&lt;li&gt;Show Plot in Browser: Launch a separate browser window displaying the plot.
-&lt;li&gt;Output Reporting Element: Send a Pipeline Pilot Reporting element out the Pass port. This allows the plot to be embedded in a report.
-&lt;/ul&gt;</sci:help>
-						<sci:legalval>Show Plot in Browser</sci:legalval>
-						<sci:legalval selected="true">Output Reporting Element</sci:legalval>
-					</sci:arg>
-					<sci:arg name="Tempfiles" type="StringType" required="false" visibility="visible" multi="false" implbase="{17001C74-63CE-4B4B-B37C-F0EAA19CE4AA}" uimpl="true">
-						<sci:help>Temporary files converted by the network to true temporary filenames</sci:help>
-					</sci:arg>
-					<sci:arg name="DeclareLocal" type="StringType" required="false" visibility="visible" multi="false" implbase="{17001C74-63CE-4B4B-B37C-F0EAA19CE4AA}" uimpl="true">
-						<sci:help>Lists a set of properties (without the @) to create on the property list for this protocol. Other properties are created on the global property list and are accessible from all protocols.</sci:help>
-						<sci:value>learnedProp,AllCount,GoodCount</sci:value>
-					</sci:arg>
-					<sci:arg name="RunToCompletion" type="BoolType" required="false" visibility="visible" multi="false" implbase="{17001C74-63CE-4B4B-B37C-F0EAA19CE4AA}" uimpl="true">
-						<sci:help>When the network runs, processes once or until done for each process call</sci:help>
-						<sci:legalval>True</sci:legalval>
-						<sci:legalval selected="true">False</sci:legalval>
-					</sci:arg>
-					<sci:arg name="ComponentAttributes" type="StringType" required="false" visibility="hidden" multi="true">
-						<sci:help>Component Attributes</sci:help>
-						<sci:legalval selected="true">ComponentTakesInput</sci:legalval>
-						<sci:legalval selected="true">ComponentReturnsPass</sci:legalval>
-						<sci:legalval>ComponentReturnsFail</sci:legalval>
-						<sci:legalval>ComponentRunsLocal</sci:legalval>
-					</sci:arg>
-					<sci:arg name="OnDataTypeError" type="StringType" required="true" visibility="hidden" multi="false">
-						<sci:legalval selected="true">Halt</sci:legalval>
-						<sci:legalval>Fail</sci:legalval>
-						<sci:legalval>Pass</sci:legalval>
-					</sci:arg>
-					<sci:arg name="OnGeneralError" type="StringType" required="true" visibility="hidden" multi="false">
-						<sci:legalval selected="true">Halt</sci:legalval>
-						<sci:legalval>Fail</sci:legalval>
-						<sci:legalval>Pass</sci:legalval>
-					</sci:arg>
-					<sci:arg name="CustomErrorText" type="StringType" required="false" visibility="nevershow" multi="false"/>
-					<sci:arg name="Registrant" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The user who registered this component.</sci:help>
-						<sci:value>scitegic/modeling</sci:value>
-					</sci:arg>
-					<sci:arg name="RegistrationDate" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The date this component was registered.</sci:help>
-						<sci:value>Tue Dec 07 14:09:40 2010</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentDisplayName" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>Enrichment Plot Viewer</sci:value>
-					</sci:arg>
-					<sci:arg name="ProtocolAutoLayout" type="BoolType" required="false" visibility="nevershow" multi="false">
-						<sci:help>Protocol AutoLayout</sci:help>
-						<sci:value>1</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentDisabled" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:value>0</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentIcon" type="StringType" required="true" visibility="nevershow" multi="false">
-						<sci:value>VIEWERNODE</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentRevision" type="LongType" required="true" visibility="nevershow" multi="false">
-						<sci:help>Component Revision</sci:help>
-						<sci:value>100</sci:value>
-					</sci:arg>
-					<sci:arg name="DerivedFrom" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The component this component is based upon.</sci:help>
-						<sci:value>SubProtocol</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentGUID" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>{6F75B0E4-F5FF-4490-88CC-F53D2E3316E9}</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>765 -2076</sci:value>
-					</sci:arg>
-					<sci:arg name="ByReference" type="BoolType" required="false" visibility="nevershow" multi="false">
-						<sci:help>By Ref</sci:help>
-						<sci:value>1</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentHelp" type="StringType" required="false" visibility="nevershow" multi="true">
-						<sci:value>100</sci:value>
-						<sci:value>Displays an enrichment plot for a binary classification model</sci:value>
-						<sci:value>Applies a learned model (or specified property) to a set of test data with known good and bad values. Internally, the data records are sorted by the learned model score from highest to lowest. The X-axis of the plot contains the fraction of records seen following the sort. The Y-axis contains the fraction of good records found in the sorted list up to that point. The plot lets you see how well the model assigns higher scores to known good records than to known bad records.
-&lt;p&gt;
-In addition to the enrichment plot for your model, plots for two hypothetical models are shown as limiting cases. For a &quot;perfect model,&quot; every good record appears in the sorted list before every bad record. For a &quot;random model,&quot; the fraction of good records seen is just the fraction of total records seen, meaning the random model makes no distinction at all between good and bad records.
-</sci:value>
-						<sci:value>Generic</sci:value>
-						<sci:value/>
-						<sci:value>Generic</sci:value>
-						<sci:value>A reporting element containing the plot if the &quot;Output Reporting Element&quot; option is selected</sci:value>
-						<sci:value>None</sci:value>
-						<sci:value>Records passing out of any unconnected fail ports of components inside the subprotocol</sci:value>
-					</sci:arg>
-					<sci:arg name="RegistrationVersion" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The server version when this component was registered</sci:help>
-						<sci:value>7.5.1.2</sci:value>
-					</sci:arg>
-					<sci:arg name="Component Sticky Notes" type="StringType" required="false" visibility="nevershow" multi="false"/>
-					<sci:arg name="Protocol Sticky Notes" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>Protocol Sticky Notes</sci:help>
-					</sci:arg>
-					<sci:arg name="Protocol Options" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>Protocol Options</sci:help>
-						<sci:legalval>Owner Access Only</sci:legalval>
-					</sci:arg>
-					<sci:arg name="ProcessingOrder" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>Processing Order</sci:help>
-						<sci:value>DrainTopDown</sci:value>
-					</sci:arg>
-					<sci:arg name="ProtocolScale2" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:help>Protocol Scale</sci:help>
-						<sci:value>100</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentLocalID" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:help>Local Component Identifier</sci:help>
-						<sci:value>20</sci:value>
-					</sci:arg>
-					<sci:arg name="SubProtocolMadeLinkIntoCopy" type="BoolType" required="false" visibility="nevershow" multi="false">
-						<sci:help>Subprotocol Made Link Into Copy</sci:help>
-						<sci:value>0</sci:value>
-					</sci:arg>
-					<sci:arg name="Component Path" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The original path within the database of this component.</sci:help>
-						<sci:value>Components\Analysis and Statistics\Data Modeling\Viewers\Enrichment Plot Viewer</sci:value>
-					</sci:arg>
-				</sci:component>
-				<sci:protocol/>
-			</sci:data>
-			<sci:data object="SciTegic.DelimitedReader.1">
-				<sci:component name="Delimited Text Reader" version="2">
-					<sci:arg name="Source" type="URLType" required="true" visibility="visible" multi="false" legalvalsenforced="false">
-						<sci:help>&lt;p&gt;
-The location from which to read the data. Can be a file, a network resource, a global property, or a data record property.
-&lt;/p&gt; 
-&lt;p&gt;
-&lt;ul&gt;
-&lt;li&gt;For a file, enter a path.&lt;/li&gt;
-&lt;li&gt;For a network resource, enter a network URL in the form &lt;b&gt;protocol://server:port/...&lt;/b&gt;. (If port is omitted, a default is used.) Protocols supported are:
-	&lt;ul&gt;
-	&lt;li&gt;http, https&lt;/li&gt;
-	&lt;li&gt;ftp&lt;/li&gt;
-	&lt;li&gt;hdfs (Hadoop Distributed File System)&lt;/li&gt;
-	&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;For a global property, enter &quot;global://property-name&quot;, or select &quot;Global Property...&quot; from the &quot;Initialize Using&quot; right-click menu.&lt;/li&gt;
-&lt;li&gt;For a data record property, enter &quot;property://property-name&quot;, or add an input port and select &quot;Data Property...&quot; from the &quot;Initialize Using&quot; right-click menu.&lt;/li&gt;
-&lt;li&gt;To read multiple files, enter a comma-separated list of any of the above.&lt;/i&gt;
-&lt;/ul&gt;</sci:help>
-						<sci:member>Maximum</sci:member>
-						<sci:member>Keep Properties</sci:member>
-						<sci:member>UTF-8 Auto Detect</sci:member>
-						<sci:member>SourceTag</sci:member>
-						<sci:member>HasColumnNames</sci:member>
-						<sci:member>Column Name Lines</sci:member>
-						<sci:member>Source Authentication Options</sci:member>
-						<sci:value>job:/testData.csv</sci:value>
-					</sci:arg>
-					<sci:arg name="Source Authentication Options" type="GroupType" required="false" visibility="hidden" multi="false" legalvalsenforced="false" uimpl="false">
-						<sci:help>For HTTP, HTTPS, and HDFS URLs, you may optionally specify authentication information for the URL in the following parameters</sci:help>
-						<sci:member>Source Authentication Options Username</sci:member>
-						<sci:member>Source Authentication Options Password</sci:member>
-						<sci:member>Source Authentication Options Authentication Method</sci:member>
-						<sci:member>Source Authentication Options KDC Server</sci:member>
-						<sci:member>Source Authentication Options KDC Realm</sci:member>
-						<sci:enabledscript>SetDisabledDetails(&apos;To enable, specify an HTTP or HDFS URL for Source&apos;);
-Parameter(&apos;Source&apos;) rlike &apos;^(https?|hdfs):&apos;;</sci:enabledscript>
-					</sci:arg>
-					<sci:arg name="Source Authentication Options Authentication Method" type="StringType" required="false" visibility="hidden" multi="false" uimpl="false">
-						<sci:help>Determines which method to use during authentication with an HTTP, HTTPS, or HDFS URL.
-
-&lt;ul&gt;
-&lt;li&gt;&lt;b&gt;Use Username and Password Parameters&lt;/b&gt;: Use the values provided by the parameter group&apos;s &lt;i&gt;Username&lt;/i&gt; and &lt;i&gt;Password&lt;/i&gt; parameters.
-&lt;li&gt;&lt;b&gt;Use Pipeline Pilot Credentials&lt;/b&gt;: Use the username and password that were provided when the user logged into Pipeline Pilot if available.  NOTE: if the &lt;i&gt;Username&lt;/i&gt; parameter is provided, its value will override the user&apos;s logged in username.
-&lt;/ul&gt;</sci:help>
-						<sci:legalval selected="true">Use Username and Password Parameters</sci:legalval>
-						<sci:legalval>Use Pipeline Pilot Credentials</sci:legalval>
-					</sci:arg>
-					<sci:arg name="Source Authentication Options Username" type="UserNameType" required="false" visibility="hidden" multi="false" legalvalsenforced="false" uimpl="false">
-						<sci:help>&lt;p&gt;
-The username used to connect to the supplied URL.
-&lt;/p&gt;
-&lt;p&gt;
-If the Authentication Method is set to &apos;Use Username and Password Parameters&apos;, then this parameter
-must be filled in to log into the remote server.
-&lt;/p&gt;
-&lt;p&gt; 
-If the Authentication Method is set to &apos;Use Pipeline Pilot Credentials&apos;, then this parameter can be left empty
-and the logged in username is used. As an override option, if the username is filled in, this
-username will be used along with the user&apos;s Pipeline Pilot password.
-&lt;/p&gt;
-</sci:help>
-					</sci:arg>
-					<sci:arg name="Source Authentication Options Password" type="xpass" encrypt="bf_1" required="false" visibility="hidden" multi="false" legalvalsenforced="false" uimpl="false">
-						<sci:help>The password used to authenticate to the URL.  This parameter is disabled if Authentication Method is not set to &apos;Use Username and Password Parameters&apos;.
-</sci:help>
-						<sci:enabledscript>SetDisabledDetails(&quot;To enable, set Authentication Method to &apos;Use Username and Password Parameters&apos;&quot;);
-Parameter(&apos;Authentication Method&apos;) eq &apos;Use Username and Password Parameters&apos;;</sci:enabledscript>
-					</sci:arg>
-					<sci:arg name="Source Authentication Options KDC Server" type="StringType" required="false" visibility="hidden" multi="false" uimpl="false">
-						<sci:help>For authentication to HDFS servers, KDC Server and Realm are also required</sci:help>
-						<sci:enabledscript>SetDisabledDetails(&apos;To enable, specify an HDFS URL for Source&apos;);
-Parameter(&apos;Source&apos;) rlike &apos;^hdfs:&apos;;</sci:enabledscript>
-					</sci:arg>
-					<sci:arg name="Source Authentication Options KDC Realm" type="StringType" required="false" visibility="hidden" multi="false" uimpl="false">
-						<sci:help>For authentication to HDFS servers, KDC Server and Realm are also required</sci:help>
-						<sci:enabledscript>SetDisabledDetails(&apos;To enable, specify an HDFS URL for Source&apos;);
-Parameter(&apos;Source&apos;) rlike &apos;^hdfs:&apos;;</sci:enabledscript>
-					</sci:arg>
-					<sci:arg name="Maximum" type="LongType" required="false" visibility="visible" multi="false">
-						<sci:help>The maximum number of data records to read. If empty, all records are read.</sci:help>
-					</sci:arg>
-					<sci:arg name="SourceTag" type="StringType" required="true" visibility="visible" multi="false">
-						<sci:help>Specifies a tag format for identifying the source of data records. Causes a property named &lt;b&gt;SourceTag&lt;/b&gt; to be created to hold the value. Options and their associated tag values are:
-&lt;ul&gt;
-&lt;li&gt;None: No &lt;b&gt;SourceTag&lt;/b&gt; property is created and any existing &lt;b&gt;SourceTag&lt;/b&gt; properties are removed.
-&lt;li&gt;Filename: The name of the file excluding its extension
-&lt;li&gt;FilenameAndExtension: The name of the file including its file extension
-&lt;li&gt;FullFilename: The name of the file, including its extension and directory path
-&lt;li&gt;ZipFilename: When reading a compressed zip file, the filename within the compressed archive
-&lt;li&gt;Number: When multiple files are read, a number (1, 2, 3...) corresponding to the order of the files in &lt;i&gt;Source&lt;/i&gt;
-&lt;li&gt;Letter: When multiple files are read , a letter (A, B, C...) corresponding to the order of the files in &lt;i&gt;Source&lt;/i&gt;
-&lt;li&gt;KeepCurrent: Keeps the current value of &lt;b&gt;SourceTag&lt;/b&gt; if present
-&lt;/ul&gt;</sci:help>
-						<sci:legalval selected="true">None</sci:legalval>
-						<sci:legalval>Filename</sci:legalval>
-						<sci:legalval>FilenameAndExtension</sci:legalval>
-						<sci:legalval>FullFilename</sci:legalval>
-						<sci:legalval>ZipFilename</sci:legalval>
-						<sci:legalval>Number</sci:legalval>
-						<sci:legalval>Letter</sci:legalval>
-						<sci:legalval>KeepCurrent</sci:legalval>
-					</sci:arg>
-					<sci:arg name="Keep Properties" type="PropertyPreviewType" required="false" visibility="visible" multi="false" legalvalsenforced="false">
-						<sci:help>Specifies properties from &lt;i&gt;Source&lt;/i&gt; to retain for each output data record. If not specified, all properties are retained. A value of &quot;-&quot; (minus sign) specifies that no properties are retained.</sci:help>
-					</sci:arg>
-					<sci:arg name="UTF-8 Auto Detect" type="BoolType" required="false" visibility="visible" multi="false" legalvalsenforced="false">
-						<sci:help>Specifies whether to attempt to infer the use of UTF-8 encoding in &lt;i&gt;Source&lt;/i&gt; files when a byte order mark (BOM) is absent from them.
-&lt;p&gt;
-&lt;b&gt;Note:&lt;/b&gt;
-&lt;ul&gt;
-&lt;li&gt;UTF-8 is a type of character encoding which represents international characters with multiple bytes, while basic Latin characters remain as a single byte.  If a file begins with a BOM, then the encoding can be inferred with confidence. If not, an indirect approach is necessary. This approach is not 100% reliable.  In some cases, valid text stored in different character encodings can appear to be valid UTF-8.  In these cases, the automatic detection will result in garbled text.  When this occurs, consider using the &lt;a href=&quot;javascript:DoLink(&apos;{B0B1B56C-3DF6-444C-BB78-B43211188F63}&apos;)&quot;&gt;Binary Reader&lt;/a&gt; to read the raw bytes from the file, then convert the data using the Pilotscript function &lt;b&gt;ConvertBytesToString&lt;/b&gt;, which allows you to specify the encoding.
-&lt;/ul&gt;
-
-</sci:help>
-						<sci:legalval>True</sci:legalval>
-						<sci:legalval selected="true">False</sci:legalval>
-					</sci:arg>
-					<sci:arg name="HasColumnNames" type="BoolType" required="true" visibility="visible" multi="false" legalvalsenforced="false">
-						<sci:help>If True, property names are taken from the first line of data in &lt;i&gt;Source&lt;/i&gt; files. If False, the first line is assumed to contain data, and properties are given names &lt;b&gt;Column1&lt;/b&gt;, &lt;b&gt;Column2&lt;/b&gt;, etc.</sci:help>
-						<sci:legalval selected="true">True</sci:legalval>
-						<sci:legalval>False</sci:legalval>
-					</sci:arg>
-					<sci:arg name="Column Name Lines" type="StringType" required="false" visibility="visible" multi="false">
-						<sci:help>If the column name is part of the file, you can specify which line (or lines) are used to construct the property name. So &quot;4&quot; would declare the fourth line to contain the column names, and &quot;4-5&quot; means the values from both lines 4 and 5 will be used to construct the column names.
-
-If not provided, the first non-comment line becomes the column name line.
-
-Any other lines less than the largest column name line are considered comment lines and are ignored.</sci:help>
-						<sci:enabledscript>parameter(&apos;HasColumnNames&apos;)</sci:enabledscript>
-					</sci:arg>
-					<sci:arg name="Delimiter" type="StringType" required="true" visibility="visible" multi="false" expanded="true">
-						<sci:help>Specifies the character that separates fields. Options include:
-&lt;ul&gt;
-&lt;li&gt;&lt;b&gt;FigureOut:&lt;/b&gt; Determines the type automatically (looks for, in order: tab, comma, space, colon, semicolon).&lt;/li&gt;
-&lt;li&gt;&lt;b&gt;Tab:&lt;/b&gt; For tab-delimited fields.&lt;/li&gt;
-&lt;li&gt;&lt;b&gt;Space:&lt;/b&gt; For space-delimited fields.&lt;/li&gt;
-&lt;li&gt;&lt;b&gt;Comma:&lt;/b&gt; For comma-delimited fields.&lt;/li&gt;
-&lt;li&gt;&lt;b&gt;Colon:&lt;/b&gt; For colon-delimited fields.&lt;/li&gt;
-&lt;li&gt;&lt;b&gt;Semicolon:&lt;/b&gt; For semicolon-delimited fields.&lt;/li&gt;
-&lt;li&gt;&lt;b&gt;$:&lt;/b&gt; For fields delimited bty the &quot;$&quot; character.&lt;/li&gt;
-&lt;/ul&gt;
-</sci:help>
-						<sci:member>MultipleValueDelimiter</sci:member>
-						<sci:member>ParseNDimensionalArrayStrings</sci:member>
-						<sci:legalval selected="true">FigureOut</sci:legalval>
-						<sci:legalval>Tab</sci:legalval>
-						<sci:legalval>Space</sci:legalval>
-						<sci:legalval>Comma</sci:legalval>
-						<sci:legalval>Colon</sci:legalval>
-						<sci:legalval>Semicolon</sci:legalval>
-						<sci:legalval>$</sci:legalval>
-					</sci:arg>
-					<sci:arg name="MultipleValueDelimiter" type="StringType" required="true" visibility="visible" multi="false">
-						<sci:help>The delimiter to use between multiple values contained in a single property. If the multiple value delimiter exists in any of the input strings in any property, they are separated into an array of values. If &quot;None&quot;, 
-values are never separated into multiple values.</sci:help>
-						<sci:legalval selected="true">None</sci:legalval>
-						<sci:legalval>Semicolon</sci:legalval>
-						<sci:legalval>Colon</sci:legalval>
-						<sci:legalval>Comma</sci:legalval>
-						<sci:legalval>Linefeed</sci:legalval>
-					</sci:arg>
-					<sci:arg name="ParseNDimensionalArrayStrings" type="BoolType" required="false" visibility="visible" multi="false">
-						<sci:help>Toggles whether to parse delimited N-Dimensional Array strings into N-Dimensional Array values.</sci:help>
-						<sci:legalval selected="true">True</sci:legalval>
-						<sci:legalval>False</sci:legalval>
-					</sci:arg>
-					<sci:arg name="Additional Options" type="GroupType" required="false" visibility="visible" multi="false">
-						<sci:help>Contains less commonly used parameters</sci:help>
-						<sci:member>UndefinedString</sci:member>
-						<sci:member>AllLines</sci:member>
-						<sci:member>TrimWhitespace</sci:member>
-						<sci:member>CheckSyntax</sci:member>
-						<sci:member>CommentLines</sci:member>
-						<sci:member>AddEmptyProperties</sci:member>
-					</sci:arg>
-					<sci:arg name="CommentLines" type="StringType" required="false" visibility="visible" multi="false">
-						<sci:help>A comma-separated list of line numbers and
-line ranges to specify which lines should be 
-ignored by the parser (column headers are read from the line that comes next).</sci:help>
-					</sci:arg>
-					<sci:arg name="UndefinedString" type="StringType" required="false" visibility="visible" multi="false">
-						<sci:help>Character or string to represent an undefined string read in the file. To make an empty string to be treated as an undefined value, set the parameter value to &quot;EmptyString&quot;.</sci:help>
-					</sci:arg>
-					<sci:arg name="AllLines" type="BoolType" required="true" visibility="visible" multi="false">
-						<sci:help>If True, all lines of the text file become part of a single data record. The values for a column from each row become multiple [array] values for the property (column).</sci:help>
-						<sci:legalval>True</sci:legalval>
-						<sci:legalval selected="true">False</sci:legalval>
-					</sci:arg>
-					<sci:arg name="TrimWhitespace" type="BoolType" required="true" visibility="visible" multi="false">
-						<sci:help>Trims whitespace from the left and right ends of each value</sci:help>
-						<sci:legalval selected="true">True</sci:legalval>
-						<sci:legalval>False</sci:legalval>
-					</sci:arg>
-					<sci:arg name="CheckSyntax" type="BoolType" required="true" visibility="visible" multi="false">
-						<sci:help>Whether to perform a quick syntax check at the beginning of the file when it is opened, and if a problem is found, throw an error.</sci:help>
-						<sci:legalval selected="true">True</sci:legalval>
-						<sci:legalval>False</sci:legalval>
-					</sci:arg>
-					<sci:arg name="AddEmptyProperties" type="BoolType" required="true" visibility="visible" multi="false">
-						<sci:help>If True, then if a row does not have as many values as the number of columns, the missing properties are added to the data record as empty properties</sci:help>
-						<sci:legalval>True</sci:legalval>
-						<sci:legalval selected="true">False</sci:legalval>
-					</sci:arg>
-					<sci:arg name="Join Behavior" type="StringType" required="false" visibility="hidden" multi="false" uimpl="false">
-						<sci:help>&lt;p&gt;How to merge the created data record onto the incoming data record. Options are:&lt;/p&gt;
- 
-&lt;ul&gt;
-&lt;li&gt;&lt;i&gt;OverwriteOrCreate&lt;/i&gt;: Copies all properties from the joining data onto the base data, overwriting the values of any properties that already exist.
-&lt;li&gt;&lt;i&gt;OverwriteExisting&lt;/i&gt;: Copies only those properties from the joining data to the base data that already exist on the base.
-&lt;li&gt;&lt;i&gt;CreateIfNew&lt;/i&gt;: Copies only those properties from the joining data to the base data that do not already exist on the base data.
-&lt;li&gt;&lt;i&gt;AppendOrCreate&lt;/i&gt;: The value of a joining property that already exists in the base data is appended  (as an array) to the value in the base property.  The other joining properties that are not already present in the base data are copied there.
-&lt;li&gt;&lt;i&gt;AppendExisting&lt;/i&gt;: The value of a joining property that already exists in the base data is appended  (as an array) to the value in the base property.  No other properties are copied. 
-&lt;li&gt;&lt;i&gt;Replace&lt;/i&gt;: The input data record is replaced by the created data record. &lt;/ul&gt;
-
-</sci:help>
-						<sci:legalval>OverwriteOrCreate</sci:legalval>
-						<sci:legalval>OverwriteExisting</sci:legalval>
-						<sci:legalval>CreateIfNew</sci:legalval>
-						<sci:legalval>AppendOrCreate</sci:legalval>
-						<sci:legalval>AppendExisting</sci:legalval>
-						<sci:legalval selected="true">Replace</sci:legalval>
-					</sci:arg>
-					<sci:arg name="ComponentAttributes" type="StringType" required="false" visibility="hidden" multi="true">
-						<sci:help>Component Attributes</sci:help>
-						<sci:legalval>ComponentTakesInput</sci:legalval>
-						<sci:legalval selected="true">ComponentReturnsPass</sci:legalval>
-						<sci:legalval>ComponentReturnsFail</sci:legalval>
-						<sci:legalval>ComponentRunsLocal</sci:legalval>
-					</sci:arg>
-					<sci:arg name="OnDataTypeError" type="StringType" required="true" visibility="hidden" multi="false">
-						<sci:legalval selected="true">Halt</sci:legalval>
-						<sci:legalval>Fail</sci:legalval>
-						<sci:legalval>Pass</sci:legalval>
-					</sci:arg>
-					<sci:arg name="OnGeneralError" type="StringType" required="true" visibility="hidden" multi="false">
-						<sci:legalval selected="true">Halt</sci:legalval>
-						<sci:legalval>Fail</sci:legalval>
-						<sci:legalval>Pass</sci:legalval>
-					</sci:arg>
-					<sci:arg name="CustomErrorText" type="StringType" required="false" visibility="nevershow" multi="false"/>
-					<sci:arg name="Registrant" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The user who registered this component.</sci:help>
-						<sci:value>scitegic/generic</sci:value>
-					</sci:arg>
-					<sci:arg name="RegistrationDate" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The date this component was registered.</sci:help>
-						<sci:value>Mon Jul 16 10:52:03 2018</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentDisplayName" type="StringType" required="false" visibility="nevershow" multi="false"/>
-					<sci:arg name="ComponentAutoDisplayName" type="ExpressionType" required="false" visibility="nevershow" multi="false">
-						<sci:help>Automatically update the component display name when the &quot;Source&quot; property is changed. This feature is turned off after the user manually changes the display name of the component in Protocol workspace.</sci:help>
-						<sci:value>
-#displayNames := Parameter(&apos;Source&apos;, 2);
-if (#displayNames ne &apos;&apos;) then
-  Expand(&apos;,&apos;, #displayNames);
-end if;
-#displayName := Trim(#displayNames[1]);
-#dots := &apos;&apos;;
-if (NumValues(#displayNames) &gt; 1) then
-	#dots := &apos;...&apos;;
-end if;
-if(StrLength(#displayName) &gt; 0) then	
-	/* Find the last slash or backslash, extract the end */
-	#name := #displayName;
-	#ls1 := FindLastSubstring(#name, &apos;/&apos;);
-	#ls2 := FindLastSubstring(#name, &apos;\&apos;);
-	if (#ls1 &gt; #ls2) then
-		#name := Substring(#name, #ls1+1);
-	elsif (#ls2 &gt; #ls1) then
-		#name := Substring(#name, #ls2+1);
-	end if;
-
-	if (#name eq &apos;&apos;) then
-		&apos;&apos;;
-	elsif (Substring(#displayName, 1, 9) eq &apos;global://&apos;) then
-		&apos;Read from @&apos; . #name . #dots;
-	elsif (Substring(#displayName, 1, 11) eq &apos;property://&apos;) then
-		&apos;Read from property &apos; . #name . #dots;
-	else
-		&apos;Read &apos; . #name . #dots;
-	end if;
-else
-	&apos;&apos;;
-end if;
-			</sci:value>
-					</sci:arg>
-					<sci:arg name="DerivedFrom" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The component that this component is based upon.</sci:help>
-						<sci:value>Delimited Reader</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentIcon" type="StringType" required="true" visibility="nevershow" multi="false">
-						<sci:value>DOCUMENTNODE</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentDisabled" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:value>0</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentGUID" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>{7D2AF7C7-A077-4201-B10B-8E8283A5EADD}</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>90 -2436</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentHelp" type="StringType" required="false" visibility="nevershow" multi="true">
-						<sci:value>100</sci:value>
-						<sci:value>Reads data from text files containing one record per line with data separated by delimiters</sci:value>
-						<sci:value>&lt;p&gt;The file or files are specified by &lt;i&gt;Source&lt;/i&gt;. The file(s) should contain textual data formatted with a single record per line. Individual property values on each line should be separated by a delimiter character (such as, space, comma, tab), as specified by &lt;i&gt;Delimiter&lt;/i&gt;.&lt;/p&gt;
-
-&lt;p&gt;If &lt;i&gt;HasColumnNames&lt;/i&gt; is True, the values on the first line of the file are treated as the property names. Otherwise, &lt;b&gt;Column1&lt;/b&gt;, &lt;b&gt;Column2&lt;/b&gt;, and so on, are used as the property names.&lt;/p&gt;
-
-Cells containing array data can be read by setting the &lt;i&gt;MultipleValueDelimiter&lt;/i&gt; option to the character that separates the array elements. (Of course, this cannot be the same as the delimiter character.) You can now use the &lt;i&gt;Unmerge Data&lt;/i&gt; component to unmerge these arrays into separate records.
-&lt;b&gt;See Also:&lt;/b&gt;
-&lt;ul&gt;
-&lt;li&gt;The new, recommended component for Excel (.xlsx or .xls) files that does not require Excel to be installed on the server machine, and therefore is operational on Linux and Windows platforms - &lt;a href=&quot;javascript:DoLink(&apos;{14D98B18-C990-432C-834B-7026565E5ABF}&apos;)&quot;&gt;Excel Reader&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;For non-delimited textual data, use &lt;a href=&quot;javascript:DoLink(&apos;{8056E8AD-33EA-42BB-9099-EAB24C3D08E6}&apos;)&quot;&gt;Text Reader&lt;/a&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
-</sci:value>
-						<sci:value>None</sci:value>
-						<sci:value/>
-						<sci:value>Generic</sci:value>
-						<sci:value/>
-						<sci:value>None</sci:value>
-						<sci:value/>
-					</sci:arg>
-					<sci:arg name="Component Sticky Notes" type="StringType" required="false" visibility="nevershow" multi="false"/>
-					<sci:arg name="RegistrationVersion" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The server version when this component was registered</sci:help>
-						<sci:value>19.1.0.1864</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentLocalID" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:help>Local Component Identifier</sci:help>
-						<sci:value>23</sci:value>
-					</sci:arg>
-					<sci:arg name="Component Path" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The original path within the database of this component.</sci:help>
-						<sci:value>Components\Data Access and Manipulation\File Readers\Delimited Text Reader</sci:value>
-					</sci:arg>
-				</sci:component>
-			</sci:data>
-			<sci:data object="SciTegic.Protocol.1">
 				<sci:component name="Generate ROC Data" version="2">
 					<sci:arg name="ScoreProperty" type="StringType" required="true" visibility="visible" multi="false">
 						<sci:help>Property used to score the samples. Calculable properties are acceptable.</sci:help>
@@ -6260,7 +5782,7 @@ and so are accessible from all protocols.</sci:help>
 						<sci:value>{28FFD793-2574-4E7F-836D-4C75F65AA09A}</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>765 -2436</sci:value>
+						<sci:value>765 -2076</sci:value>
 					</sci:arg>
 					<sci:arg name="ByReference" type="BoolType" required="false" visibility="nevershow" multi="false">
 						<sci:help>By Ref</sci:help>
@@ -6618,7 +6140,7 @@ end if;
 						<sci:value>{9B0081A4-6085-4FF0-BD12-AEB8B7BD9CB5}</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>1065 -2436</sci:value>
+						<sci:value>1065 -2076</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentHelp" type="StringType" required="false" visibility="nevershow" multi="true">
 						<sci:value>100</sci:value>
@@ -6652,6 +6174,480 @@ end if;
 						<sci:value>Components\Data Access and Manipulation\File Writers\Delimited Text Writer</sci:value>
 					</sci:arg>
 				</sci:component>
+			</sci:data>
+			<sci:data object="SciTegic.DelimitedReader.1">
+				<sci:component name="Delimited Text Reader" version="2">
+					<sci:arg name="Source" type="URLType" required="true" visibility="visible" multi="false" legalvalsenforced="false">
+						<sci:help>&lt;p&gt;
+The location from which to read the data. Can be a file, a network resource, a global property, or a data record property.
+&lt;/p&gt; 
+&lt;p&gt;
+&lt;ul&gt;
+&lt;li&gt;For a file, enter a path.&lt;/li&gt;
+&lt;li&gt;For a network resource, enter a network URL in the form &lt;b&gt;protocol://server:port/...&lt;/b&gt;. (If port is omitted, a default is used.) Protocols supported are:
+	&lt;ul&gt;
+	&lt;li&gt;http, https&lt;/li&gt;
+	&lt;li&gt;ftp&lt;/li&gt;
+	&lt;li&gt;hdfs (Hadoop Distributed File System)&lt;/li&gt;
+	&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;For a global property, enter &quot;global://property-name&quot;, or select &quot;Global Property...&quot; from the &quot;Initialize Using&quot; right-click menu.&lt;/li&gt;
+&lt;li&gt;For a data record property, enter &quot;property://property-name&quot;, or add an input port and select &quot;Data Property...&quot; from the &quot;Initialize Using&quot; right-click menu.&lt;/li&gt;
+&lt;li&gt;To read multiple files, enter a comma-separated list of any of the above.&lt;/i&gt;
+&lt;/ul&gt;</sci:help>
+						<sci:member>Maximum</sci:member>
+						<sci:member>Keep Properties</sci:member>
+						<sci:member>UTF-8 Auto Detect</sci:member>
+						<sci:member>SourceTag</sci:member>
+						<sci:member>HasColumnNames</sci:member>
+						<sci:member>Column Name Lines</sci:member>
+						<sci:member>Source Authentication Options</sci:member>
+						<sci:value>job:/testData.csv</sci:value>
+					</sci:arg>
+					<sci:arg name="Source Authentication Options" type="GroupType" required="false" visibility="hidden" multi="false" legalvalsenforced="false" uimpl="false">
+						<sci:help>For HTTP, HTTPS, and HDFS URLs, you may optionally specify authentication information for the URL in the following parameters</sci:help>
+						<sci:member>Source Authentication Options Username</sci:member>
+						<sci:member>Source Authentication Options Password</sci:member>
+						<sci:member>Source Authentication Options Authentication Method</sci:member>
+						<sci:member>Source Authentication Options KDC Server</sci:member>
+						<sci:member>Source Authentication Options KDC Realm</sci:member>
+						<sci:enabledscript>SetDisabledDetails(&apos;To enable, specify an HTTP or HDFS URL for Source&apos;);
+Parameter(&apos;Source&apos;) rlike &apos;^(https?|hdfs):&apos;;</sci:enabledscript>
+					</sci:arg>
+					<sci:arg name="Source Authentication Options Authentication Method" type="StringType" required="false" visibility="hidden" multi="false" uimpl="false">
+						<sci:help>Determines which method to use during authentication with an HTTP, HTTPS, or HDFS URL.
+
+&lt;ul&gt;
+&lt;li&gt;&lt;b&gt;Use Username and Password Parameters&lt;/b&gt;: Use the values provided by the parameter group&apos;s &lt;i&gt;Username&lt;/i&gt; and &lt;i&gt;Password&lt;/i&gt; parameters.
+&lt;li&gt;&lt;b&gt;Use Pipeline Pilot Credentials&lt;/b&gt;: Use the username and password that were provided when the user logged into Pipeline Pilot if available.  NOTE: if the &lt;i&gt;Username&lt;/i&gt; parameter is provided, its value will override the user&apos;s logged in username.
+&lt;/ul&gt;</sci:help>
+						<sci:legalval selected="true">Use Username and Password Parameters</sci:legalval>
+						<sci:legalval>Use Pipeline Pilot Credentials</sci:legalval>
+					</sci:arg>
+					<sci:arg name="Source Authentication Options Username" type="UserNameType" required="false" visibility="hidden" multi="false" legalvalsenforced="false" uimpl="false">
+						<sci:help>&lt;p&gt;
+The username used to connect to the supplied URL.
+&lt;/p&gt;
+&lt;p&gt;
+If the Authentication Method is set to &apos;Use Username and Password Parameters&apos;, then this parameter
+must be filled in to log into the remote server.
+&lt;/p&gt;
+&lt;p&gt; 
+If the Authentication Method is set to &apos;Use Pipeline Pilot Credentials&apos;, then this parameter can be left empty
+and the logged in username is used. As an override option, if the username is filled in, this
+username will be used along with the user&apos;s Pipeline Pilot password.
+&lt;/p&gt;
+</sci:help>
+					</sci:arg>
+					<sci:arg name="Source Authentication Options Password" type="xpass" encrypt="bf_1" required="false" visibility="hidden" multi="false" legalvalsenforced="false" uimpl="false">
+						<sci:help>The password used to authenticate to the URL.  This parameter is disabled if Authentication Method is not set to &apos;Use Username and Password Parameters&apos;.
+</sci:help>
+						<sci:enabledscript>SetDisabledDetails(&quot;To enable, set Authentication Method to &apos;Use Username and Password Parameters&apos;&quot;);
+Parameter(&apos;Authentication Method&apos;) eq &apos;Use Username and Password Parameters&apos;;</sci:enabledscript>
+					</sci:arg>
+					<sci:arg name="Source Authentication Options KDC Server" type="StringType" required="false" visibility="hidden" multi="false" uimpl="false">
+						<sci:help>For authentication to HDFS servers, KDC Server and Realm are also required</sci:help>
+						<sci:enabledscript>SetDisabledDetails(&apos;To enable, specify an HDFS URL for Source&apos;);
+Parameter(&apos;Source&apos;) rlike &apos;^hdfs:&apos;;</sci:enabledscript>
+					</sci:arg>
+					<sci:arg name="Source Authentication Options KDC Realm" type="StringType" required="false" visibility="hidden" multi="false" uimpl="false">
+						<sci:help>For authentication to HDFS servers, KDC Server and Realm are also required</sci:help>
+						<sci:enabledscript>SetDisabledDetails(&apos;To enable, specify an HDFS URL for Source&apos;);
+Parameter(&apos;Source&apos;) rlike &apos;^hdfs:&apos;;</sci:enabledscript>
+					</sci:arg>
+					<sci:arg name="Maximum" type="LongType" required="false" visibility="visible" multi="false">
+						<sci:help>The maximum number of data records to read. If empty, all records are read.</sci:help>
+					</sci:arg>
+					<sci:arg name="SourceTag" type="StringType" required="true" visibility="visible" multi="false">
+						<sci:help>Specifies a tag format for identifying the source of data records. Causes a property named &lt;b&gt;SourceTag&lt;/b&gt; to be created to hold the value. Options and their associated tag values are:
+&lt;ul&gt;
+&lt;li&gt;None: No &lt;b&gt;SourceTag&lt;/b&gt; property is created and any existing &lt;b&gt;SourceTag&lt;/b&gt; properties are removed.
+&lt;li&gt;Filename: The name of the file excluding its extension
+&lt;li&gt;FilenameAndExtension: The name of the file including its file extension
+&lt;li&gt;FullFilename: The name of the file, including its extension and directory path
+&lt;li&gt;ZipFilename: When reading a compressed zip file, the filename within the compressed archive
+&lt;li&gt;Number: When multiple files are read, a number (1, 2, 3...) corresponding to the order of the files in &lt;i&gt;Source&lt;/i&gt;
+&lt;li&gt;Letter: When multiple files are read , a letter (A, B, C...) corresponding to the order of the files in &lt;i&gt;Source&lt;/i&gt;
+&lt;li&gt;KeepCurrent: Keeps the current value of &lt;b&gt;SourceTag&lt;/b&gt; if present
+&lt;/ul&gt;</sci:help>
+						<sci:legalval selected="true">None</sci:legalval>
+						<sci:legalval>Filename</sci:legalval>
+						<sci:legalval>FilenameAndExtension</sci:legalval>
+						<sci:legalval>FullFilename</sci:legalval>
+						<sci:legalval>ZipFilename</sci:legalval>
+						<sci:legalval>Number</sci:legalval>
+						<sci:legalval>Letter</sci:legalval>
+						<sci:legalval>KeepCurrent</sci:legalval>
+					</sci:arg>
+					<sci:arg name="Keep Properties" type="PropertyPreviewType" required="false" visibility="visible" multi="false" legalvalsenforced="false">
+						<sci:help>Specifies properties from &lt;i&gt;Source&lt;/i&gt; to retain for each output data record. If not specified, all properties are retained. A value of &quot;-&quot; (minus sign) specifies that no properties are retained.</sci:help>
+					</sci:arg>
+					<sci:arg name="UTF-8 Auto Detect" type="BoolType" required="false" visibility="visible" multi="false" legalvalsenforced="false">
+						<sci:help>Specifies whether to attempt to infer the use of UTF-8 encoding in &lt;i&gt;Source&lt;/i&gt; files when a byte order mark (BOM) is absent from them.
+&lt;p&gt;
+&lt;b&gt;Note:&lt;/b&gt;
+&lt;ul&gt;
+&lt;li&gt;UTF-8 is a type of character encoding which represents international characters with multiple bytes, while basic Latin characters remain as a single byte.  If a file begins with a BOM, then the encoding can be inferred with confidence. If not, an indirect approach is necessary. This approach is not 100% reliable.  In some cases, valid text stored in different character encodings can appear to be valid UTF-8.  In these cases, the automatic detection will result in garbled text.  When this occurs, consider using the &lt;a href=&quot;javascript:DoLink(&apos;{B0B1B56C-3DF6-444C-BB78-B43211188F63}&apos;)&quot;&gt;Binary Reader&lt;/a&gt; to read the raw bytes from the file, then convert the data using the Pilotscript function &lt;b&gt;ConvertBytesToString&lt;/b&gt;, which allows you to specify the encoding.
+&lt;/ul&gt;
+
+</sci:help>
+						<sci:legalval>True</sci:legalval>
+						<sci:legalval selected="true">False</sci:legalval>
+					</sci:arg>
+					<sci:arg name="HasColumnNames" type="BoolType" required="true" visibility="visible" multi="false" legalvalsenforced="false">
+						<sci:help>If True, property names are taken from the first line of data in &lt;i&gt;Source&lt;/i&gt; files. If False, the first line is assumed to contain data, and properties are given names &lt;b&gt;Column1&lt;/b&gt;, &lt;b&gt;Column2&lt;/b&gt;, etc.</sci:help>
+						<sci:legalval selected="true">True</sci:legalval>
+						<sci:legalval>False</sci:legalval>
+					</sci:arg>
+					<sci:arg name="Column Name Lines" type="StringType" required="false" visibility="visible" multi="false">
+						<sci:help>If the column name is part of the file, you can specify which line (or lines) are used to construct the property name. So &quot;4&quot; would declare the fourth line to contain the column names, and &quot;4-5&quot; means the values from both lines 4 and 5 will be used to construct the column names.
+
+If not provided, the first non-comment line becomes the column name line.
+
+Any other lines less than the largest column name line are considered comment lines and are ignored.</sci:help>
+						<sci:enabledscript>parameter(&apos;HasColumnNames&apos;)</sci:enabledscript>
+					</sci:arg>
+					<sci:arg name="Delimiter" type="StringType" required="true" visibility="visible" multi="false" expanded="true">
+						<sci:help>Specifies the character that separates fields. Options include:
+&lt;ul&gt;
+&lt;li&gt;&lt;b&gt;FigureOut:&lt;/b&gt; Determines the type automatically (looks for, in order: tab, comma, space, colon, semicolon).&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Tab:&lt;/b&gt; For tab-delimited fields.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Space:&lt;/b&gt; For space-delimited fields.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Comma:&lt;/b&gt; For comma-delimited fields.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Colon:&lt;/b&gt; For colon-delimited fields.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Semicolon:&lt;/b&gt; For semicolon-delimited fields.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;$:&lt;/b&gt; For fields delimited bty the &quot;$&quot; character.&lt;/li&gt;
+&lt;/ul&gt;
+</sci:help>
+						<sci:member>MultipleValueDelimiter</sci:member>
+						<sci:member>ParseNDimensionalArrayStrings</sci:member>
+						<sci:legalval selected="true">FigureOut</sci:legalval>
+						<sci:legalval>Tab</sci:legalval>
+						<sci:legalval>Space</sci:legalval>
+						<sci:legalval>Comma</sci:legalval>
+						<sci:legalval>Colon</sci:legalval>
+						<sci:legalval>Semicolon</sci:legalval>
+						<sci:legalval>$</sci:legalval>
+					</sci:arg>
+					<sci:arg name="MultipleValueDelimiter" type="StringType" required="true" visibility="visible" multi="false">
+						<sci:help>The delimiter to use between multiple values contained in a single property. If the multiple value delimiter exists in any of the input strings in any property, they are separated into an array of values. If &quot;None&quot;, 
+values are never separated into multiple values.</sci:help>
+						<sci:legalval selected="true">None</sci:legalval>
+						<sci:legalval>Semicolon</sci:legalval>
+						<sci:legalval>Colon</sci:legalval>
+						<sci:legalval>Comma</sci:legalval>
+						<sci:legalval>Linefeed</sci:legalval>
+					</sci:arg>
+					<sci:arg name="ParseNDimensionalArrayStrings" type="BoolType" required="false" visibility="visible" multi="false">
+						<sci:help>Toggles whether to parse delimited N-Dimensional Array strings into N-Dimensional Array values.</sci:help>
+						<sci:legalval selected="true">True</sci:legalval>
+						<sci:legalval>False</sci:legalval>
+					</sci:arg>
+					<sci:arg name="Additional Options" type="GroupType" required="false" visibility="visible" multi="false">
+						<sci:help>Contains less commonly used parameters</sci:help>
+						<sci:member>UndefinedString</sci:member>
+						<sci:member>AllLines</sci:member>
+						<sci:member>TrimWhitespace</sci:member>
+						<sci:member>CheckSyntax</sci:member>
+						<sci:member>CommentLines</sci:member>
+						<sci:member>AddEmptyProperties</sci:member>
+					</sci:arg>
+					<sci:arg name="CommentLines" type="StringType" required="false" visibility="visible" multi="false">
+						<sci:help>A comma-separated list of line numbers and
+line ranges to specify which lines should be 
+ignored by the parser (column headers are read from the line that comes next).</sci:help>
+					</sci:arg>
+					<sci:arg name="UndefinedString" type="StringType" required="false" visibility="visible" multi="false">
+						<sci:help>Character or string to represent an undefined string read in the file. To make an empty string to be treated as an undefined value, set the parameter value to &quot;EmptyString&quot;.</sci:help>
+					</sci:arg>
+					<sci:arg name="AllLines" type="BoolType" required="true" visibility="visible" multi="false">
+						<sci:help>If True, all lines of the text file become part of a single data record. The values for a column from each row become multiple [array] values for the property (column).</sci:help>
+						<sci:legalval>True</sci:legalval>
+						<sci:legalval selected="true">False</sci:legalval>
+					</sci:arg>
+					<sci:arg name="TrimWhitespace" type="BoolType" required="true" visibility="visible" multi="false">
+						<sci:help>Trims whitespace from the left and right ends of each value</sci:help>
+						<sci:legalval selected="true">True</sci:legalval>
+						<sci:legalval>False</sci:legalval>
+					</sci:arg>
+					<sci:arg name="CheckSyntax" type="BoolType" required="true" visibility="visible" multi="false">
+						<sci:help>Whether to perform a quick syntax check at the beginning of the file when it is opened, and if a problem is found, throw an error.</sci:help>
+						<sci:legalval selected="true">True</sci:legalval>
+						<sci:legalval>False</sci:legalval>
+					</sci:arg>
+					<sci:arg name="AddEmptyProperties" type="BoolType" required="true" visibility="visible" multi="false">
+						<sci:help>If True, then if a row does not have as many values as the number of columns, the missing properties are added to the data record as empty properties</sci:help>
+						<sci:legalval>True</sci:legalval>
+						<sci:legalval selected="true">False</sci:legalval>
+					</sci:arg>
+					<sci:arg name="Join Behavior" type="StringType" required="false" visibility="hidden" multi="false" uimpl="false">
+						<sci:help>&lt;p&gt;How to merge the created data record onto the incoming data record. Options are:&lt;/p&gt;
+ 
+&lt;ul&gt;
+&lt;li&gt;&lt;i&gt;OverwriteOrCreate&lt;/i&gt;: Copies all properties from the joining data onto the base data, overwriting the values of any properties that already exist.
+&lt;li&gt;&lt;i&gt;OverwriteExisting&lt;/i&gt;: Copies only those properties from the joining data to the base data that already exist on the base.
+&lt;li&gt;&lt;i&gt;CreateIfNew&lt;/i&gt;: Copies only those properties from the joining data to the base data that do not already exist on the base data.
+&lt;li&gt;&lt;i&gt;AppendOrCreate&lt;/i&gt;: The value of a joining property that already exists in the base data is appended  (as an array) to the value in the base property.  The other joining properties that are not already present in the base data are copied there.
+&lt;li&gt;&lt;i&gt;AppendExisting&lt;/i&gt;: The value of a joining property that already exists in the base data is appended  (as an array) to the value in the base property.  No other properties are copied. 
+&lt;li&gt;&lt;i&gt;Replace&lt;/i&gt;: The input data record is replaced by the created data record. &lt;/ul&gt;
+
+</sci:help>
+						<sci:legalval>OverwriteOrCreate</sci:legalval>
+						<sci:legalval>OverwriteExisting</sci:legalval>
+						<sci:legalval>CreateIfNew</sci:legalval>
+						<sci:legalval>AppendOrCreate</sci:legalval>
+						<sci:legalval>AppendExisting</sci:legalval>
+						<sci:legalval selected="true">Replace</sci:legalval>
+					</sci:arg>
+					<sci:arg name="ComponentAttributes" type="StringType" required="false" visibility="hidden" multi="true">
+						<sci:help>Component Attributes</sci:help>
+						<sci:legalval>ComponentTakesInput</sci:legalval>
+						<sci:legalval selected="true">ComponentReturnsPass</sci:legalval>
+						<sci:legalval>ComponentReturnsFail</sci:legalval>
+						<sci:legalval>ComponentRunsLocal</sci:legalval>
+					</sci:arg>
+					<sci:arg name="OnDataTypeError" type="StringType" required="true" visibility="hidden" multi="false">
+						<sci:legalval selected="true">Halt</sci:legalval>
+						<sci:legalval>Fail</sci:legalval>
+						<sci:legalval>Pass</sci:legalval>
+					</sci:arg>
+					<sci:arg name="OnGeneralError" type="StringType" required="true" visibility="hidden" multi="false">
+						<sci:legalval selected="true">Halt</sci:legalval>
+						<sci:legalval>Fail</sci:legalval>
+						<sci:legalval>Pass</sci:legalval>
+					</sci:arg>
+					<sci:arg name="CustomErrorText" type="StringType" required="false" visibility="nevershow" multi="false"/>
+					<sci:arg name="Registrant" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The user who registered this component.</sci:help>
+						<sci:value>scitegic/generic</sci:value>
+					</sci:arg>
+					<sci:arg name="RegistrationDate" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The date this component was registered.</sci:help>
+						<sci:value>Mon Jul 16 10:52:03 2018</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentDisplayName" type="StringType" required="false" visibility="nevershow" multi="false"/>
+					<sci:arg name="ComponentAutoDisplayName" type="ExpressionType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Automatically update the component display name when the &quot;Source&quot; property is changed. This feature is turned off after the user manually changes the display name of the component in Protocol workspace.</sci:help>
+						<sci:value>
+#displayNames := Parameter(&apos;Source&apos;, 2);
+if (#displayNames ne &apos;&apos;) then
+  Expand(&apos;,&apos;, #displayNames);
+end if;
+#displayName := Trim(#displayNames[1]);
+#dots := &apos;&apos;;
+if (NumValues(#displayNames) &gt; 1) then
+	#dots := &apos;...&apos;;
+end if;
+if(StrLength(#displayName) &gt; 0) then	
+	/* Find the last slash or backslash, extract the end */
+	#name := #displayName;
+	#ls1 := FindLastSubstring(#name, &apos;/&apos;);
+	#ls2 := FindLastSubstring(#name, &apos;\&apos;);
+	if (#ls1 &gt; #ls2) then
+		#name := Substring(#name, #ls1+1);
+	elsif (#ls2 &gt; #ls1) then
+		#name := Substring(#name, #ls2+1);
+	end if;
+
+	if (#name eq &apos;&apos;) then
+		&apos;&apos;;
+	elsif (Substring(#displayName, 1, 9) eq &apos;global://&apos;) then
+		&apos;Read from @&apos; . #name . #dots;
+	elsif (Substring(#displayName, 1, 11) eq &apos;property://&apos;) then
+		&apos;Read from property &apos; . #name . #dots;
+	else
+		&apos;Read &apos; . #name . #dots;
+	end if;
+else
+	&apos;&apos;;
+end if;
+			</sci:value>
+					</sci:arg>
+					<sci:arg name="DerivedFrom" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The component that this component is based upon.</sci:help>
+						<sci:value>Delimited Reader</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentIcon" type="StringType" required="true" visibility="nevershow" multi="false">
+						<sci:value>DOCUMENTNODE</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentDisabled" type="LongType" required="false" visibility="nevershow" multi="false">
+						<sci:value>0</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentGUID" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:value>{7D2AF7C7-A077-4201-B10B-8E8283A5EADD}</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:value>90 -2436</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentHelp" type="StringType" required="false" visibility="nevershow" multi="true">
+						<sci:value>100</sci:value>
+						<sci:value>Reads data from text files containing one record per line with data separated by delimiters</sci:value>
+						<sci:value>&lt;p&gt;The file or files are specified by &lt;i&gt;Source&lt;/i&gt;. The file(s) should contain textual data formatted with a single record per line. Individual property values on each line should be separated by a delimiter character (such as, space, comma, tab), as specified by &lt;i&gt;Delimiter&lt;/i&gt;.&lt;/p&gt;
+
+&lt;p&gt;If &lt;i&gt;HasColumnNames&lt;/i&gt; is True, the values on the first line of the file are treated as the property names. Otherwise, &lt;b&gt;Column1&lt;/b&gt;, &lt;b&gt;Column2&lt;/b&gt;, and so on, are used as the property names.&lt;/p&gt;
+
+Cells containing array data can be read by setting the &lt;i&gt;MultipleValueDelimiter&lt;/i&gt; option to the character that separates the array elements. (Of course, this cannot be the same as the delimiter character.) You can now use the &lt;i&gt;Unmerge Data&lt;/i&gt; component to unmerge these arrays into separate records.
+&lt;b&gt;See Also:&lt;/b&gt;
+&lt;ul&gt;
+&lt;li&gt;The new, recommended component for Excel (.xlsx or .xls) files that does not require Excel to be installed on the server machine, and therefore is operational on Linux and Windows platforms - &lt;a href=&quot;javascript:DoLink(&apos;{14D98B18-C990-432C-834B-7026565E5ABF}&apos;)&quot;&gt;Excel Reader&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;For non-delimited textual data, use &lt;a href=&quot;javascript:DoLink(&apos;{8056E8AD-33EA-42BB-9099-EAB24C3D08E6}&apos;)&quot;&gt;Text Reader&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+</sci:value>
+						<sci:value>None</sci:value>
+						<sci:value/>
+						<sci:value>Generic</sci:value>
+						<sci:value/>
+						<sci:value>None</sci:value>
+						<sci:value/>
+					</sci:arg>
+					<sci:arg name="Component Sticky Notes" type="StringType" required="false" visibility="nevershow" multi="false"/>
+					<sci:arg name="RegistrationVersion" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The server version when this component was registered</sci:help>
+						<sci:value>19.1.0.1864</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentLocalID" type="LongType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Local Component Identifier</sci:help>
+						<sci:value>23</sci:value>
+					</sci:arg>
+					<sci:arg name="Component Path" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The original path within the database of this component.</sci:help>
+						<sci:value>Components\Data Access and Manipulation\File Readers\Delimited Text Reader</sci:value>
+					</sci:arg>
+				</sci:component>
+			</sci:data>
+			<sci:data object="SciTegic.Protocol.1">
+				<sci:component name="Good versus Bad Distribution Viewer" version="2">
+					<sci:arg name="PropertyName" type="StringType" required="true" visibility="visible" multi="false">
+						<sci:help>Name of property to use in the histograms</sci:help>
+						<sci:value>@modelname</sci:value>
+					</sci:arg>
+					<sci:arg name="TestForGood" type="ExpressionType" required="true" visibility="visible" multi="false">
+						<sci:help>PilotScript expression used to split the data into &quot;good&quot; and &quot;bad&quot; classes.  If &lt;i&gt;TestForGood&lt;/i&gt; evaluates to True, a data record is assigned to the &quot;good&quot; class. If &lt;i&gt;TestForGood&lt;/i&gt; evaluates to False, it is assigned to the &quot;bad&quot; class.</sci:help>
+						<sci:value>Dev</sci:value>
+					</sci:arg>
+					<sci:arg name="BinSize" type="DoubleType" required="false" visibility="visible" multi="false">
+						<sci:help>Width of bins to be used to generate the frequency distribution.  If blank, the bin size is determined from the data.  Bins are centered at exact multiples of &lt;i&gt;BinSize&lt;/i&gt;. Each bin includes all property values from 0.5*&lt;i&gt;BinSize&lt;/i&gt; to the left of the bin center (inclusive) to 0.5*&lt;i&gt;BinSize&lt;/i&gt; to the right of the center (exclusive).</sci:help>
+					</sci:arg>
+					<sci:arg name="Minimum" type="DoubleType" required="false" visibility="visible" multi="false">
+						<sci:help>Minimum bin value to show in the plot.  If blank, the minimum will be determined by the range of the data.</sci:help>
+					</sci:arg>
+					<sci:arg name="Maximum" type="DoubleType" required="false" visibility="visible" multi="false">
+						<sci:help>Maximum bin value to show in the plot.  If blank, the maximum will be determined by the range of the data.</sci:help>
+					</sci:arg>
+					<sci:arg name="Options" type="StringType" required="false" visibility="visible" multi="true">
+						<sci:help>Settings controlling the viewer&apos;s behavior. Options are:
+&lt;ul&gt;
+&lt;li&gt;Show Plot in Browser: Launch a separate browser window displaying the plot.
+&lt;li&gt;Output Reporting Element: Send a Pipeline Pilot Reporting element out the Pass port. This allows the plot to be embedded in a report.
+&lt;/ul&gt;</sci:help>
+						<sci:legalval>Show Plot in Browser</sci:legalval>
+						<sci:legalval selected="true">Output Reporting Element</sci:legalval>
+					</sci:arg>
+					<sci:arg name="Tempfiles" type="StringType" required="false" visibility="visible" multi="false" implbase="{7B3502D7-FA57-4EB5-838B-FE6AB0BF0E69}" uimpl="true">
+						<sci:help>Set of temporary files the network converts to true temporary filenames</sci:help>
+						<sci:value>tempfile,tempfile2,cachename</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentAttributes" type="StringType" required="false" visibility="hidden" multi="true">
+						<sci:help>Component Attributes</sci:help>
+						<sci:legalval selected="true">ComponentTakesInput</sci:legalval>
+						<sci:value>ComponentReturnsFail</sci:value>
+						<sci:legalval selected="true">ComponentReturnsPass</sci:legalval>
+						<sci:legalval>ComponentReturnsFail</sci:legalval>
+						<sci:legalval>ComponentRunsLocal</sci:legalval>
+					</sci:arg>
+					<sci:arg name="OnDataTypeError" type="StringType" required="true" visibility="hidden" multi="false">
+						<sci:legalval selected="true">Halt</sci:legalval>
+						<sci:legalval>Fail</sci:legalval>
+						<sci:legalval>Pass</sci:legalval>
+					</sci:arg>
+					<sci:arg name="OnGeneralError" type="StringType" required="true" visibility="hidden" multi="false">
+						<sci:legalval selected="true">Halt</sci:legalval>
+						<sci:legalval>Fail</sci:legalval>
+						<sci:legalval>Pass</sci:legalval>
+					</sci:arg>
+					<sci:arg name="CustomErrorText" type="StringType" required="false" visibility="nevershow" multi="false"/>
+					<sci:arg name="Protocol Options" type="StringType" required="false" visibility="nevershow" multi="true">
+						<sci:help>Protocol Options</sci:help>
+						<sci:legalval>Owner Access Only</sci:legalval>
+					</sci:arg>
+					<sci:arg name="Registrant" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The user who registered this component.</sci:help>
+						<sci:value>scitegic/modeling</sci:value>
+					</sci:arg>
+					<sci:arg name="RegistrationDate" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The date this component was registered.</sci:help>
+						<sci:value>Thu Sep 22 10:22:13 2011</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentGUID" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:value>{17ED219D-1C6B-4EE3-B238-47E137C81FED}</sci:value>
+					</sci:arg>
+					<sci:arg name="DerivedFrom" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The component this component is based upon.</sci:help>
+						<sci:value>EmptyProtocol</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentDisplayName" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:value>Good versus Bad Distribution Viewer</sci:value>
+					</sci:arg>
+					<sci:arg name="ProtocolAutoLayout" type="BoolType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Protocol AutoLayout</sci:help>
+						<sci:value>1</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentDisabled" type="LongType" required="false" visibility="nevershow" multi="false">
+						<sci:value>0</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentIcon" type="StringType" required="true" visibility="nevershow" multi="false">
+						<sci:value>VIEWERNODE</sci:value>
+					</sci:arg>
+					<sci:arg name="ProtocolScale" type="LongType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Protocol Scale</sci:help>
+						<sci:value>0</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:value>765 -2436</sci:value>
+					</sci:arg>
+					<sci:arg name="ByReference" type="BoolType" required="false" visibility="nevershow" multi="false">
+						<sci:help>By Ref</sci:help>
+						<sci:value>1</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentHelp" type="StringType" required="false" visibility="nevershow" multi="true">
+						<sci:value>100</sci:value>
+						<sci:value>Displays separate frequency distributions for a specified property according to a test for separating the samples into two classes</sci:value>
+						<sci:value>The plots are shown as percent of samples versus the property value.  A separate plot is shown for records that pass the &lt;i&gt;TestForGood&lt;/i&gt; (&quot;good&quot; records) and those that fail the test (&quot;bad&quot; records).  In order to generate the frequency distributions, records are assigned to bins according to the value of the property specified by &lt;i&gt;PropertyName&lt;/i&gt;.  The X value for a point on the plot is the location of a bin center.  The Y value is the percent of good or bad samples falling into that bin.</sci:value>
+						<sci:value>Generic</sci:value>
+						<sci:value/>
+						<sci:value>Generic</sci:value>
+						<sci:value>A reporting element containing the plot if the &quot;Output Reporting Element&quot; option is selected
+</sci:value>
+						<sci:value>Generic</sci:value>
+						<sci:value>Records with missing or non-numeric values for the &lt;i&gt;PropertyName&lt;/i&gt; property</sci:value>
+					</sci:arg>
+					<sci:arg name="Component Sticky Notes" type="StringType" required="false" visibility="nevershow" multi="false"/>
+					<sci:arg name="Protocol Sticky Notes" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Protocol Sticky Notes</sci:help>
+					</sci:arg>
+					<sci:arg name="RegistrationVersion" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The server version when this component was registered</sci:help>
+						<sci:value>8.9.0.2</sci:value>
+					</sci:arg>
+					<sci:arg name="ProtocolScale2" type="LongType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Protocol Scale</sci:help>
+						<sci:value>100</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentLocalID" type="LongType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Local Component Identifier</sci:help>
+						<sci:value>25</sci:value>
+					</sci:arg>
+					<sci:arg name="SubProtocolMadeLinkIntoCopy" type="BoolType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Subprotocol Made Link Into Copy</sci:help>
+						<sci:value>0</sci:value>
+					</sci:arg>
+					<sci:arg name="Component Path" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The original path within the database of this component.</sci:help>
+						<sci:value>Components\Analysis and Statistics\Data Modeling\Viewers\Good versus Bad Distribution Viewer</sci:value>
+					</sci:arg>
+				</sci:component>
+				<sci:protocol/>
 			</sci:data>
 			<sci:data object="Scitegic.ShortcutComponent.1">
 				<sci:component name="Shortcut Component" version="2">
@@ -6882,23 +6878,14 @@ If a name is given, the search is conducted starting on the user&apos;s tab, the
 				</sci:component>
 			</sci:data>
 			<sci:data object="SciTegic.Protocol.1">
-				<sci:component name="Good versus Bad Distribution Viewer" version="2">
-					<sci:arg name="PropertyName" type="StringType" required="true" visibility="visible" multi="false">
-						<sci:help>Name of property to use in the histograms</sci:help>
+				<sci:component name="Enrichment Plot Viewer" version="2">
+					<sci:arg name="ScoreProperty" type="StringType" required="true" visibility="visible" multi="false">
+						<sci:help>ScoreProperty</sci:help>
 						<sci:value>@modelname</sci:value>
 					</sci:arg>
-					<sci:arg name="TestForGood" type="ExpressionType" required="true" visibility="visible" multi="false">
-						<sci:help>PilotScript expression used to split the data into &quot;good&quot; and &quot;bad&quot; classes.  If &lt;i&gt;TestForGood&lt;/i&gt; evaluates to True, a data record is assigned to the &quot;good&quot; class. If &lt;i&gt;TestForGood&lt;/i&gt; evaluates to False, it is assigned to the &quot;bad&quot; class.</sci:help>
+					<sci:arg name="TestForGood" type="ExpressionType" required="false" visibility="visible" multi="false" expanded="true">
+						<sci:help>Expression used to test for good.</sci:help>
 						<sci:value>Dev</sci:value>
-					</sci:arg>
-					<sci:arg name="BinSize" type="DoubleType" required="false" visibility="visible" multi="false">
-						<sci:help>Width of bins to be used to generate the frequency distribution.  If blank, the bin size is determined from the data.  Bins are centered at exact multiples of &lt;i&gt;BinSize&lt;/i&gt;. Each bin includes all property values from 0.5*&lt;i&gt;BinSize&lt;/i&gt; to the left of the bin center (inclusive) to 0.5*&lt;i&gt;BinSize&lt;/i&gt; to the right of the center (exclusive).</sci:help>
-					</sci:arg>
-					<sci:arg name="Minimum" type="DoubleType" required="false" visibility="visible" multi="false">
-						<sci:help>Minimum bin value to show in the plot.  If blank, the minimum will be determined by the range of the data.</sci:help>
-					</sci:arg>
-					<sci:arg name="Maximum" type="DoubleType" required="false" visibility="visible" multi="false">
-						<sci:help>Maximum bin value to show in the plot.  If blank, the maximum will be determined by the range of the data.</sci:help>
 					</sci:arg>
 					<sci:arg name="Options" type="StringType" required="false" visibility="visible" multi="true">
 						<sci:help>Settings controlling the viewer&apos;s behavior. Options are:
@@ -6909,14 +6896,21 @@ If a name is given, the search is conducted starting on the user&apos;s tab, the
 						<sci:legalval>Show Plot in Browser</sci:legalval>
 						<sci:legalval selected="true">Output Reporting Element</sci:legalval>
 					</sci:arg>
-					<sci:arg name="Tempfiles" type="StringType" required="false" visibility="visible" multi="false" implbase="{7B3502D7-FA57-4EB5-838B-FE6AB0BF0E69}" uimpl="true">
-						<sci:help>Set of temporary files the network converts to true temporary filenames</sci:help>
-						<sci:value>tempfile,tempfile2,cachename</sci:value>
+					<sci:arg name="Tempfiles" type="StringType" required="false" visibility="visible" multi="false" implbase="{17001C74-63CE-4B4B-B37C-F0EAA19CE4AA}" uimpl="true">
+						<sci:help>Temporary files converted by the network to true temporary filenames</sci:help>
+					</sci:arg>
+					<sci:arg name="DeclareLocal" type="StringType" required="false" visibility="visible" multi="false" implbase="{17001C74-63CE-4B4B-B37C-F0EAA19CE4AA}" uimpl="true">
+						<sci:help>Lists a set of properties (without the @) to create on the property list for this protocol. Other properties are created on the global property list and are accessible from all protocols.</sci:help>
+						<sci:value>learnedProp,AllCount,GoodCount</sci:value>
+					</sci:arg>
+					<sci:arg name="RunToCompletion" type="BoolType" required="false" visibility="visible" multi="false" implbase="{17001C74-63CE-4B4B-B37C-F0EAA19CE4AA}" uimpl="true">
+						<sci:help>When the network runs, processes once or until done for each process call</sci:help>
+						<sci:legalval>True</sci:legalval>
+						<sci:legalval selected="true">False</sci:legalval>
 					</sci:arg>
 					<sci:arg name="ComponentAttributes" type="StringType" required="false" visibility="hidden" multi="true">
 						<sci:help>Component Attributes</sci:help>
 						<sci:legalval selected="true">ComponentTakesInput</sci:legalval>
-						<sci:value>ComponentReturnsFail</sci:value>
 						<sci:legalval selected="true">ComponentReturnsPass</sci:legalval>
 						<sci:legalval>ComponentReturnsFail</sci:legalval>
 						<sci:legalval>ComponentRunsLocal</sci:legalval>
@@ -6932,27 +6926,16 @@ If a name is given, the search is conducted starting on the user&apos;s tab, the
 						<sci:legalval>Pass</sci:legalval>
 					</sci:arg>
 					<sci:arg name="CustomErrorText" type="StringType" required="false" visibility="nevershow" multi="false"/>
-					<sci:arg name="Protocol Options" type="StringType" required="false" visibility="nevershow" multi="true">
-						<sci:help>Protocol Options</sci:help>
-						<sci:legalval>Owner Access Only</sci:legalval>
-					</sci:arg>
 					<sci:arg name="Registrant" type="StringType" required="false" visibility="nevershow" multi="false">
 						<sci:help>The user who registered this component.</sci:help>
 						<sci:value>scitegic/modeling</sci:value>
 					</sci:arg>
 					<sci:arg name="RegistrationDate" type="StringType" required="false" visibility="nevershow" multi="false">
 						<sci:help>The date this component was registered.</sci:help>
-						<sci:value>Thu Sep 22 10:22:13 2011</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentGUID" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>{17ED219D-1C6B-4EE3-B238-47E137C81FED}</sci:value>
-					</sci:arg>
-					<sci:arg name="DerivedFrom" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The component this component is based upon.</sci:help>
-						<sci:value>EmptyProtocol</sci:value>
+						<sci:value>Tue Dec 07 14:09:40 2010</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentDisplayName" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>Good versus Bad Distribution Viewer</sci:value>
+						<sci:value>Enrichment Plot Viewer</sci:value>
 					</sci:arg>
 					<sci:arg name="ProtocolAutoLayout" type="BoolType" required="false" visibility="nevershow" multi="false">
 						<sci:help>Protocol AutoLayout</sci:help>
@@ -6964,9 +6947,16 @@ If a name is given, the search is conducted starting on the user&apos;s tab, the
 					<sci:arg name="ComponentIcon" type="StringType" required="true" visibility="nevershow" multi="false">
 						<sci:value>VIEWERNODE</sci:value>
 					</sci:arg>
-					<sci:arg name="ProtocolScale" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:help>Protocol Scale</sci:help>
-						<sci:value>0</sci:value>
+					<sci:arg name="ComponentRevision" type="LongType" required="true" visibility="nevershow" multi="false">
+						<sci:help>Component Revision</sci:help>
+						<sci:value>100</sci:value>
+					</sci:arg>
+					<sci:arg name="DerivedFrom" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The component this component is based upon.</sci:help>
+						<sci:value>SubProtocol</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentGUID" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:value>{6F75B0E4-F5FF-4490-88CC-F53D2E3316E9}</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
 						<sci:value>765 -2796</sci:value>
@@ -6977,23 +6967,33 @@ If a name is given, the search is conducted starting on the user&apos;s tab, the
 					</sci:arg>
 					<sci:arg name="ComponentHelp" type="StringType" required="false" visibility="nevershow" multi="true">
 						<sci:value>100</sci:value>
-						<sci:value>Displays separate frequency distributions for a specified property according to a test for separating the samples into two classes</sci:value>
-						<sci:value>The plots are shown as percent of samples versus the property value.  A separate plot is shown for records that pass the &lt;i&gt;TestForGood&lt;/i&gt; (&quot;good&quot; records) and those that fail the test (&quot;bad&quot; records).  In order to generate the frequency distributions, records are assigned to bins according to the value of the property specified by &lt;i&gt;PropertyName&lt;/i&gt;.  The X value for a point on the plot is the location of a bin center.  The Y value is the percent of good or bad samples falling into that bin.</sci:value>
+						<sci:value>Displays an enrichment plot for a binary classification model</sci:value>
+						<sci:value>Applies a learned model (or specified property) to a set of test data with known good and bad values. Internally, the data records are sorted by the learned model score from highest to lowest. The X-axis of the plot contains the fraction of records seen following the sort. The Y-axis contains the fraction of good records found in the sorted list up to that point. The plot lets you see how well the model assigns higher scores to known good records than to known bad records.
+&lt;p&gt;
+In addition to the enrichment plot for your model, plots for two hypothetical models are shown as limiting cases. For a &quot;perfect model,&quot; every good record appears in the sorted list before every bad record. For a &quot;random model,&quot; the fraction of good records seen is just the fraction of total records seen, meaning the random model makes no distinction at all between good and bad records.
+</sci:value>
 						<sci:value>Generic</sci:value>
 						<sci:value/>
 						<sci:value>Generic</sci:value>
-						<sci:value>A reporting element containing the plot if the &quot;Output Reporting Element&quot; option is selected
-</sci:value>
-						<sci:value>Generic</sci:value>
-						<sci:value>Records with missing or non-numeric values for the &lt;i&gt;PropertyName&lt;/i&gt; property</sci:value>
+						<sci:value>A reporting element containing the plot if the &quot;Output Reporting Element&quot; option is selected</sci:value>
+						<sci:value>None</sci:value>
+						<sci:value>Records passing out of any unconnected fail ports of components inside the subprotocol</sci:value>
+					</sci:arg>
+					<sci:arg name="RegistrationVersion" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The server version when this component was registered</sci:help>
+						<sci:value>7.5.1.2</sci:value>
 					</sci:arg>
 					<sci:arg name="Component Sticky Notes" type="StringType" required="false" visibility="nevershow" multi="false"/>
 					<sci:arg name="Protocol Sticky Notes" type="StringType" required="false" visibility="nevershow" multi="false">
 						<sci:help>Protocol Sticky Notes</sci:help>
 					</sci:arg>
-					<sci:arg name="RegistrationVersion" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The server version when this component was registered</sci:help>
-						<sci:value>8.9.0.2</sci:value>
+					<sci:arg name="Protocol Options" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Protocol Options</sci:help>
+						<sci:legalval>Owner Access Only</sci:legalval>
+					</sci:arg>
+					<sci:arg name="ProcessingOrder" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Processing Order</sci:help>
+						<sci:value>DrainTopDown</sci:value>
 					</sci:arg>
 					<sci:arg name="ProtocolScale2" type="LongType" required="false" visibility="nevershow" multi="false">
 						<sci:help>Protocol Scale</sci:help>
@@ -7001,7 +7001,7 @@ If a name is given, the search is conducted starting on the user&apos;s tab, the
 					</sci:arg>
 					<sci:arg name="ComponentLocalID" type="LongType" required="false" visibility="nevershow" multi="false">
 						<sci:help>Local Component Identifier</sci:help>
-						<sci:value>25</sci:value>
+						<sci:value>20</sci:value>
 					</sci:arg>
 					<sci:arg name="SubProtocolMadeLinkIntoCopy" type="BoolType" required="false" visibility="nevershow" multi="false">
 						<sci:help>Subprotocol Made Link Into Copy</sci:help>
@@ -7009,7 +7009,7 @@ If a name is given, the search is conducted starting on the user&apos;s tab, the
 					</sci:arg>
 					<sci:arg name="Component Path" type="StringType" required="false" visibility="nevershow" multi="false">
 						<sci:help>The original path within the database of this component.</sci:help>
-						<sci:value>Components\Analysis and Statistics\Data Modeling\Viewers\Good versus Bad Distribution Viewer</sci:value>
+						<sci:value>Components\Analysis and Statistics\Data Modeling\Viewers\Enrichment Plot Viewer</sci:value>
 					</sci:arg>
 				</sci:component>
 				<sci:protocol/>
@@ -7178,7 +7178,7 @@ and so are accessible from all protocols.</sci:help>
 						<sci:value>{0952D9DF-F95C-4D43-826F-C70450811DD8}</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>1065 -3036</sci:value>
+						<sci:value>1065 -2796</sci:value>
 					</sci:arg>
 					<sci:arg name="ByReference" type="BoolType" required="false" visibility="nevershow" multi="false">
 						<sci:help>By Ref</sci:help>
@@ -7411,17 +7411,17 @@ Also reported in the plot title is the ROC score -- the area under the curve of 
 			<sci:connectid from="40" to="60" type="true"/>
 			<sci:connectid from="40" to="62" type="true"/>
 			<sci:connectid from="40" to="41" type="false"/>
-			<sci:connectid from="20" to="22" type="true"/>
+			<sci:connectid from="58" to="59" type="true"/>
 			<sci:connectid from="23" to="27" type="true"/>
 			<sci:connectid from="23" to="24" type="true"/>
-			<sci:connectid from="58" to="59" type="true"/>
-			<sci:connectid from="24" to="20" type="true"/>
+			<sci:connectid from="25" to="22" type="true"/>
 			<sci:connectid from="24" to="58" type="true"/>
 			<sci:connectid from="24" to="25" type="true"/>
+			<sci:connectid from="24" to="20" type="true"/>
 			<sci:connectid from="24" to="21" type="true"/>
-			<sci:connectid from="25" to="22" type="true"/>
+			<sci:connectid from="20" to="22" type="true"/>
 			<sci:connectid from="21" to="22" type="true"/>
-			<sci:version iVal="2"/>
+			<sci:version iVal="3"/>
 		</sci:protocol>
 	</sci:dbitem>
 <!-- Exported protocol -->
