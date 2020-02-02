@@ -174,11 +174,11 @@ exported if this protocol is published as a web service.&lt;/p&gt;
 			</sci:arg>
 			<sci:arg name="RegistrationDate" type="StringType" required="false" visibility="nevershow" multi="false">
 				<sci:help>The date this component was registered.</sci:help>
-				<sci:value>Fri Jan 31 11:17:37 2020</sci:value>
+				<sci:value>Sat Feb  1 16:20:45 2020</sci:value>
 			</sci:arg>
 			<sci:arg name="RegistrationVersion" type="StringType" required="false" visibility="nevershow" multi="false">
 				<sci:help>The server version when this component was registered</sci:help>
-				<sci:value>19.1.0.1963</sci:value>
+				<sci:value>20.1.0.2208</sci:value>
 			</sci:arg>
 			<sci:arg name="ComponentDisplayName" type="StringType" required="false" visibility="nevershow" multi="false">
 				<sci:value>featurization_embedding</sci:value>
@@ -1250,7 +1250,7 @@ and so are accessible from all protocols.</sci:help>
 						<sci:value>690 -455</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentDisabled" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:value>0</sci:value>
+						<sci:value>4</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentIcon" type="StringType" required="true" visibility="nevershow" multi="false">
 						<sci:value>ViewerNode</sci:value>
@@ -1348,6 +1348,7 @@ and so are accessible from all protocols.</sci:help>
 					</sci:arg>
 					<sci:arg name="Maximum" type="StringType" required="false" visibility="visible" multi="false">
 						<sci:help>The maximum number of sequences to read (all if value is empty)</sci:help>
+						<sci:value>4</sci:value>
 					</sci:arg>
 					<sci:arg name="SourceTag" type="StringType" required="true" visibility="visible" multi="false">
 						<sci:help>The type of tag to create to identify the source of data records. A property called &quot;SourceTag&quot; is created and holds the value indicated.
@@ -5483,6 +5484,403 @@ creates a property named &quot;A&quot; and sets the value to &quot;10&quot;.&lt;
 					<sci:version iVal="1"/>
 				</sci:protocol>
 			</sci:data>
+			<sci:data object="SciTegic.MergeProperties.1">
+				<sci:component name="Merge All Data" version="2">
+					<sci:arg name="Merge Behavior" type="GroupType" required="false" visibility="visible" multi="false" expanded="true">
+						<sci:help>Options controlling the details of how properties are merged together</sci:help>
+						<sci:member>WhenMerging</sci:member>
+						<sci:member>KeepAllNullString</sci:member>
+						<sci:member>KeepAllPreferredNodeName</sci:member>
+						<sci:member>PrefixUsingProperty</sci:member>
+					</sci:arg>
+					<sci:arg name="WhenMerging" type="StringType" required="true" visibility="visible" multi="false">
+						<sci:help>&lt;p&gt;Provides fine control over how multiple values are treated when merging data records together.&lt;/p&gt;
+ 
+&lt;ul&gt;
+&lt;li&gt;OverwriteOrCreate: Copies all properties of each merged record sequentially, overwriting any values that may already exist (instead of generating an array).&lt;/li&gt;
+&lt;li&gt;OverwriteExisting: Only copies properties that already exist on the first merged record, overwriting those original values (instead of creating an array).&lt;/li&gt;
+&lt;li&gt;CreateIfNew: Leaves any existing properties alone, and writes only new properties.&lt;/li&gt;
+&lt;li&gt;AppendOrCreate: Appends (as an array) if a property already exists, otherwise creates it.&lt;/li&gt;
+&lt;li&gt;AppendExisting: Appends (as an array) only to currently existing properties, and discards other new property values.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+</sci:help>
+						<sci:legalval>OverwriteOrCreate</sci:legalval>
+						<sci:legalval>OverwriteExisting</sci:legalval>
+						<sci:legalval>CreateIfNew</sci:legalval>
+						<sci:legalval selected="true">AppendOrCreate</sci:legalval>
+						<sci:legalval>AppendExisting</sci:legalval>
+					</sci:arg>
+					<sci:arg name="KeepAllNullString" type="StringType" required="false" visibility="visible" multi="false">
+						<sci:help>&lt;p&gt;This string is used during append to pad out empty values. It keeps the number of values of generated arrays of values the same, and in sync, for multiple samples. The default value is None, which causes no padding to occur.&lt;/p&gt;
+</sci:help>
+						<sci:enabledscript>SetDisabledDetails(&apos;To enable, set MergeBehavior to KeepAll&apos;);
+Parameter(&apos;MergeBehavior&apos;) eq &apos;KeepAll&apos;</sci:enabledscript>
+						<sci:value>None</sci:value>
+					</sci:arg>
+					<sci:arg name="KeepAllPreferredNodeName" type="StringType" required="false" visibility="visible" multi="false">
+						<sci:help>&lt;p&gt;If defined, this contains a name that is used to prioritize which underlying data record should be kept.  If not defined, the first data record is kept; if this is defined, and at least one of the data records contains a node of this type, then the first example of that type is kept.&lt;/p&gt;</sci:help>
+						<sci:enabledscript>SetDisabledDetails(&apos;To enable, set MergeBehavior to KeepAll&apos;);
+Parameter(&apos;MergeBehavior&apos;) eq &apos;KeepAll&apos;</sci:enabledscript>
+						<sci:value>Molecule</sci:value>
+					</sci:arg>
+					<sci:arg name="PrefixUsingProperty" type="StringType" required="false" visibility="visible" multi="false">
+						<sci:help>&lt;p&gt;When multiple values for a property are retained, the original property name is prefixed differently for each original value it must hold. The prefix is constructed from the value of this property, followed by an underscore.
+When not specified, a prefix is not used and multiple values are separated as an array (such as property[1], property[2], etc).&lt;/p&gt;
+
+
+</sci:help>
+					</sci:arg>
+					<sci:arg name="OutputFrequency" type="BoolType" required="true" visibility="visible" multi="false">
+						<sci:help>&lt;p&gt;Add a property called &quot;Frequency&quot; that contains the number of individual data records included in the resulting merged record. This value is simply the total number of input records.&lt;/p&gt;
+</sci:help>
+						<sci:legalval>True</sci:legalval>
+						<sci:legalval selected="true">False</sci:legalval>
+					</sci:arg>
+					<sci:arg name="ComponentAttributes" type="StringType" required="false" visibility="hidden" multi="true">
+						<sci:help>Component Attributes</sci:help>
+						<sci:legalval selected="true">ComponentTakesInput</sci:legalval>
+						<sci:legalval selected="true">ComponentReturnsPass</sci:legalval>
+						<sci:legalval>ComponentReturnsFail</sci:legalval>
+						<sci:legalval>ComponentRunsLocal</sci:legalval>
+					</sci:arg>
+					<sci:arg name="OnDataTypeError" type="StringType" required="true" visibility="hidden" multi="false">
+						<sci:legalval selected="true">Halt</sci:legalval>
+						<sci:legalval>Fail</sci:legalval>
+						<sci:legalval>Pass</sci:legalval>
+					</sci:arg>
+					<sci:arg name="OnGeneralError" type="StringType" required="true" visibility="hidden" multi="false">
+						<sci:legalval selected="true">Halt</sci:legalval>
+						<sci:legalval>Fail</sci:legalval>
+						<sci:legalval>Pass</sci:legalval>
+					</sci:arg>
+					<sci:arg name="CustomErrorText" type="StringType" required="false" visibility="nevershow" multi="false"/>
+					<sci:arg name="MergeBehavior" type="StringType" required="true" visibility="nevershow" multi="false" expanded="true">
+						<sci:help>&lt;p&gt;Controls how properties, other than the &lt;i&gt;MergeUsing&lt;/i&gt; property, are handled.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;KeepAll: Keeps all property values by appending values into an array.&lt;/li&gt;
+&lt;li&gt;KeepFirst: Keeps only the properties and values from the first example received.  All properties and values from subsequent records matching the property specified by &lt;i&gt;MergeUsing&lt;/i&gt; are discarded.&lt;/li&gt;
+&lt;/ul&gt; 
+</sci:help>
+						<sci:legalval selected="true">KeepAll</sci:legalval>
+						<sci:legalval>KeepFirst</sci:legalval>
+					</sci:arg>
+					<sci:arg name="MergeUsing" type="StringType" required="true" visibility="nevershow" multi="false">
+						<sci:help>&lt;p&gt;Name of the property (or a comma-separated list of properties) that will be used to merge on.  Data records having the same value for this property will be merged.  This property must contain scalar (i.e., non-array) data.
+
+&lt;p&gt;If multiple properties are specified, the values must be the same for all of the properties (unless &lt;i&gt;MergeUsingListType&lt;/i&gt; is set to UseFirstDefinedValue).&lt;/p&gt;
+</sci:help>
+						<sci:member>MergeUsingListType</sci:member>
+						<sci:member>MergePropertyType</sci:member>
+						<sci:member>AcceptNonNumericStringsAsNumbers</sci:member>
+						<sci:member>IgnoreCase</sci:member>
+						<sci:value>N/A</sci:value>
+					</sci:arg>
+					<sci:arg name="MergeUsingListType" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>&lt;p&gt;How &lt;i&gt;MergeUsing&lt;/i&gt; properties are interpreted when more than one property is listed:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;UseFirstDefinedValue: Use only the first property in the list that has a defined value for a record as the merge key.&lt;/li&gt;
+&lt;li&gt;UseAllValues: Use the concatentation of values of all properties listed as the merge key.&lt;/li&gt;
+&lt;/ul&gt;</sci:help>
+						<sci:legalval>UseFirstDefinedValue</sci:legalval>
+						<sci:legalval selected="true">UseAllValues</sci:legalval>
+					</sci:arg>
+					<sci:arg name="MergePropertyType" type="StringType" required="true" visibility="nevershow" multi="false">
+						<sci:help>&lt;p&gt;The types of values found in the property specified by &lt;i&gt;MergeUsing&lt;/i&gt;:
+
+&lt;ul&gt;
+&lt;li&gt;IsNumeric: All numbers are converted to doubles for comparison (e.g., 1 = 1.0).&lt;/li&gt;
+&lt;li&gt;IsText: All comparisons are made as string values.&lt;/li&gt;
+&lt;li&gt;IsDate: The key is considered a date.&lt;/li&gt;
+&lt;li&gt;IsFingerprint: The key is considered a fingerprint.  Fingerprint bits are sorted before making the comparison.&lt;/li&gt;
+&lt;/ul&gt;
+</sci:help>
+						<sci:legalval>IsNumeric</sci:legalval>
+						<sci:legalval selected="true">IsText</sci:legalval>
+						<sci:legalval>IsDate</sci:legalval>
+						<sci:legalval>IsFingerprint</sci:legalval>
+					</sci:arg>
+					<sci:arg name="IgnoreCase" type="BoolType" required="true" visibility="nevershow" multi="false">
+						<sci:help>&lt;p&gt;Considers lower-case and upper-case letters as equivalent when determining the identity of &lt;i&gt;MergeUsing&lt;/i&gt; property values.&lt;/p&gt;
+</sci:help>
+						<sci:enabledscript>SetDisabledDetails(&apos;To enable, set MergePropertyType to IsText&apos;);
+Parameter(&apos;MergePropertyType&apos;) eq &apos;IsText&apos;</sci:enabledscript>
+						<sci:legalval>True</sci:legalval>
+						<sci:legalval selected="true">False</sci:legalval>
+					</sci:arg>
+					<sci:arg name="AcceptNonNumericStringsAsNumbers" type="BoolType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Determines whether &lt;b&gt;all&lt;/b&gt; string values for the MergeUsing property -- even non-numeric ones such as &apos;abc&apos; or &apos;1.0c&apos; -- will be coerced to numbers when  MergePropertyType is set to IsNumeric.  
+
+If set to True, then a string such as &apos;abc&apos; that does not begin with a numeric portion will be coerced to zero, while a string such as &apos;1.0c&apos; that begins with a numeric portion will be coerced to the corresponding number (in this case 1.0).  
+
+If set to False, then records containing non-numeric strings for the MergeUsing property will be sent out the Fail port.</sci:help>
+						<sci:legalval>True</sci:legalval>
+						<sci:legalval selected="true">False</sci:legalval>
+					</sci:arg>
+					<sci:arg name="Registrant" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The user who registered this component.</sci:help>
+						<sci:value>scitegic/generic</sci:value>
+					</sci:arg>
+					<sci:arg name="RegistrationDate" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The date this component was registered.</sci:help>
+						<sci:value>Fri Mar 11 13:00:58 2011</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentDisplayName" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:value>Merge All Data</sci:value>
+					</sci:arg>
+					<sci:arg name="DerivedFrom" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The component this component is based upon.</sci:help>
+						<sci:value>Merge Data</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentDisabled" type="LongType" required="false" visibility="nevershow" multi="false">
+						<sci:value>0</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentIcon" type="StringType" required="true" visibility="nevershow" multi="false">
+						<sci:value>JOINNODE</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentGUID" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:value>{C00EFC73-DE7C-4932-AFD6-55D1DFA7792C}</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:value>390 -635</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentHelp" type="StringType" required="false" visibility="nevershow" multi="true">
+						<sci:value>100</sci:value>
+						<sci:value>Merges properties of all input data records into a single output data record</sci:value>
+						<sci:value>&lt;p&gt;Performs faster than &lt;a href=&quot;javascript:DoLink(&apos;{1E393621-138C-466E-8A2B-275A3FAB26E3}&apos;)&quot;&gt;Merge Data&lt;/a&gt; for the special case where all input records are to be merged into one.
+&lt;i&gt;MergeBehavior&lt;/i&gt; controls how properties are handled.&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;See Also: &lt;/b&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;If you wish to merge data records that share identical values of a specified property, use &lt;a href=&quot;javascript:DoLink(&apos;{1E393621-138C-466E-8A2B-275A3FAB26E3}&apos;)&quot;&gt;Merge Data&lt;/a&gt;.&lt;/p&gt;
+&lt;/ul&gt;</sci:value>
+						<sci:value>Generic</sci:value>
+						<sci:value>Data records to be merged</sci:value>
+						<sci:value>Generic</sci:value>
+						<sci:value>A single data record containing all merged properties of the input records</sci:value>
+						<sci:value>None</sci:value>
+						<sci:value/>
+					</sci:arg>
+					<sci:arg name="RegistrationVersion" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The server version when this component was registered</sci:help>
+						<sci:value>8.4.5.20</sci:value>
+					</sci:arg>
+					<sci:arg name="Component Sticky Notes" type="StringType" required="false" visibility="nevershow" multi="false"/>
+					<sci:arg name="ReplaceNullsInFirstRecord" type="BoolType" required="false" visibility="nevershow" multi="false" uimpl="false">
+						<sci:help>Specifies whether to replace nulls in the first merged record when KeepAllNullString is specified.</sci:help>
+						<sci:legalval selected="true">True</sci:legalval>
+						<sci:legalval>False</sci:legalval>
+					</sci:arg>
+					<sci:arg name="ComponentLocalID" type="LongType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Local Component Identifier</sci:help>
+						<sci:value>23</sci:value>
+					</sci:arg>
+					<sci:arg name="Merge All" type="BoolType" required="false" visibility="nevershow" multi="false" uimpl="false">
+						<sci:help>Internal parameter indicating that all data records are to be merged into one, irrespective of the value of the &lt;i&gt;MergeUsing&lt;/i&gt; Property.</sci:help>
+						<sci:legalval selected="true">True</sci:legalval>
+						<sci:legalval>False</sci:legalval>
+					</sci:arg>
+					<sci:arg name="Component Path" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The original path within the database of this component.</sci:help>
+						<sci:value>Components\Data Access and Manipulation\Data Manipulators\Merge All Data</sci:value>
+					</sci:arg>
+				</sci:component>
+			</sci:data>
+			<sci:data object="SciTegic.Protocol.1">
+				<sci:component name="HTML Table Viewer" version="2">
+					<sci:arg name="Maximum Rows" type="LongType" required="true" visibility="visible" multi="false">
+						<sci:help>Specifies the maximum number of table rows in the HTML page</sci:help>
+						<sci:value>2000</sci:value>
+					</sci:arg>
+					<sci:arg name="Rows Per Page" type="LongType" required="false" visibility="visible" multi="false">
+						<sci:help>The number of rows displayed on each page</sci:help>
+						<sci:value>25</sci:value>
+					</sci:arg>
+					<sci:arg name="Title" type="StringType" required="false" visibility="visible" multi="false">
+						<sci:help>The optional title of the HTML document</sci:help>
+					</sci:arg>
+					<sci:arg name="Freeze Table Header" type="BoolType" required="false" visibility="visible" multi="false" uimpl="false">
+						<sci:help>&lt;p&gt;When set to True, this table&apos;s header and title will remain visible when the table is scrolled vertically.&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;Notes:&lt;/b&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+	&lt;li&gt;This feature only applies to HTML reports.&lt;/li&gt;
+	&lt;li&gt;The fixed header behavior depends on what container (e.g., plain browser window, Tile component, Dynamic Content Container) that the Table is piped into.&lt;/li&gt; 
+	&lt;li&gt;To create a table of fixed pixel height, set this parameter to True and pipe this table into a Dynamic Content Container of fixed (i.e., non-percentage) height.&lt;/li&gt;
+&lt;/ul&gt;</sci:help>
+						<sci:legalval>True</sci:legalval>
+						<sci:legalval selected="true">False</sci:legalval>
+					</sci:arg>
+					<sci:arg name="Use Default Browser" type="BoolType" required="false" visibility="visible" multi="false" expanded="true" legalvalsenforced="false" uimpl="false">
+						<sci:metaproplist>
+							<sci:propval name="SCI_PromotionRenameRule">UsingParent</sci:propval>
+							<sci:mpropval name="SCI_PromotedFrom" type="StringType">
+								<sci:value>Browser</sci:value>
+							</sci:mpropval>
+						</sci:metaproplist>
+						<sci:help>&lt;p&gt;
+This parameter is only relevant when running the protocol in the Pipeline Pilot Professional Client.
+&lt;/p&gt;
+&lt;p&gt;
+The value specifies whether to use your default desktop web browser to view the HTML table. When set to False, Internet Explorer is used as a standard fallback option. If IE is your default browser, it is used in either case.
+&lt;/p&gt;
+</sci:help>
+						<sci:legalval selected="true">True</sci:legalval>
+						<sci:legalval>False</sci:legalval>
+					</sci:arg>
+					<sci:arg name="Tempfiles" type="StringType" required="false" visibility="visible" multi="false" implbase="{7B3502D7-FA57-4EB5-838B-FE6AB0BF0E69}" uimpl="true">
+						<sci:help>Lists the set of temporary files which will be converted by the network to true temporary file names</sci:help>
+						<sci:value>temphtml</sci:value>
+					</sci:arg>
+					<sci:arg name="DeclareLocal" type="StringType" required="false" visibility="visible" multi="false" implbase="{17001C74-63CE-4B4B-B37C-F0EAA19CE4AA}" uimpl="true">
+						<sci:help>Lists a set of properties (without the @) to be created on the property list for this protocol.
+Other properties are created on the global property list
+and so are accessible from all protocols.</sci:help>
+						<sci:value>HTML Filename</sci:value>
+					</sci:arg>
+					<sci:arg name="RunToCompletion" type="BoolType" required="false" visibility="visible" multi="false" implbase="{7B3502D7-FA57-4EB5-838B-FE6AB0BF0E69}" uimpl="true">
+						<sci:help>When the network is run, whether we process once or until done for each process call</sci:help>
+						<sci:legalval>True</sci:legalval>
+						<sci:legalval selected="true">False</sci:legalval>
+					</sci:arg>
+					<sci:arg name="Internet Explorer" type="StringType" required="false" visibility="visible" multi="false" uimpl="true">
+						<sci:help>The location for Internet Explorer</sci:help>
+						<sci:value>internetexplorer.application</sci:value>
+					</sci:arg>
+					<sci:arg name="Chrome" type="StringType" required="false" visibility="visible" multi="false" uimpl="true">
+						<sci:help>The location for Chrome</sci:help>
+						<sci:value>&quot;C:\Program Files (x86)\Google\Chrome\Application\chrome.exe&quot;</sci:value>
+					</sci:arg>
+					<sci:arg name="Firefox" type="StringType" required="false" visibility="visible" multi="false" expanded="true" uimpl="true">
+						<sci:help>The location for Firefox</sci:help>
+						<sci:value>&quot;C:\Program Files (x86)\Mozilla Firefox\firefox.exe&quot;</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentAttributes" type="StringType" required="false" visibility="hidden" multi="true">
+						<sci:help>Component Attributes</sci:help>
+						<sci:legalval selected="true">ComponentTakesInput</sci:legalval>
+						<sci:legalval>ComponentReturnsPass</sci:legalval>
+						<sci:legalval>ComponentReturnsFail</sci:legalval>
+						<sci:legalval>ComponentRunsLocal</sci:legalval>
+					</sci:arg>
+					<sci:arg name="OnDataTypeError" type="StringType" required="true" visibility="hidden" multi="false">
+						<sci:legalval selected="true">Halt</sci:legalval>
+						<sci:legalval>Fail</sci:legalval>
+						<sci:legalval>Pass</sci:legalval>
+					</sci:arg>
+					<sci:arg name="OnGeneralError" type="StringType" required="true" visibility="hidden" multi="false">
+						<sci:legalval selected="true">Halt</sci:legalval>
+						<sci:legalval>Fail</sci:legalval>
+						<sci:legalval>Pass</sci:legalval>
+					</sci:arg>
+					<sci:arg name="CustomErrorText" type="StringType" required="false" visibility="nevershow" multi="false"/>
+					<sci:arg name="Protocol Options" type="StringType" required="false" visibility="nevershow" multi="true">
+						<sci:help>Protocol Options</sci:help>
+						<sci:legalval selected="true">Make Shortcut by Default</sci:legalval>
+						<sci:legalval>Cant Replace With Copy</sci:legalval>
+						<sci:legalval>Cant Open</sci:legalval>
+					</sci:arg>
+					<sci:arg name="Registrant" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The user who registered this component.</sci:help>
+						<sci:value>scitegic/generic</sci:value>
+					</sci:arg>
+					<sci:arg name="RegistrationDate" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The date this component was registered.</sci:help>
+						<sci:value>Fri Oct 23 17:05:34 2015</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentDisplayName" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:value>HTML Table Viewer</sci:value>
+					</sci:arg>
+					<sci:arg name="ProtocolAutoLayout" type="BoolType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Protocol AutoLayout</sci:help>
+						<sci:value>true</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:value>1290 -635</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentDisabled" type="LongType" required="false" visibility="nevershow" multi="false">
+						<sci:value>0</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentIcon" type="StringType" required="true" visibility="nevershow" multi="false">
+						<sci:value>ViewerNode</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentRevision" type="LongType" required="true" visibility="nevershow" multi="false">
+						<sci:help>Component Revision</sci:help>
+						<sci:value>100</sci:value>
+					</sci:arg>
+					<sci:arg name="ProtocolCommentSize" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>ProtocolCommentSize</sci:help>
+						<sci:value>1100 500</sci:value>
+					</sci:arg>
+					<sci:arg name="DerivedFrom" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The component this component is based upon.</sci:help>
+						<sci:value>SubProtocol</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentGUID" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:value>{F6A20C96-BC1C-48f3-82E9-4D8F023F82EE}</sci:value>
+					</sci:arg>
+					<sci:arg name="ProtocolScale" type="LongType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Protocol Scale</sci:help>
+						<sci:value>0</sci:value>
+					</sci:arg>
+					<sci:arg name="ByReference" type="BoolType" required="false" visibility="nevershow" multi="false">
+						<sci:help>By Ref</sci:help>
+						<sci:value>1</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentHelp" type="StringType" required="false" visibility="nevershow" multi="true">
+						<sci:value>100</sci:value>
+						<sci:value>Displays data records as HTML in a web browser</sci:value>
+						<sci:value>&lt;p&gt;Generates and displays an HTML table page of data records, with one record per row. Each property becomes a column in the table and each value a cell.
+&lt;p&gt;
+&lt;b&gt;Notes:&lt;/b&gt;
+&lt;ul&gt;
+&lt;li&gt;Molecules will be displayed if present.&lt;/li&gt;
+&lt;li&gt;For hierarchical data records, only top level properties are displayed.&lt;/li&gt;
+&lt;li&gt;Any grouped data is displayed in nested tables.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;b&gt;See Also:&lt;/b&gt;
+&lt;ul&gt;
+&lt;li&gt;If you prefer not to view the grouped data, use &lt;a href=&quot;javascript:DoLink(&apos;{ACCDEEEF-FEED-4B27-B263-BA531EABFC9C}&apos;)&quot;&gt;Delete Children&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;For more control over the display of molecules, use &lt;a href=&quot;javascript:DoLink(&apos;{485D30CD-737C-4AD3-89C9-F81CB20E47AE}&apos;)&quot;&gt;HTML Molecular Table Viewer&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+</sci:value>
+						<sci:value>Generic</sci:value>
+						<sci:value/>
+						<sci:value>None</sci:value>
+						<sci:value/>
+						<sci:value>None</sci:value>
+						<sci:value/>
+					</sci:arg>
+					<sci:arg name="RegistrationVersion" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The server version when this component was registered</sci:help>
+						<sci:value>16.1.0.1089</sci:value>
+					</sci:arg>
+					<sci:arg name="Component Sticky Notes" type="StringType" required="false" visibility="nevershow" multi="false"/>
+					<sci:arg name="Protocol Sticky Notes" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Protocol Sticky Notes</sci:help>
+					</sci:arg>
+					<sci:arg name="ProtocolScale2" type="LongType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Protocol Scale</sci:help>
+						<sci:value>100</sci:value>
+					</sci:arg>
+					<sci:arg name="ComponentLocalID" type="LongType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Local Component Identifier</sci:help>
+						<sci:value>22</sci:value>
+					</sci:arg>
+					<sci:arg name="SubProtocolMadeLinkIntoCopy" type="BoolType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Subprotocol Made Link Into Copy</sci:help>
+						<sci:value>0</sci:value>
+					</sci:arg>
+					<sci:arg name="Component Path" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>The original path within the database of this component.</sci:help>
+						<sci:value>Components\Data Access and Manipulation\Viewers\HTML Table Viewer</sci:value>
+					</sci:arg>
+				</sci:component>
+				<sci:protocol/>
+			</sci:data>
 			<sci:data object="SciTegic.Protocol.1">
 				<sci:component name="Subprotocol" version="2">
 					<sci:arg name="RunToCompletion" type="StringType" required="false" visibility="visible" multi="false" uimpl="false">
@@ -5667,7 +6065,7 @@ Parameter(&apos;Parallel Processing Options&apos;);</sci:enabledscript>
 						<sci:value>{17001C74-63CE-4B4B-B37C-F0EAA19CE4AA}</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>390 -635</sci:value>
+						<sci:value>690 -815</sci:value>
 					</sci:arg>
 					<sci:arg name="ByReference" type="BoolType" required="false" visibility="nevershow" multi="false">
 						<sci:help>By Ref</sci:help>
@@ -6116,199 +6514,6 @@ Parameter(&apos;Parallel Processing Options&apos;);</sci:enabledscript>
 					<sci:connectid from="0" to="1" type="true"/>
 				</sci:protocol>
 			</sci:data>
-			<sci:data object="SciTegic.Protocol.1">
-				<sci:component name="HTML Table Viewer" version="2">
-					<sci:arg name="Maximum Rows" type="LongType" required="true" visibility="visible" multi="false">
-						<sci:help>Specifies the maximum number of table rows in the HTML page</sci:help>
-						<sci:value>2000</sci:value>
-					</sci:arg>
-					<sci:arg name="Rows Per Page" type="LongType" required="false" visibility="visible" multi="false">
-						<sci:help>The number of rows displayed on each page</sci:help>
-						<sci:value>25</sci:value>
-					</sci:arg>
-					<sci:arg name="Title" type="StringType" required="false" visibility="visible" multi="false">
-						<sci:help>The optional title of the HTML document</sci:help>
-					</sci:arg>
-					<sci:arg name="Freeze Table Header" type="BoolType" required="false" visibility="visible" multi="false" uimpl="false">
-						<sci:help>&lt;p&gt;When set to True, this table&apos;s header and title will remain visible when the table is scrolled vertically.&lt;/p&gt;
-
-&lt;p&gt;&lt;b&gt;Notes:&lt;/b&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-	&lt;li&gt;This feature only applies to HTML reports.&lt;/li&gt;
-	&lt;li&gt;The fixed header behavior depends on what container (e.g., plain browser window, Tile component, Dynamic Content Container) that the Table is piped into.&lt;/li&gt; 
-	&lt;li&gt;To create a table of fixed pixel height, set this parameter to True and pipe this table into a Dynamic Content Container of fixed (i.e., non-percentage) height.&lt;/li&gt;
-&lt;/ul&gt;</sci:help>
-						<sci:legalval>True</sci:legalval>
-						<sci:legalval selected="true">False</sci:legalval>
-					</sci:arg>
-					<sci:arg name="Use Default Browser" type="BoolType" required="false" visibility="visible" multi="false" expanded="true" legalvalsenforced="false" uimpl="false">
-						<sci:metaproplist>
-							<sci:propval name="SCI_PromotionRenameRule">UsingParent</sci:propval>
-							<sci:mpropval name="SCI_PromotedFrom" type="StringType">
-								<sci:value>Browser</sci:value>
-							</sci:mpropval>
-						</sci:metaproplist>
-						<sci:help>&lt;p&gt;
-This parameter is only relevant when running the protocol in the Pipeline Pilot Professional Client.
-&lt;/p&gt;
-&lt;p&gt;
-The value specifies whether to use your default desktop web browser to view the HTML table. When set to False, Internet Explorer is used as a standard fallback option. If IE is your default browser, it is used in either case.
-&lt;/p&gt;
-</sci:help>
-						<sci:legalval selected="true">True</sci:legalval>
-						<sci:legalval>False</sci:legalval>
-					</sci:arg>
-					<sci:arg name="Tempfiles" type="StringType" required="false" visibility="visible" multi="false" implbase="{7B3502D7-FA57-4EB5-838B-FE6AB0BF0E69}" uimpl="true">
-						<sci:help>Lists the set of temporary files which will be converted by the network to true temporary file names</sci:help>
-						<sci:value>temphtml</sci:value>
-					</sci:arg>
-					<sci:arg name="DeclareLocal" type="StringType" required="false" visibility="visible" multi="false" implbase="{17001C74-63CE-4B4B-B37C-F0EAA19CE4AA}" uimpl="true">
-						<sci:help>Lists a set of properties (without the @) to be created on the property list for this protocol.
-Other properties are created on the global property list
-and so are accessible from all protocols.</sci:help>
-						<sci:value>HTML Filename</sci:value>
-					</sci:arg>
-					<sci:arg name="RunToCompletion" type="BoolType" required="false" visibility="visible" multi="false" implbase="{7B3502D7-FA57-4EB5-838B-FE6AB0BF0E69}" uimpl="true">
-						<sci:help>When the network is run, whether we process once or until done for each process call</sci:help>
-						<sci:legalval>True</sci:legalval>
-						<sci:legalval selected="true">False</sci:legalval>
-					</sci:arg>
-					<sci:arg name="Internet Explorer" type="StringType" required="false" visibility="visible" multi="false" uimpl="true">
-						<sci:help>The location for Internet Explorer</sci:help>
-						<sci:value>internetexplorer.application</sci:value>
-					</sci:arg>
-					<sci:arg name="Chrome" type="StringType" required="false" visibility="visible" multi="false" uimpl="true">
-						<sci:help>The location for Chrome</sci:help>
-						<sci:value>&quot;C:\Program Files (x86)\Google\Chrome\Application\chrome.exe&quot;</sci:value>
-					</sci:arg>
-					<sci:arg name="Firefox" type="StringType" required="false" visibility="visible" multi="false" expanded="true" uimpl="true">
-						<sci:help>The location for Firefox</sci:help>
-						<sci:value>&quot;C:\Program Files (x86)\Mozilla Firefox\firefox.exe&quot;</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentAttributes" type="StringType" required="false" visibility="hidden" multi="true">
-						<sci:help>Component Attributes</sci:help>
-						<sci:legalval selected="true">ComponentTakesInput</sci:legalval>
-						<sci:legalval>ComponentReturnsPass</sci:legalval>
-						<sci:legalval>ComponentReturnsFail</sci:legalval>
-						<sci:legalval>ComponentRunsLocal</sci:legalval>
-					</sci:arg>
-					<sci:arg name="OnDataTypeError" type="StringType" required="true" visibility="hidden" multi="false">
-						<sci:legalval selected="true">Halt</sci:legalval>
-						<sci:legalval>Fail</sci:legalval>
-						<sci:legalval>Pass</sci:legalval>
-					</sci:arg>
-					<sci:arg name="OnGeneralError" type="StringType" required="true" visibility="hidden" multi="false">
-						<sci:legalval selected="true">Halt</sci:legalval>
-						<sci:legalval>Fail</sci:legalval>
-						<sci:legalval>Pass</sci:legalval>
-					</sci:arg>
-					<sci:arg name="CustomErrorText" type="StringType" required="false" visibility="nevershow" multi="false"/>
-					<sci:arg name="Protocol Options" type="StringType" required="false" visibility="nevershow" multi="true">
-						<sci:help>Protocol Options</sci:help>
-						<sci:legalval selected="true">Make Shortcut by Default</sci:legalval>
-						<sci:legalval>Cant Replace With Copy</sci:legalval>
-						<sci:legalval>Cant Open</sci:legalval>
-					</sci:arg>
-					<sci:arg name="Registrant" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The user who registered this component.</sci:help>
-						<sci:value>scitegic/generic</sci:value>
-					</sci:arg>
-					<sci:arg name="RegistrationDate" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The date this component was registered.</sci:help>
-						<sci:value>Fri Oct 23 17:05:34 2015</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentDisplayName" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>HTML Table Viewer</sci:value>
-					</sci:arg>
-					<sci:arg name="ProtocolAutoLayout" type="BoolType" required="false" visibility="nevershow" multi="false">
-						<sci:help>Protocol AutoLayout</sci:help>
-						<sci:value>true</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>990 -635</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentDisabled" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:value>0</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentIcon" type="StringType" required="true" visibility="nevershow" multi="false">
-						<sci:value>ViewerNode</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentRevision" type="LongType" required="true" visibility="nevershow" multi="false">
-						<sci:help>Component Revision</sci:help>
-						<sci:value>100</sci:value>
-					</sci:arg>
-					<sci:arg name="ProtocolCommentSize" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>ProtocolCommentSize</sci:help>
-						<sci:value>1100 500</sci:value>
-					</sci:arg>
-					<sci:arg name="DerivedFrom" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The component this component is based upon.</sci:help>
-						<sci:value>SubProtocol</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentGUID" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>{F6A20C96-BC1C-48f3-82E9-4D8F023F82EE}</sci:value>
-					</sci:arg>
-					<sci:arg name="ProtocolScale" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:help>Protocol Scale</sci:help>
-						<sci:value>0</sci:value>
-					</sci:arg>
-					<sci:arg name="ByReference" type="BoolType" required="false" visibility="nevershow" multi="false">
-						<sci:help>By Ref</sci:help>
-						<sci:value>1</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentHelp" type="StringType" required="false" visibility="nevershow" multi="true">
-						<sci:value>100</sci:value>
-						<sci:value>Displays data records as HTML in a web browser</sci:value>
-						<sci:value>&lt;p&gt;Generates and displays an HTML table page of data records, with one record per row. Each property becomes a column in the table and each value a cell.
-&lt;p&gt;
-&lt;b&gt;Notes:&lt;/b&gt;
-&lt;ul&gt;
-&lt;li&gt;Molecules will be displayed if present.&lt;/li&gt;
-&lt;li&gt;For hierarchical data records, only top level properties are displayed.&lt;/li&gt;
-&lt;li&gt;Any grouped data is displayed in nested tables.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;b&gt;See Also:&lt;/b&gt;
-&lt;ul&gt;
-&lt;li&gt;If you prefer not to view the grouped data, use &lt;a href=&quot;javascript:DoLink(&apos;{ACCDEEEF-FEED-4B27-B263-BA531EABFC9C}&apos;)&quot;&gt;Delete Children&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;For more control over the display of molecules, use &lt;a href=&quot;javascript:DoLink(&apos;{485D30CD-737C-4AD3-89C9-F81CB20E47AE}&apos;)&quot;&gt;HTML Molecular Table Viewer&lt;/a&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-</sci:value>
-						<sci:value>Generic</sci:value>
-						<sci:value/>
-						<sci:value>None</sci:value>
-						<sci:value/>
-						<sci:value>None</sci:value>
-						<sci:value/>
-					</sci:arg>
-					<sci:arg name="RegistrationVersion" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The server version when this component was registered</sci:help>
-						<sci:value>16.1.0.1089</sci:value>
-					</sci:arg>
-					<sci:arg name="Component Sticky Notes" type="StringType" required="false" visibility="nevershow" multi="false"/>
-					<sci:arg name="Protocol Sticky Notes" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>Protocol Sticky Notes</sci:help>
-					</sci:arg>
-					<sci:arg name="ProtocolScale2" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:help>Protocol Scale</sci:help>
-						<sci:value>100</sci:value>
-					</sci:arg>
-					<sci:arg name="ComponentLocalID" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:help>Local Component Identifier</sci:help>
-						<sci:value>22</sci:value>
-					</sci:arg>
-					<sci:arg name="SubProtocolMadeLinkIntoCopy" type="BoolType" required="false" visibility="nevershow" multi="false">
-						<sci:help>Subprotocol Made Link Into Copy</sci:help>
-						<sci:value>0</sci:value>
-					</sci:arg>
-					<sci:arg name="Component Path" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:help>The original path within the database of this component.</sci:help>
-						<sci:value>Components\Data Access and Manipulation\Viewers\HTML Table Viewer</sci:value>
-					</sci:arg>
-				</sci:component>
-				<sci:protocol/>
-			</sci:data>
 			<sci:data object="SciTegic.ComponentPythonPlugin.1">
 				<sci:component name="Python (on Server)" version="2">
 					<sci:arg name="Script" type="PythonScriptType" required="true" visibility="visible" multi="false" expanded="true">
@@ -6327,7 +6532,8 @@ The &lt;i&gt;dr&lt;/i&gt; function parameter and its &lt;i&gt;data&lt;/i&gt; fac
 						<sci:member>PythonPath</sci:member>
 						<sci:value>import swigpython3 as pilotbase #for bare-metal stuff
 import pilotpython #nicer python classes
-
+import valueconverter as vc
+from embeddings_reproduction import embedding_tools
 
 def onInitialize(ctxt):
     context= pilotpython.Context(ctxt)
@@ -6345,12 +6551,13 @@ def onProcess(ctxt, dr):
     props = data.getProperties()
     global model
     port= pilotpython.PASS_PORT
-    seqs= props.find(&quot;Sequences&quot;)
+    seqs= props.get(&quot;data&quot;).getValue().getStringArray()
     # use embedding library function
-    embeds = get_embedding_new(seqs, k, model)
+    embeds = embedding_tools.get_embeddings_new(model, seqs, k=5, overlap=False)
 	# embeds is a nx64 pandas df
-    for sample in embeds:
-        sample.routeTo(port)
+    for i in range(embeds.shape[1]):
+        props.defineFloatArrayProperty(&quot;features_{}&quot;.format(i), embeds[:,i].tolist())
+    data.routeTo(pilotpython.PASS_PORT)
     return pilotpython.READY_FOR_INPUT_DATA
     
 
@@ -6362,11 +6569,13 @@ def onFinalize(ctxt):
 					<sci:arg name="Use Package" type="StringType" required="false" visibility="visible" multi="false" expanded="true">
 						<sci:help>The name of an application package that contains Python modules referenced by this component. By defining this package name, a package-specific module may be referenced with the &apos;import modulename&apos; syntax.</sci:help>
 					</sci:arg>
-					<sci:arg name="PythonPath" type="StringType" required="false" visibility="visible" multi="false">
+					<sci:arg name="PythonPath" type="StringType" required="false" visibility="visible" multi="false" expanded="true">
 						<sci:help>Define additional directories for python modules. Use &quot;;&quot; as separator</sci:help>
+						<sci:member>Model</sci:member>
+						<sci:value>C:\Users\clinic1920\AppData\Local\Programs\Python\Python36\Lib\site-packages</sci:value>
 					</sci:arg>
-					<sci:arg name="Model" type="StringType" required="false" visibility="visible" multi="false">
-						<sci:legalval selected="true">original_5_7</sci:legalval>
+					<sci:arg name="Model" type="DestinationURLType" required="false" visibility="visible" multi="false" expanded="true" legalvalsenforced="false">
+						<sci:value>C:\Program Files\BIOVIA\PPS\public\users\clinic1920\d2v_models/original_5_7.pkl</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentAttributes" type="StringType" required="false" visibility="hidden" multi="true">
 						<sci:help>Component Attributes</sci:help>
@@ -6420,7 +6629,7 @@ def onFinalize(ctxt):
 						<sci:value>Featurize Sequences</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>690 -815</sci:value>
+						<sci:value>990 -815</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentIcon" type="StringType" required="true" visibility="nevershow" multi="false">
 						<sci:value>ComponentNode</sci:value>
@@ -6647,7 +6856,7 @@ end if;
 			</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentPoint" type="StringType" required="false" visibility="nevershow" multi="false">
-						<sci:value>990 -995</sci:value>
+						<sci:value>1290 -995</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentIcon" type="StringType" required="true" visibility="nevershow" multi="false">
 						<sci:value>DATABASENODE</sci:value>
@@ -33725,8 +33934,9 @@ end if;
 			<sci:connectid from="3" to="4" type="true"/>
 			<sci:connectid from="4" to="5" type="true"/>
 			<sci:connectid from="5" to="6" type="true"/>
-			<sci:connectid from="0" to="21" type="true"/>
-			<sci:connectid from="21" to="1" type="true"/>
+			<sci:connectid from="0" to="23" type="true"/>
+			<sci:connectid from="23" to="1" type="true"/>
+			<sci:connectid from="23" to="21" type="true"/>
 			<sci:connectid from="21" to="2" type="true"/>
 			<sci:connectid from="2" to="22" type="true"/>
 			<sci:connectid from="2" to="20" type="true"/>
@@ -33739,7 +33949,7 @@ end if;
 			<sci:connectid from="12" to="13" type="true"/>
 			<sci:connectid from="13" to="14" type="true"/>
 			<sci:connectid from="13" to="19" type="true"/>
-			<sci:version iVal="4"/>
+			<sci:version iVal="5"/>
 		</sci:protocol>
 	</sci:dbitem>
 <!-- Exported protocol -->
