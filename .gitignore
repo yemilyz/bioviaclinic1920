@@ -3,6 +3,8 @@ sabdab_dataset/*
 *.pdb
 *.fa
 *.tsv
+*.pkl
+*.npy
 *.imgt
 *.ann
 *.png
