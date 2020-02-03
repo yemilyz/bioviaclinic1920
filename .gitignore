@@ -1,10 +1,9 @@
-sabdab_dataset/*
-sabdab_filtered_pdb/*
+sabdab_raw/sabdab_dataset/*
+sabdab_raw/sabdab_filtered_pdb/*
 sabdab_filtered_clean_pdb/*
 *.csv
 *.pyc
 *.pdb
-*.tsv
 *.pkl
 *.npy
 *.imgt
