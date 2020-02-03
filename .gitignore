@@ -1,4 +1,7 @@
 sabdab_dataset/*
+sabdab_filtered_pdb/*
+sabdab_filtered_clean_pdb/*
+*.csv
 *.pyc
 *.pdb
 *.tsv
