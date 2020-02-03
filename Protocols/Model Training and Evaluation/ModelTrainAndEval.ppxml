@@ -182,14 +182,14 @@ exported if this protocol is published as a web service.&lt;/p&gt;
 			</sci:arg>
 			<sci:arg name="RegistrationDate" type="StringType" required="false" visibility="nevershow" multi="false">
 				<sci:help>The date this component was registered.</sci:help>
-				<sci:value>Sun Feb  2 15:05:28 2020</sci:value>
+				<sci:value>Mon Feb  3 15:44:39 2020</sci:value>
 			</sci:arg>
 			<sci:arg name="RegistrationVersion" type="StringType" required="false" visibility="nevershow" multi="false">
 				<sci:help>The server version when this component was registered</sci:help>
 				<sci:value>20.1.0.2208</sci:value>
 			</sci:arg>
 			<sci:arg name="ComponentDisplayName" type="StringType" required="false" visibility="nevershow" multi="false">
-				<sci:value>NaiveBayesCVTrainAndEval</sci:value>
+				<sci:value>ModelTrainAndEval</sci:value>
 			</sci:arg>
 			<sci:arg name="ProtocolAutoLayout" type="BoolType" required="false" visibility="nevershow" multi="false">
 				<sci:help>Protocol AutoLayout</sci:help>
@@ -506,7 +506,11 @@ Parameter(&apos;Parallel Processing Options&apos;);</sci:enabledscript>
 						<sci:member>Initial Expression</sci:member>
 						<sci:member>Final Expression</sci:member>
 						<sci:member>Keep Calculated Properties</sci:member>
-						<sci:value>@modelname := &apos;bayes_protparam_3i5f_1Feb2020&apos;</sci:value>
+						<sci:value>@modelname := &apos;rf_protparam_3i5f_3Feb2020&apos;;
+@score := @modelname;
+IF FindSubstring(@modelname, &apos;rf&apos;) THEN
+	@score := @score + &apos;#P(true)&apos;;
+END IF</sci:value>
 					</sci:arg>
 					<sci:arg name="Initial Expression" type="ExpressionType" required="false" visibility="visible" multi="false" implbase="{0995D675-7EE2-432C-95DF-E91C14052B22}">
 						<sci:help>&lt;p&gt;
@@ -1434,7 +1438,7 @@ end if;
 				<sci:component name="RPForest_CV" version="2">
 					<sci:arg name="LearnedPropertyName" type="StringType" required="true" visibility="visible" multi="false">
 						<sci:help>Name of the model component that will be created in the LearnedProperties folder on your user tab.  This is also the base name of the properties that can be calculated by that component.</sci:help>
-						<sci:value>@modelname</sci:value>
+						<sci:value>$(modelname)</sci:value>
 					</sci:arg>
 					<sci:arg name="Name" type="StringType" required="true" visibility="visible" multi="false" expanded="true">
 						<sci:help>Name of the dependent (Y) property to be learned</sci:help>
@@ -1560,7 +1564,7 @@ Parameter(&apos;UseProperties&apos;) eq &apos;UserSet&apos; or Parameter(&apos;U
 						<sci:legalval selected="true">Raw</sci:legalval>
 						<sci:legalval>Report</sci:legalval>
 					</sci:arg>
-					<sci:arg name="Validation Type" type="StringType" required="false" visibility="visible" multi="false" uimpl="false">
+					<sci:arg name="Validation Type" type="StringType" required="false" visibility="visible" multi="false" expanded="true" uimpl="false">
 						<sci:help>Specifies the type of model validation to perform. Options are:
 &lt;ul&gt;
 &lt;li&gt;None: No validation is done. This option is useful if you wish to perform parameter tuning using the root-mean-square (RMS) error for the training data as the basis for selecting the best among different combinations of learner parameter settings. Note that this approach provides no protection against overfitting. Only one iteration is done for this case. (The value of &lt;i&gt;Iterations&lt;/i&gt; is ignored.)
@@ -2292,7 +2296,7 @@ If your server has a large amount of memory, you can increase performance for la
 						<sci:value>0</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentDisabled" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:value>0</sci:value>
+						<sci:value>1</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentIcon" type="StringType" required="true" visibility="nevershow" multi="false">
 						<sci:value>LEARNNODE</sci:value>
@@ -2611,7 +2615,7 @@ and so are accessible from all protocols.</sci:help>
 				<sci:component name="LGFB_CV" version="2">
 					<sci:arg name="LearnedPropertyName" type="StringType" required="true" visibility="visible" multi="false">
 						<sci:help>Name of the model component that will be created in the LearnedProperties folder on your user tab.  This is also the base name of the properties that can be calculated by that component.</sci:help>
-						<sci:value>@modelname</sci:value>
+						<sci:value>$(modelname)</sci:value>
 					</sci:arg>
 					<sci:arg name="Name" type="StringType" required="true" visibility="visible" multi="false" expanded="true">
 						<sci:help>Name of the dependent (Y) property to be learned</sci:help>
@@ -3267,7 +3271,7 @@ it is built.  This can be used, for example, to set defaults or help text.</sci:
 						<sci:value>0</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentDisabled" type="LongType" required="false" visibility="nevershow" multi="false">
-						<sci:value>0</sci:value>
+						<sci:value>1</sci:value>
 					</sci:arg>
 					<sci:arg name="ComponentIcon" type="StringType" required="true" visibility="nevershow" multi="false">
 						<sci:value>LEARNNODE</sci:value>
@@ -3386,8 +3390,14 @@ The built-in validation in these learners is generally faster than what is provi
 						<sci:help>The original path within the database of this component.</sci:help>
 						<sci:value>clinic1920\Custom Learners\LGFB_CV</sci:value>
 					</sci:arg>
+					<sci:arg name="SubProtocolModified" type="BoolType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Subprotocol Modified</sci:help>
+						<sci:value>0</sci:value>
+					</sci:arg>
 				</sci:component>
-				<sci:protocol/>
+				<sci:protocol>
+					<sci:version iVal="1"/>
+				</sci:protocol>
 			</sci:data>
 			<sci:data object="SciTegic.Protocol.1">
 				<sci:component name="Excel Reader" version="2">
@@ -4925,7 +4935,7 @@ end if;
 				<sci:component name="Model Validation Results Viewer" version="2">
 					<sci:arg name="LearnedPropertyName" type="StringType" required="true" visibility="visible" multi="false">
 						<sci:help>The name of the model in the learned properties folder</sci:help>
-						<sci:value>@modelname</sci:value>
+						<sci:value>$(modelname)</sci:value>
 					</sci:arg>
 					<sci:arg name="Output Options" type="StringType" required="false" visibility="visible" multi="true" uimpl="false">
 						<sci:help>Settings controlling the viewer&apos;s output. Options are:
@@ -5387,7 +5397,7 @@ end if;
 						<sci:help>Name of saved model component to evaluate.
 &lt;p&gt;
 To compare multiple models in different components, enter a comma-separated list of model component names for &lt;i&gt;Model Name&lt;/i&gt;.</sci:help>
-						<sci:value>@modelname</sci:value>
+						<sci:value>$(modelname)</sci:value>
 					</sci:arg>
 					<sci:arg name="Y Property" type="StringType" required="false" visibility="visible" multi="false">
 						<sci:help>Name of dependent Y property in input test data set</sci:help>
@@ -5686,7 +5696,7 @@ In addition to displaying a report in a browser, you can specify that the model 
 					<sci:arg name="ScoreProperty" type="StringType" required="true" visibility="visible" multi="false">
 						<sci:help>Property used to score the samples. Calculable properties are acceptable.</sci:help>
 						<sci:member>Allow Score Reversal</sci:member>
-						<sci:value>@modelname</sci:value>
+						<sci:value>$(score)</sci:value>
 					</sci:arg>
 					<sci:arg name="Allow Score Reversal" type="BoolType" required="false" visibility="visible" multi="false" legalvalsenforced="false">
 						<sci:help>Specifies whether to change the sign of all scores and redo the ROC computations when the initial ROC AUC value is less than 0.5.
@@ -5893,7 +5903,7 @@ If &lt;i&gt;OutputOption&lt;/i&gt; is &quot;ROC Data&quot;, the output is:&lt;br
 						<sci:member>IfFileExists</sci:member>
 						<sci:member>CharacterEncoding</sci:member>
 						<sci:member>Destination Authentication Options</sci:member>
-						<sci:value>userdata:/@modelname_ROC_data.csv</sci:value>
+						<sci:value>userdata:/$(modelname)_ROC_data.csv</sci:value>
 					</sci:arg>
 					<sci:arg name="Destination Authentication Options" type="GroupType" required="false" visibility="hidden" multi="false" legalvalsenforced="false" uimpl="false">
 						<sci:help>For HTTP, HTTPS, and HDFS URLs, you may optionally specify authentication information for the URL in the following parameters</sci:help>
@@ -6520,7 +6530,7 @@ Cells containing array data can be read by setting the &lt;i&gt;MultipleValueDel
 				<sci:component name="Good versus Bad Distribution Viewer" version="2">
 					<sci:arg name="PropertyName" type="StringType" required="true" visibility="visible" multi="false">
 						<sci:help>Name of property to use in the histograms</sci:help>
-						<sci:value>@modelname</sci:value>
+						<sci:value>$(score)</sci:value>
 					</sci:arg>
 					<sci:arg name="TestForGood" type="ExpressionType" required="true" visibility="visible" multi="false">
 						<sci:help>PilotScript expression used to split the data into &quot;good&quot; and &quot;bad&quot; classes.  If &lt;i&gt;TestForGood&lt;/i&gt; evaluates to True, a data record is assigned to the &quot;good&quot; class. If &lt;i&gt;TestForGood&lt;/i&gt; evaluates to False, it is assigned to the &quot;bad&quot; class.</sci:help>
@@ -6657,7 +6667,7 @@ evan a universal identifier (GUID) such as &quot;{ABCDDCBA-CC5A-4517-8D55-6BB4D5
 
 If a name is given, the search is conducted starting on the user&apos;s tab, then the Protocols tab, then the Components tab.</sci:help>
 						<sci:member>Use Parameters</sci:member>
-						<sci:value>@modelname</sci:value>
+						<sci:value>$(modelname)</sci:value>
 					</sci:arg>
 					<sci:arg name="Use Parameters" type="StringType" required="false" visibility="visible" multi="false" expanded="true">
 						<sci:help>Define whether to pass on the parameters from this component to the target component or to extract the parameter names and values from the Parameter Settings value.</sci:help>
@@ -6875,13 +6885,20 @@ If a name is given, the search is conducted starting on the user&apos;s tab, the
 						<sci:help>The original path within the database of this component.</sci:help>
 						<sci:value>Components\Data Access and Manipulation\Utilities\Subprotocol Utilities\Shortcut Component</sci:value>
 					</sci:arg>
+					<sci:arg name="ComponentCheckpoint" type="StringType" required="false" visibility="nevershow" multi="false">
+						<sci:help>Checkpoint Identifier</sci:help>
+						<sci:legalval selected="true">{2A785E15-32A2-4C31-B4D3-19B5E4124404}</sci:legalval>
+						<sci:legalval selected="true">1</sci:legalval>
+						<sci:legalval selected="true">-1</sci:legalval>
+						<sci:legalval selected="true">1</sci:legalval>
+					</sci:arg>
 				</sci:component>
 			</sci:data>
 			<sci:data object="SciTegic.Protocol.1">
 				<sci:component name="Enrichment Plot Viewer" version="2">
 					<sci:arg name="ScoreProperty" type="StringType" required="true" visibility="visible" multi="false">
 						<sci:help>ScoreProperty</sci:help>
-						<sci:value>@modelname</sci:value>
+						<sci:value>$(score)</sci:value>
 					</sci:arg>
 					<sci:arg name="TestForGood" type="ExpressionType" required="false" visibility="visible" multi="false" expanded="true">
 						<sci:help>Expression used to test for good.</sci:help>
@@ -7246,7 +7263,7 @@ and so are accessible from all protocols.</sci:help>
 					<sci:arg name="ScoreProperty" type="StringType" required="true" visibility="visible" multi="false" expanded="true">
 						<sci:help>ScoreProperty</sci:help>
 						<sci:member>Allow Score Reversal</sci:member>
-						<sci:value>@modelname</sci:value>
+						<sci:value>$(score)</sci:value>
 					</sci:arg>
 					<sci:arg name="Allow Score Reversal" type="BoolType" required="false" visibility="visible" multi="false" legalvalsenforced="false">
 						<sci:metaproplist>
@@ -7421,7 +7438,7 @@ Also reported in the plot title is the ROC score -- the area under the curve of 
 			<sci:connectid from="24" to="21" type="true"/>
 			<sci:connectid from="20" to="22" type="true"/>
 			<sci:connectid from="21" to="22" type="true"/>
-			<sci:version iVal="3"/>
+			<sci:version iVal="4"/>
 		</sci:protocol>
 	</sci:dbitem>
 <!-- Exported protocol -->
