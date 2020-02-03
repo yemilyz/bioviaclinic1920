@@ -29,7 +29,11 @@
 ├── sabdab
 │   ├── data
 │   ├── figures
-│   ├── source
+│   └── source
+├── sabdab_raw
+│   ├── sabdab_sequences_VH.fa
+│   ├── sabdab_sequences_VL.fa
+│   └── sabdab_summary_filtered.tsv
 ├── source
 │   ├── clean_pdb.py
 │   ├── constant.py
