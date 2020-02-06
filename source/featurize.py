@@ -20,11 +20,12 @@ from Bio.Seq import Seq
 
 from utils import get_filepaths
 from constant import AA_INDEX_IDS, HCHAIN_FASTA_FILE, LCHAIN_FASTA_FILE, \
-                     REPO_DIR, DI_LABELS_CVS, FEATURE_ARRAY_NAMES, \
+                     REPO_DIR, DI_LABELS_CSV, FEATURE_ARRAY_NAMES, \
                      SUPPORTED_GRAPH_TYPES, FEATURE_DIR
 from io_fasta import fasta_files_to_seqsets, write_seqset_to_fasta
 
 DATA_DIR = FEATURE_DIR
+
 def build_index_feature_set(aa_index_feats):
     #TODO: add functionality for other feature functions
     # Input: a list of tuples, each containing an amino acid index ID, 
@@ -83,7 +84,6 @@ def add_DI_labels(di_label_csv, feature_matrix):
     di['pdb_code'] = di['pdb_code'].astype(str).str.lower()
     di['pdb_code'] = di['pdb_code'].map(lambda pdb_code: pdb_code.split('_')[0])
     di = di.drop_duplicates()
-    print(di.shape)
     new_df = feature_matrix.merge(di, on='pdb_code')
     return new_df
 
@@ -156,7 +156,7 @@ def emboss_pepstats_parse_to_dataframe(infile, chain_type=''):
     df_pepstats = pd.DataFrame.from_dict(info_dict, orient='index')
     return df_pepstats
 
-def emboss_program_FASTA(infile, program, window_size=5, outfile='', \
+def emboss_program_FASTA(infile, program, window_size=None, outfile='', \
                         outdir='', outext='', force_rerun=False, \
                         graph=False, graph_type=''):
     """Run EMBOSS program on a FASTA file.
@@ -175,10 +175,14 @@ def emboss_program_FASTA(infile, program, window_size=5, outfile='', \
     """
     # Create the output file name
     outfile = ssbio.utils.outfile_maker(inname=infile, outname=outfile, outdir=outdir, outext=outext)
-    # Run program
+    
     program = '{} {} -outfile="{}"'.format(program, infile, outfile)
+    if window_size != None:
+        program = program + ' -window={}'.format(window_size)
     if (graph and graph_type in SUPPORTED_GRAPH_TYPES):
         program = program + ' -graph={} -plot=Yes'.format(graph_type)
+    
+    # Run program
     ssbio.utils.command_runner(program, force_rerun_flag=False, outfile_checker='',silent=True)
     return outfile
 
@@ -202,6 +206,17 @@ def emboss_program_parse_df(infile, program, start_index, chain_type=''):
     df_program = pd.DataFrame.from_dict(info_dict, orient='index')
     return df_program
 
+def add_calc_column(calc_type, name, chain_type, df):
+    ind = -1
+    if calc_type == 'avg':
+        df[chain_type+'_'+calc_type+'_'+name] = df.mean(axis=1)
+        df[chain_type+'_std_'+name] = df.std(axis=1)
+        ind = -2
+    elif calc_type == 'med':
+        df[chain_type+'_'+calc_type+'_'+name] = df.median(axis=1)
+    df = df[df.columns[ind:]]
+    return df
+
 def concat_dataframes_and_pdbcodes(array_ids, *args):
     df_list = []
     for arg in args:
@@ -213,6 +228,12 @@ def concat_dataframes_and_pdbcodes(array_ids, *args):
     columns_list = [columns_list[-1]] + columns_list[:-1]
     df_final = df_final[columns_list]
     return df_final
+
+# Clean up files created by EMBOSS
+def clean_up_files(*argv):
+    for arg in argv:
+        if os.path.exists(arg):
+            os.remove(arg)
 
 def main():
     # Testing
@@ -232,40 +253,54 @@ def main():
     array_sequences_Lchain = get_sequences_to_array(LCHAIN_FASTA_FILE, outfile='Lchain')
 
     # Get features from EMBOSS
-    file_pepstats_Hchain = ssbio.protein.sequence.properties.residues.emboss_pepstats_on_fasta(HCHAIN_FASTA_FILE, outfile='pepstats_Hchain', outdir='../data/')
-    file_pepstats_Lchain = ssbio.protein.sequence.properties.residues.emboss_pepstats_on_fasta(LCHAIN_FASTA_FILE, outfile='pepstats_Lchain', outdir='../data/')
+    file_pepstats_Hchain = ssbio.protein.sequence.properties.residues.emboss_pepstats_on_fasta(HCHAIN_FASTA_FILE, outfile='pepstats_Hchain', outdir=DATA_DIR)
+    file_pepstats_Lchain = ssbio.protein.sequence.properties.residues.emboss_pepstats_on_fasta(LCHAIN_FASTA_FILE, outfile='pepstats_Lchain', outdir=DATA_DIR)
     
     df_pepstats_Hchain = emboss_pepstats_parse_to_dataframe(file_pepstats_Hchain, 'VH')
     df_pepstats_Lchain = emboss_pepstats_parse_to_dataframe(file_pepstats_Lchain, 'VL')
 
-    file_charge_Hchain = emboss_program_FASTA(HCHAIN_FASTA_FILE, 'charge', outfile='sw_charge_Hchain', outdir='../data/', outext='.charge')
-    file_charge_Lchain = emboss_program_FASTA(LCHAIN_FASTA_FILE, 'charge' ,outfile='sw_charge_Lchain', outdir='../data/', outext='.charge')
+    file_charge_Hchain = emboss_program_FASTA(HCHAIN_FASTA_FILE, 'charge', window_size=5, outfile='sw_charge_Hchain', outdir=DATA_DIR, outext='.charge')
+    file_charge_Lchain = emboss_program_FASTA(LCHAIN_FASTA_FILE, 'charge', window_size=5, outfile='sw_charge_Lchain', outdir=DATA_DIR, outext='.charge')
 
     df_charge_Hchain = emboss_program_parse_df(file_charge_Hchain, 'charge', 4, chain_type='VH')
     df_charge_Lchain = emboss_program_parse_df(file_charge_Lchain, 'charge', 4, chain_type='VL')
 
-    file_hmoment_Hchain = emboss_program_FASTA(HCHAIN_FASTA_FILE, 'hmoment', outfile='sw_hmoment_Hchain', outdir='../data/', outext='.hmoment')
-    file_hmoment_Lchain = emboss_program_FASTA(LCHAIN_FASTA_FILE, 'hmoment', outfile='sw_hmoment_Lchain', outdir='../data/', outext='.hmoment')
+    file_hmoment_Hchain = emboss_program_FASTA(HCHAIN_FASTA_FILE, 'hmoment', window_size=10, outfile='sw_hmoment_Hchain', outdir=DATA_DIR, outext='.hmoment')
+    file_hmoment_Lchain = emboss_program_FASTA(LCHAIN_FASTA_FILE, 'hmoment', window_size=10, outfile='sw_hmoment_Lchain', outdir=DATA_DIR, outext='.hmoment')
 
     df_hmoment_Hchain = emboss_program_parse_df(file_hmoment_Hchain, 'hmoment', 5, chain_type='VH')
     df_hmoment_Lchain = emboss_program_parse_df(file_hmoment_Lchain, 'hmoment', 5, chain_type='VL')
 
-    print(df_hmoment_Hchain)
-    print(df_hmoment_Hchain.shape)
     featureset = build_index_feature_set(aa_index_feats)
     df_aafeatures_Hchain, df_aafeatures_Lchain = \
         featurize_HLchains(seqset_Hchain, seqset_Lchain, featureset)
-    feat_mat = concat_dataframes_and_pdbcodes(array_ids, df_pepstats_Hchain, df_pepstats_Lchain, df_charge_Hchain, df_charge_Lchain, df_aafeatures_Hchain, df_aafeatures_Lchain, df_hmoment_Hchain, df_hmoment_Lchain)
-    # print(feat_mat)
-    print(feat_mat.shape)
-    feat_mat.to_csv(os.path.join(DATA_DIR, "features.csv"), index=False)
+    
+    # Original
+    # feat_mat = concat_dataframes_and_pdbcodes(array_ids, df_pepstats_Hchain, df_pepstats_Lchain, df_charge_Hchain, df_charge_Lchain, df_aafeatures_Hchain, df_aafeatures_Lchain, df_hmoment_Hchain, df_hmoment_Lchain)
+    
+    # Only pepstats
+    feat_mat = concat_dataframes_and_pdbcodes(array_ids, df_pepstats_Hchain, df_pepstats_Lchain)
+    
+    # Avg
+    # df_avg_charge_Hchain, df_avg_charge_Lchain = add_calc_column('avg', 'charge', 'VH', df_charge_Hchain), add_calc_column('avg', 'charge', 'VL', df_charge_Lchain)
+    # df_avg_aafeat_Hchain, df_avg_aafeat_Lchain = add_calc_column('avg', 'KDhydrophobicity', 'VH', df_aafeatures_Hchain), add_calc_column('avg', 'KDhydrophobicity', 'VL', df_aafeatures_Lchain)
+    # df_avg_hmoment_Hchain, df_avg_hmoment_Lchain = add_calc_column('avg', 'hmoment', 'VH', df_hmoment_Hchain), add_calc_column('avg', 'hmoment', 'VL', df_hmoment_Lchain)
+    # feat_mat = concat_dataframes_and_pdbcodes(array_ids, df_pepstats_Hchain, df_pepstats_Lchain, df_avg_charge_Hchain, df_avg_charge_Lchain, df_avg_aafeat_Hchain, df_avg_aafeat_Lchain, df_avg_hmoment_Hchain, df_avg_hmoment_Lchain)
+    
+    # Med
+    # df_med_charge_Hchain, df_med_charge_Lchain = add_calc_column('med', 'charge', 'VH', df_charge_Hchain), add_calc_column('med', 'charge', 'VL', df_charge_Lchain)
+    # df_med_aafeat_Hchain, df_med_aafeat_Lchain = add_calc_column('med', 'KDhydrophobicity', 'VH', df_aafeatures_Hchain), add_calc_column('med', 'KDhydrophobicity', 'VL', df_aafeatures_Lchain)
+    # df_med_hmoment_Hchain, df_med_hmoment_Lchain = add_calc_column('med', 'hmoment', 'VH', df_hmoment_Hchain), add_calc_column('med', 'hmoment', 'VL', df_hmoment_Lchain)
+    # feat_mat = concat_dataframes_and_pdbcodes(array_ids, df_pepstats_Hchain, df_pepstats_Lchain, df_med_charge_Hchain, df_med_charge_Lchain, df_med_aafeat_Hchain, df_med_aafeat_Lchain, df_med_hmoment_Hchain, df_med_hmoment_Lchain)
 
-    labeled_mat = add_DI_labels(DI_LABELS_CVS, feat_mat)
-    print('labeled matrix shape', labeled_mat.shape)
-    # labeled_mat.to_csv(os.path.join(DATA_DIR, "features_label.csv"), index=False)
+    feat_mat.to_csv(os.path.join(DATA_DIR, "features_pc_pepstats_python.csv"), index=False)
+
+    labeled_mat = add_DI_labels(DI_LABELS_CSV, feat_mat)
     classif_labeled_mat = add_DI_classification_labels(labeled_mat)
-    classif_labeled_mat.to_csv(os.path.join(DATA_DIR, "features_label.csv"), index=False)
-    print('classified feature matrix shape', classif_labeled_mat.shape)
+    classif_labeled_mat.to_csv(os.path.join(DATA_DIR, "features_labeled_pepstats_python.csv"), index=False)
+    print('classified feature matrix shape: ', classif_labeled_mat.shape)
+
+    clean_up_files(file_pepstats_Hchain, file_pepstats_Lchain, file_charge_Hchain, file_charge_Lchain, file_hmoment_Hchain, file_hmoment_Lchain)
 
 if __name__ == '__main__':
     main()
