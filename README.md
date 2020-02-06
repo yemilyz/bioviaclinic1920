@@ -26,10 +26,6 @@
 │   └── results
 │       ├── imputer_Dummy.txt
 │       └── imputer_RF.txt
-├── sabdab
-│   ├── data
-│   ├── figures
-│   └── source
 ├── sabdab_raw
 │   ├── sabdab_sequences_VH.fa
 │   ├── sabdab_sequences_VL.fa
