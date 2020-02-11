@@ -19,14 +19,17 @@ import matplotlib.pyplot as plt
 
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
-from sklearn.model_selection import RandomizedSearchCV
+from sklearn.model_selection import RandomizedSearchCV, LeaveOneOut
 from sklearn import metrics
 from sklearn.externals import joblib
 
 # local ML modules
-import datasets as datasets
+from datasets import get_dataset
 import classifiers
-# import preprocessors as preprocessors
+from constant import DI_LABELS_CSV, PROTPARAM_FEATURES
+
+# from constant import DI_LABELS_CSV
+import preprocessors as preprocessors
 
 
 ######################################################################
@@ -35,7 +38,7 @@ import classifiers
 
 # no magic numbers in code
 
-N_ITER = 50    # number of parameter settings sampled (trade-off runtime vs quality)
+N_ITER = 20    # number of parameter settings sampled (trade-off runtime vs quality)
 CV = 10        # number of folds in cross-validation
 
 
@@ -43,32 +46,32 @@ CV = 10        # number of folds in cross-validation
 # functions
 ######################################################################
 
-def get_parser():
-    """Make argument parser."""
+# def get_parser():
+#     """Make argument parser."""
 
-    parser = argparse.ArgumentParser()
+#     parser = argparse.ArgumentParser()
 
-    # positional arguments
-    parser.add_argument("dataset",
-                        metavar="<dataset>",
-                        choices=datasets.DATASETS,
-                        help="[{}]".format(' | '.join(datasets.DATASETS)))
-    parser.add_argument("classifier",
-                        metavar="<classifier>",
-                        choices=classifiers.CLASSIFIERS,
-                        help="[{}]".format(' | '.join(classifiers.CLASSIFIERS)))
+#     # positional arguments
+#     parser.add_argument("dataset",
+#                         metavar="<dataset>",
+#                         choices=datasets.DATASETS,
+#                         help="[{}]".format(' | '.join(datasets.DATASETS)))
+#     parser.add_argument("classifier",
+#                         metavar="<classifier>",
+#                         choices=classifiers.CLASSIFIERS,
+#                         help="[{}]".format(' | '.join(classifiers.CLASSIFIERS)))
 
-    # optional arguments
-    # if preprocessors.PREPROCESSORS:
-        # parser.add_argument("-p", "--preprocessor", dest="preprocessors",
-        #                     metavar="<preprocessor>", 
-        #                     default=[], action="append",
-        #                     choices=preprocessors.PREPROCESSORS,
-        #                     help="[{}]".format(' | '.join(preprocessors.PREPROCESSORS)))
-    # else:
-    parser.set_defaults(preprocessors=[])
+#     # optional arguments
+#     # if preprocessors.PREPROCESSORS:
+#         # parser.add_argument("-p", "--preprocessor", dest="preprocessors",
+#         #                     metavar="<preprocessor>", 
+#         #                     default=[], action="append",
+#         #                     choices=preprocessors.PREPROCESSORS,
+#         #                     help="[{}]".format(' | '.join(preprocessors.PREPROCESSORS)))
+#     # else:
+#     parser.set_defaults(preprocessors=[])
 
-    return parser
+#     return parser
 
 
 
@@ -139,14 +142,16 @@ def report_metrics(y_true, y_pred, labels=None, target_names=None):
     p, r, f1, s = metrics.precision_recall_fscore_support(y_true, y_pred,
                                                           labels=labels,
                                                           average="weighted")
+    roc = metrics.roc_auc_score(y_true, y_pred)
     print("precision: ",p)
     print("recall: ",r)
     print("f1: ", f1)
+    print("roc: ", roc)
     # print report (redundant with above but easier)
     report = metrics.classification_report(y_true, y_pred, labels, target_names)
     print(report)
 
-    return C, (a, p, r, f1)
+    return C, (a, p, r, f1, roc)
 
 
 def reportCV(cv_data):
@@ -166,7 +171,13 @@ def reportCV(cv_data):
 
 
 
-def run(dataset, preprocessor_list, classifier):
+def run_one_featureset(
+    feature_path,
+    preprocessor_list,
+    classifier,
+    label_path=DI_LABELS_CSV,
+    labels = [0, 1],
+    target_names = ['Low', 'High']):
     """Run ML pipeline.
 
     Parameters
@@ -177,7 +188,7 @@ def run(dataset, preprocessor_list, classifier):
     """
 
     # get dataset, then split into train and test set
-    X, y, labels, target_names, feature_names = getattr(datasets, dataset)()
+    X, y, feature_names = get_dataset(feature_path, label_path)
     X_train, X_test, y_train, y_test = \
         train_test_split(X, y, test_size=0.2, random_state=42)
     n,d = X_train.shape
@@ -192,7 +203,8 @@ def run(dataset, preprocessor_list, classifier):
 
     # tune model using randomized search
     n_iter = min(N_ITER, sz)    # cap max number of iterations
-    search = RandomizedSearchCV(pipe, param_grid, n_iter=n_iter, cv=CV, refit='precision', scoring=['recall', 'precision', 'accuracy'])
+    search = RandomizedSearchCV(pipe, param_grid, verbose=1, n_iter=n_iter, cv=LeaveOneOut(), refit='precision', scoring=['recall', 'precision', 'accuracy'])
+    
     search.fit(X_train, y_train)
     print("Best parameters set found on development set:\n")
     print(search.best_params_)
@@ -204,29 +216,30 @@ def run(dataset, preprocessor_list, classifier):
     res_train = report_metrics(y_true, y_pred, labels, target_names)
     print("\n")
 
-    print("Detailed classification report (test set):\n")
-    y_true, y_pred = y_test, search.predict(X_test)
-    res_test = report_metrics(y_true, y_pred, labels, target_names)
-    print("\n")
+    # print("Detailed classification report (test set):\n")
+    # y_true, y_pred = y_test, search.predict(X_test)
+    # res_test = report_metrics(y_true, y_pred, labels, target_names)
+    # print("\n")
 
 
     
-    cv_data = pd.DataFrame(search.cv_results_)
-    cv_data.to_csv('data/{}_cv_results.csv'.format(classifier), index=False)
-    reportCV(cv_data)
+    # cv_data = pd.DataFrame(search.cv_results_)
+    # print(cv_data)
+    # cv_data.to_csv('results/{}_cv_results.csv'.format(classifier), index=False)
+    # reportCV(cv_data)
 
-    # fpr, tpr, threshold = metrics.roc_curve(y_true, y_pred)
-    # roc_auc = metrics.auc(fpr, tpr)
-    # plt.figure()
-    # plt.title('Receiver Operating Characteristic')
-    # plt.plot(fpr, tpr, 'b', label = 'AUC = %0.2f' % roc_auc)
-    # plt.legend(loc = 'lower right')
-    # plt.plot([0, 1], [0, 1],'r--')
-    # plt.xlim([0, 1])
-    # plt.ylim([0, 1])
-    # plt.ylabel('True Positive Rate')
-    # plt.xlabel('False Positive Rate')
-    # plt.savefig("out.png")
+    fpr, tpr, threshold = metrics.roc_curve(y_true, y_pred)
+    roc_auc = metrics.auc(fpr, tpr)
+    plt.figure()
+    plt.title('Receiver Operating Characteristic')
+    plt.plot(fpr, tpr, 'b', label = 'AUC = %0.2f' % roc_auc)
+    plt.legend(loc = 'lower right')
+    plt.plot([0, 1], [0, 1],'r--')
+    plt.xlim([0, 1])
+    plt.ylim([0, 1])
+    plt.ylabel('True Positive Rate')
+    plt.xlabel('False Positive Rate')
+    plt.show()
 
     # save to file
     pp_string = ''
@@ -235,14 +248,13 @@ def run(dataset, preprocessor_list, classifier):
             pp_string = pp_string+'_'
         pp_string = pp_string+pp
 
-    prefix = os.path.join("results", '_'.join([dataset] + [pp_string] +[classifier]))
+    dataset_name = feature_path.split('/')[-1].split('.')[0]
+    prefix = os.path.join("results", '_'.join([dataset_name] +[classifier]))
 
     # model
     joblib_file = prefix + "_pipeline.pkl"
     print(search.best_estimator_)
     joblib.dump(search.best_estimator_, joblib_file)
-
-    
 
     # results
     json_file = prefix + "_results.json"
@@ -263,12 +275,18 @@ def main():
     # set random seed (for repeatability)
     np.random.seed(42)
 
-    # parse arguments
-    parser = get_parser()
-    args = parser.parse_args()
+    # # parse arguments
+    # parser = get_parser()
+    # args = parser.parse_args()
 
     # main pipeline
-    run(args.dataset, args.preprocessors, args.classifier)
+    run_one_featureset(
+        feature_path=PROTPARAM_FEATURES,
+        preprocessor_list=preprocessors.PREPROCESSORS,
+        classifier='SVM',
+        label_path=DI_LABELS_CSV,
+        labels = [0, 1],
+        target_names = ['Low', 'High'])
 
 if __name__ == "__main__":
     main()

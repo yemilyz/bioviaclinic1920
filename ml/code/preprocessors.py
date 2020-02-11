@@ -11,7 +11,6 @@ from abc import ABC
 # sklearn modules
 from sklearn import preprocessing
 from sklearn import impute
-
 ######################################################################
 # classes
 ######################################################################

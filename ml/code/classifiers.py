@@ -17,8 +17,8 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.linear_model import LogisticRegression
-from sklearn.naive_bayes import GaussianNB
-
+from sklearn.naive_bayes import GaussianNB, BernoulliNB
+from sklearn.svm import SVC
 ######################################################################
 # classes
 ######################################################################
@@ -74,9 +74,9 @@ class KNN(Classifier):
 class RF(Classifier):
     """A Random Forest classifier."""
 
-    def __init__(self, n, d):
+    def __init__(self, n=100, d=50):
         self.estimator_ = RandomForestClassifier()
-        self.param_grid_ = {"n_estimators": np.arange(1,52,10),
+        self.param_grid_ = {"n_estimators": np.arange(1,100,10),
                             "max_depth": np.arange(1,min(12,n),2),
                             "max_features": np.arange(1,min(12,d),2)}
 
@@ -88,10 +88,22 @@ class MLP(Classifier):
         self.estimator_ = MLPClassifier(max_iter=int(10e3))
         self.param_grid_ = {'hidden_layer_sizes': [(100,), (50,), (100, 100)]}
 
-class Bayes(Classifier):
+class GaussianBayes(Classifier):
     def __init__(self, n, d):
         self.estimator_ = GaussianNB()
         self.param_grid_ = {}
+
+
+class BernoulliBayes(Classifier):
+    def __init__(self, n, d):
+        self.estimator_ = BernoulliNB()
+        self.param_grid_ = {}
+
+
+class SVM(Classifier):
+    def __init__(self, n, d):
+        self.estimator_ = SVC()
+        self.param_grid_ = {'C': [0.1, 1, 10, 100], 'kernel': ['rbf', 'linear']}
 
 
 ######################################################################
