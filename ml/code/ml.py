@@ -10,7 +10,8 @@ import os
 import argparse
 import json
 import matplotlib.pyplot as plt
-
+import csv
+import glob
 
 # numpy, pandas, and sklearn modules
 import numpy as np
@@ -19,16 +20,15 @@ import matplotlib.pyplot as plt
 
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
-from sklearn.model_selection import RandomizedSearchCV, LeaveOneOut
+from sklearn.model_selection import RandomizedSearchCV, LeaveOneOut, LeavePOut, StratifiedKFold
 from sklearn import metrics
 from sklearn.externals import joblib
 
 # local ML modules
 from datasets import get_dataset
 import classifiers
-from constant import DI_LABELS_CSV, PROTPARAM_FEATURES
-
-# from constant import DI_LABELS_CSV
+from constant import DI_LABELS_CSV, PROTPARAM_FEATURES, SLIDING_WIN_FEATURES, EMBEDDING_5_7_FEATURES
+from learning_curve import plot_learning_curve
 import preprocessors as preprocessors
 
 
@@ -38,8 +38,8 @@ import preprocessors as preprocessors
 
 # no magic numbers in code
 
-N_ITER = 20    # number of parameter settings sampled (trade-off runtime vs quality)
-CV = 10        # number of folds in cross-validation
+N_ITER = 100    # number of parameter settings sampled (trade-off runtime vs quality)
+CV = StratifiedKFold(n_splits=10, shuffle=True, random_state=0)        # number of folds in cross-validation
 
 
 ######################################################################
@@ -89,11 +89,11 @@ def make_pipeline(preprocessor_list, classifier, n, d):
     param_grid = {}
 
     # get preprocessor(s) and hyperparameters to tune using cross-validation
-    # for pp in preprocessor_list:
-    #     process = getattr(preprocessors, pp)()
-    #     name = type(process).__name__
-    #     transform = process.transformer_
-    #     steps.append((name, transform))
+    for pp in preprocessor_list:
+        process = getattr(preprocessors, pp)()
+        name = type(process).__name__
+        transform = process.transformer_
+        steps.append((name, transform))
 
     # get classifier and hyperparameters to tune using cross-validation
     clf = getattr(classifiers, classifier)(n,d)
@@ -142,16 +142,14 @@ def report_metrics(y_true, y_pred, labels=None, target_names=None):
     p, r, f1, s = metrics.precision_recall_fscore_support(y_true, y_pred,
                                                           labels=labels,
                                                           average="weighted")
-    roc = metrics.roc_auc_score(y_true, y_pred)
     print("precision: ",p)
     print("recall: ",r)
     print("f1: ", f1)
-    print("roc: ", roc)
     # print report (redundant with above but easier)
     report = metrics.classification_report(y_true, y_pred, labels, target_names)
     print(report)
 
-    return C, (a, p, r, f1, roc)
+    return C, (a, p, r, f1)
 
 
 def reportCV(cv_data):
@@ -177,7 +175,10 @@ def run_one_featureset(
     classifier,
     label_path=DI_LABELS_CSV,
     labels = [0, 1],
-    target_names = ['Low', 'High']):
+    target_names = ['Low', 'High'],
+    iterations=N_ITER,
+    n_jobs=4,
+    ):
     """Run ML pipeline.
 
     Parameters
@@ -203,7 +204,15 @@ def run_one_featureset(
 
     # tune model using randomized search
     n_iter = min(N_ITER, sz)    # cap max number of iterations
-    search = RandomizedSearchCV(pipe, param_grid, verbose=1, n_iter=n_iter, cv=LeaveOneOut(), refit='precision', scoring=['recall', 'precision', 'accuracy'])
+    search = RandomizedSearchCV(
+        pipe,
+        param_grid,
+        verbose=1,
+        n_iter=n_iter,
+        cv=CV,
+        refit='precision',
+        scoring=['recall', 'precision', 'accuracy'],
+        n_jobs=n_jobs)
     
     search.fit(X_train, y_train)
     print("Best parameters set found on development set:\n")
@@ -223,23 +232,33 @@ def run_one_featureset(
 
 
     
-    # cv_data = pd.DataFrame(search.cv_results_)
-    # print(cv_data)
-    # cv_data.to_csv('results/{}_cv_results.csv'.format(classifier), index=False)
     # reportCV(cv_data)
 
-    fpr, tpr, threshold = metrics.roc_curve(y_true, y_pred)
+    dataset_name = feature_path.split('/')[-1].split('.')[0]
+
+    results_dir = os.path.join('result', dataset_name)
+    prefix_metric = os.path.join(results_dir, 'metric')
+    prefix_figure = os.path.join(results_dir, 'figure')
+    prefix_model = os.path.join(results_dir, 'model')
+
+    for directory in [prefix_metric, prefix_figure, prefix_model]:
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+            
+    y_score = search.predict_proba(X_train)[:,1]
+    fpr, tpr, threshold = metrics.roc_curve(y_true, y_score)
     roc_auc = metrics.auc(fpr, tpr)
-    plt.figure()
-    plt.title('Receiver Operating Characteristic')
-    plt.plot(fpr, tpr, 'b', label = 'AUC = %0.2f' % roc_auc)
-    plt.legend(loc = 'lower right')
-    plt.plot([0, 1], [0, 1],'r--')
-    plt.xlim([0, 1])
-    plt.ylim([0, 1])
-    plt.ylabel('True Positive Rate')
-    plt.xlabel('False Positive Rate')
-    plt.show()
+
+    _, axes = plt.subplots(1, 2, figsize=(10, 5))
+    axes[0].set_title('{} ROC Training'.format(classifier))
+    axes[0].plot(fpr, tpr, 'b', label = 'AUC = %0.2f' % roc_auc)
+    axes[0].legend(loc = 'lower right')
+    axes[0].plot([0, 1], [0, 1],'r--')
+    axes[0].set_xlim([0, 1])
+    axes[0].set_ylim([0, 1])
+    axes[0].set_ylabel('True Positive Rate')
+    axes[0].set_xlabel('False Positive Rate')
+    
 
     # save to file
     pp_string = ''
@@ -248,22 +267,60 @@ def run_one_featureset(
             pp_string = pp_string+'_'
         pp_string = pp_string+pp
 
-    dataset_name = feature_path.split('/')[-1].split('.')[0]
-    prefix = os.path.join("results", '_'.join([dataset_name] +[classifier]))
+    discriptor = "{}_{}".format(dataset_name, classifier)
 
+    # plt.savefig(os.path.join(prefix_figure, discriptor + '_roc_train.png'))
+    # plt.close()
+
+    lc_title = "{} Learning Curves".format(classifier)
+    plot, train_scores_mean, train_scores_std, valid_scores_mean, valid_scores_std = plot_learning_curve(
+        estimator=search.best_estimator_,
+        title=lc_title,
+        X=X_train,
+        y=y_train,
+        axes=axes[1],
+        ylim=(0.4, 1.01),
+        cv=CV,
+        n_jobs=n_jobs,
+        train_sizes=np.linspace(.1, 1.0, 5))
+    plot.savefig(os.path.join(prefix_figure, discriptor + '_roc_lc.png'))
+    plot.close()
+
+    learning_curve_file = os.path.join(prefix_metric, discriptor + "_learning_curve.csv")
+    
+    learning_curve_data = {
+        'train_scores_mean': train_scores_mean,
+        'train_scores_std': train_scores_std,
+        'valid_scores_mean': valid_scores_mean,
+        'valid_scores_std': valid_scores_std,
+        }
+    pd.DataFrame.from_dict(learning_curve_data).to_csv(learning_curve_file)
     # model
-    joblib_file = prefix + "_pipeline.pkl"
+    joblib_file = os.path.join(prefix_model, discriptor + "_pipeline.pkl")
     print(search.best_estimator_)
     joblib.dump(search.best_estimator_, joblib_file)
 
     # results
-    json_file = prefix + "_results.json"
+    json_file = os.path.join(prefix_metric, discriptor + "_results.json")
     res = {"C_train":      res_train[0].tolist(),
            "scores_train": res_train[1],
-           "C_test":       res_test[0].tolist(),
-           "scores_test":  res_test[1]}
+        }
+        #    "C_test":       res_test[0].tolist(),
+        #    "scores_test":  res_test[1]}
+
+    cv_data = pd.DataFrame(search.cv_results_)
+    # print(cv_data)
+    cv_data.to_csv(os.path.join(prefix_metric, discriptor + '_cv_metrics.csv'))
     with open(json_file, 'w') as outfile:
         json.dump(res, outfile)
+
+    roc_file = os.path.join(prefix_metric, discriptor  + "_roc.csv")
+    with open(roc_file, 'w') as outfile:
+        wr = csv.writer(outfile)
+        wr.writerow(fpr)
+        wr.writerow(tpr)
+        wr.writerow(threshold)
+
     # return search
 
 
@@ -274,20 +331,40 @@ def run_one_featureset(
 def main():
     # set random seed (for repeatability)
     np.random.seed(42)
-
     # # parse arguments
     # parser = get_parser()
     # args = parser.parse_args()
 
     # main pipeline
-    run_one_featureset(
-        feature_path=PROTPARAM_FEATURES,
-        preprocessor_list=preprocessors.PREPROCESSORS,
-        classifier='SVM',
-        label_path=DI_LABELS_CSV,
-        labels = [0, 1],
-        target_names = ['Low', 'High'])
+    feature_paths = glob.glob('data/feature_*')
+    embed_feature_paths = glob.glob('data/embedding_features/feature_*')
+    for feature_path in feature_paths + embed_feature_path:
+        print('training for feature', feature_path)
+        for clf in classifiers.CLASSIFIERS:
+            if clf == 'MLP' or clf == 'SVM' or clf == 'RF':
+                iterations = 5
+            else:
+                iterations = N_ITER
+
+            run_one_featureset(
+                feature_path=EMBEDDING_5_7_FEATURES,
+                preprocessor_list=preprocessors.PREPROCESSORS,
+                classifier=clf,
+                label_path=DI_LABELS_CSV,
+                labels = [0, 1],
+                target_names = ['Low', 'High'],
+                iterations = iterations,
+                )
 
 if __name__ == "__main__":
     main()
+
+    # run_one_featureset(
+    #     feature_path=PROTPARAM_FEATURES,
+    #     preprocessor_list=preprocessors.PREPROCESSORS,
+    #     classifier='SVM',
+    #     label_path=DI_LABELS_CSV,
+    #     labels = [0, 1],
+    #     target_names = ['Low', 'High'],
+    #     iterations = 10)
 

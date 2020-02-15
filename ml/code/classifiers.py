@@ -19,6 +19,7 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import GaussianNB, BernoulliNB
 from sklearn.svm import SVC
+from sklearn.linear_model import LogisticRegression
 ######################################################################
 # classes
 ######################################################################
@@ -68,17 +69,26 @@ class KNN(Classifier):
 
     def __init__(self, n, d):
         self.estimator_ = KNeighborsClassifier()
-        self.param_grid_ = {"n_neighbors": np.arange(1,min(22,n),4)}
+        self.param_grid_ = {"n_neighbors": np.arange(5,min(50,n),2)}
+
+
+class LogiReg(Classifier):
+
+    def __init__(self, n, d):
+        self.estimator_ = LogisticRegression()
+        self.param_grid_ = { 'penalty' : ['l1', 'l2'],
+                             'C' : [0.01, 0.1, 1, 10, 100, 200, 500],
+                            }
 
 
 class RF(Classifier):
     """A Random Forest classifier."""
 
-    def __init__(self, n=100, d=50):
+    def __init__(self, n, d):
         self.estimator_ = RandomForestClassifier()
-        self.param_grid_ = {"n_estimators": np.arange(1,100,10),
-                            "max_depth": np.arange(1,min(12,n),2),
-                            "max_features": np.arange(1,min(12,d),2)}
+        self.param_grid_ = {"n_estimators": np.arange(1,200,10),
+                            "max_depth": np.arange(1,min(50,n),2),
+                            "max_features": np.arange(5, int(np.sqrt(d)), 2)}
 
 
 class MLP(Classifier):
@@ -102,8 +112,8 @@ class BernoulliBayes(Classifier):
 
 class SVM(Classifier):
     def __init__(self, n, d):
-        self.estimator_ = SVC()
-        self.param_grid_ = {'C': [0.1, 1, 10, 100], 'kernel': ['rbf', 'linear']}
+        self.estimator_ = SVC(max_iter=8000, probability=True)
+        self.param_grid_ = {'C': [0.001, 0.1, 1, 10, 100], 'kernel': ['rbf', 'linear']}
 
 
 ######################################################################

@@ -40,10 +40,10 @@ class Imputer(Preprocessor):
         self.param_grid_ = None
         self.transformer_ = impute.SimpleImputer(strategy='constant', fill_value=0)
 
-class Scaler(Preprocessor):
-    def __init__(self):
-        self.param_grid_ = None
-        self.transformer_ = preprocessing.StandardScaler()
+# class Scaler(Preprocessor):
+#     def __init__(self):
+#         self.param_grid_ = None
+#         self.transformer_ = preprocessing.StandardScaler()
 
 ######################################################################
 # globals
