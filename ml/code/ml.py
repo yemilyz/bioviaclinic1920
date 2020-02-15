@@ -338,16 +338,17 @@ def main():
     # main pipeline
     feature_paths = glob.glob('data/feature_*')
     embed_feature_paths = glob.glob('data/embedding_features/feature_*')
-    for feature_path in feature_paths + embed_feature_path:
+
+    for feature_path in feature_paths + embed_feature_paths:
         print('training for feature', feature_path)
+
         for clf in classifiers.CLASSIFIERS:
             if clf == 'MLP' or clf == 'SVM' or clf == 'RF':
                 iterations = 5
             else:
                 iterations = N_ITER
-
             run_one_featureset(
-                feature_path=EMBEDDING_5_7_FEATURES,
+                feature_path=feature_path,
                 preprocessor_list=preprocessors.PREPROCESSORS,
                 classifier=clf,
                 label_path=DI_LABELS_CSV,
