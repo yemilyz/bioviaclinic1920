@@ -85,10 +85,11 @@ class RF(Classifier):
     """A Random Forest classifier."""
 
     def __init__(self, n, d):
-        self.estimator_ = RandomForestClassifier()
+        self.estimator_ = RandomForestClassifier(random_state=0)
         self.param_grid_ = {"n_estimators": np.arange(1,200,10),
                             "max_depth": np.arange(1,min(50,n),2),
-                            "max_features": np.arange(5, int(np.sqrt(d)), 2)}
+                            "max_features": np.arange(1, int(np.sqrt(n)) ,2),
+                            }
 
 
 class MLP(Classifier):
@@ -113,7 +114,7 @@ class BernoulliBayes(Classifier):
 class SVM(Classifier):
     def __init__(self, n, d):
         self.estimator_ = SVC(max_iter=8000, probability=True)
-        self.param_grid_ = {'C': [0.001, 0.1, 1, 10, 100], 'kernel': ['rbf', 'linear']}
+        self.param_grid_ = {'C': [0.001, 0.1, 1, 10, 100, 500], 'kernel': ['rbf', 'linear']}
 
 
 ######################################################################

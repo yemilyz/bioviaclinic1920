@@ -9,6 +9,8 @@ Description : Main ML Pipeline
 import os
 import argparse
 import json
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import csv
 import glob
@@ -20,7 +22,7 @@ import matplotlib.pyplot as plt
 
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
-from sklearn.model_selection import RandomizedSearchCV, LeaveOneOut, LeavePOut, StratifiedKFold
+from sklearn.model_selection import RandomizedSearchCV, LeaveOneOut, LeavePOut, StratifiedKFold, GridSearchCV
 from sklearn import metrics
 from sklearn.externals import joblib
 
@@ -38,9 +40,9 @@ import preprocessors as preprocessors
 
 # no magic numbers in code
 
-N_ITER = 100    # number of parameter settings sampled (trade-off runtime vs quality)
-CV = StratifiedKFold(n_splits=10, shuffle=True, random_state=0)        # number of folds in cross-validation
-
+N_ITER = 200    # number of parameter settings sampled (trade-off runtime vs quality)
+CV_train = StratifiedKFold(n_splits=10, random_state=0)       # number of folds in cross-validation
+CV_lc = StratifiedKFold(n_splits=10, random_state=0)
 
 ######################################################################
 # functions
@@ -207,17 +209,19 @@ def run_one_featureset(
     search = RandomizedSearchCV(
         pipe,
         param_grid,
-        verbose=1,
+        verbose=0,
         n_iter=n_iter,
-        cv=CV,
-        refit='precision',
-        scoring=['recall', 'precision', 'accuracy'],
+        cv=CV_train,
+        refit='roc_auc',
+        scoring=['recall', 'precision', 'f1', 'roc_auc'],
         n_jobs=n_jobs)
     
     search.fit(X_train, y_train)
     print("Best parameters set found on development set:\n")
     print(search.best_params_)
-    print("\n")
+    # print("\n")
+    print(search.best_score_)
+    print(search.scorer_)
 
     # report results
     print("Detailed classification report (training set):\n")
@@ -234,7 +238,7 @@ def run_one_featureset(
     
     # reportCV(cv_data)
 
-    dataset_name = feature_path.split('/')[-1].split('.')[0]
+    dataset_name = os.path.split(feature_path)[-1].split('.')[0]
 
     results_dir = os.path.join('result', dataset_name)
     prefix_metric = os.path.join(results_dir, 'metric')
@@ -280,7 +284,7 @@ def run_one_featureset(
         y=y_train,
         axes=axes[1],
         ylim=(0.4, 1.01),
-        cv=CV,
+        cv=CV_lc,
         n_jobs=n_jobs,
         train_sizes=np.linspace(.1, 1.0, 5))
     plot.savefig(os.path.join(prefix_figure, discriptor + '_roc_lc.png'))
@@ -343,8 +347,9 @@ def main():
         print('training for feature', feature_path)
 
         for clf in classifiers.CLASSIFIERS:
+            print('training ', clf)
             if clf == 'MLP' or clf == 'SVM' or clf == 'RF':
-                iterations = 5
+                iterations = 50
             else:
                 iterations = N_ITER
             run_one_featureset(
@@ -359,13 +364,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-    # run_one_featureset(
-    #     feature_path=PROTPARAM_FEATURES,
-    #     preprocessor_list=preprocessors.PREPROCESSORS,
-    #     classifier='SVM',
-    #     label_path=DI_LABELS_CSV,
-    #     labels = [0, 1],
-    #     target_names = ['Low', 'High'],
-    #     iterations = 10)
-
