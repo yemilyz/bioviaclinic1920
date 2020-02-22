@@ -12,6 +12,7 @@ from abc import ABC
 import numpy as np
 
 # sklearn modules
+from sklearn.utils.fixes import loguniform
 from sklearn.dummy import DummyClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
@@ -77,7 +78,7 @@ class LogiReg(Classifier):
     def __init__(self, n, d):
         self.estimator_ = LogisticRegression()
         self.param_grid_ = { 'penalty' : ['l1', 'l2'],
-                             'C' : [0.01, 0.1, 1, 10, 100, 200, 500],
+                             'C' : loguniform(1e-3, 1e3),
                             }
 
 
@@ -85,12 +86,11 @@ class RF(Classifier):
     """A Random Forest classifier."""
 
     def __init__(self, n, d):
-        self.estimator_ = RandomForestClassifier(random_state=0)
+        self.estimator_ = RandomForestClassifier(random_state=0, n_jobs=-1)
         self.param_grid_ = {"n_estimators": np.arange(1,200,10),
                             "max_depth": np.arange(1,min(50,n),2),
                             "max_features": np.arange(1, int(np.sqrt(n)) ,2),
                             }
-
 
 class MLP(Classifier):
     """A Multi-Layer Perceptron classifier."""
@@ -114,7 +114,8 @@ class BernoulliBayes(Classifier):
 class SVM(Classifier):
     def __init__(self, n, d):
         self.estimator_ = SVC(max_iter=8000, probability=True)
-        self.param_grid_ = {'C': [0.001, 0.1, 1, 10, 100, 500], 'kernel': ['rbf', 'linear']}
+        self.param_grid_ = {'C': loguniform(1e-3, 1e2), 'gamma': loguniform(1e-3, 1e0),
+            'kernel': ['linear', 'rbf']}
 
 
 ######################################################################
