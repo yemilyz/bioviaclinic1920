@@ -16,11 +16,13 @@ from sklearn.utils.fixes import loguniform
 from sklearn.dummy import DummyClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import GaussianNB, BernoulliNB
 from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
+from scipy.stats import uniform
 ######################################################################
 # classes
 ######################################################################
@@ -116,6 +118,17 @@ class SVM(Classifier):
         self.estimator_ = SVC(max_iter=8000, probability=True)
         self.param_grid_ = {'C': loguniform(1e-3, 1e2), 'gamma': loguniform(1e-3, 1e0),
             'kernel': ['linear', 'rbf']}
+
+class XGBoost(Classifier):
+    def __init__(self, n, d):
+        self.estimator_ = GradientBoostingClassifier()
+        self.param_grid_ = {
+            'loss' :['deviance', 'exponential'],
+            'learning_rate': loguniform(1e-4, 1e-1),
+            "n_estimators": np.arange(1,200,10),
+            "max_depth": np.arange(1,min(50,n),2),
+            "max_features": np.arange(1, int(np.sqrt(n)) ,2),
+            }
 
 
 ######################################################################
