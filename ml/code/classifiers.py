@@ -65,22 +65,19 @@ class Dummy(Classifier):
         self.param_grid_ = {}
 
 
-class KNN(Classifier):
-    """A kNN classifier."""
-
+class GaussianBayes(Classifier):
     def __init__(self, n, d):
-        self.estimator_ = KNeighborsClassifier()
-        self.param_grid_ = {"n_neighbors": np.arange(5,min(50,n),2)}
+        self.estimator_ = GaussianNB()
+        self.param_grid_ = {}
 
 
 class LogiReg(Classifier):
 
     def __init__(self, n, d):
-        self.estimator_ = LogisticRegression()
+        self.estimator_ = LogisticRegression(solver='saga')
         self.param_grid_ = { 'penalty' : ['l1', 'l2'],
                              'C' : loguniform(1e-3, 1e3),
                             }
-
 
 class RF(Classifier):
     """A Random Forest classifier."""
@@ -92,6 +89,13 @@ class RF(Classifier):
                             "max_features": np.arange(1, int(np.sqrt(n)) ,2),
                             }
 
+class SVM(Classifier):
+    def __init__(self, n, d):
+        self.estimator_ = SVC(max_iter=8000, probability=True)
+        self.param_grid_ = {'C': loguniform(1e-3, 1e2), 'gamma': loguniform(1e-3, 1e0),
+            'kernel': ['linear', 'rbf']}
+
+
 class MLP(Classifier):
     """A Multi-Layer Perceptron classifier."""
 
@@ -99,23 +103,19 @@ class MLP(Classifier):
         self.estimator_ = MLPClassifier(max_iter=int(10e3))
         self.param_grid_ = {'hidden_layer_sizes': [(100,), (50,), (100, 100)]}
 
-class GaussianBayes(Classifier):
+# class BernoulliBayes(Classifier):
+#     def __init__(self, n, d):
+#         self.estimator_ = BernoulliNB()
+#         self.param_grid_ = {}
+
+
+
+class KNN(Classifier):
+    """A kNN classifier."""
+
     def __init__(self, n, d):
-        self.estimator_ = GaussianNB()
-        self.param_grid_ = {}
-
-
-class BernoulliBayes(Classifier):
-    def __init__(self, n, d):
-        self.estimator_ = BernoulliNB()
-        self.param_grid_ = {}
-
-
-class SVM(Classifier):
-    def __init__(self, n, d):
-        self.estimator_ = SVC(max_iter=8000, probability=True)
-        self.param_grid_ = {'C': loguniform(1e-3, 1e2), 'gamma': loguniform(1e-3, 1e0),
-            'kernel': ['linear', 'rbf']}
+        self.estimator_ = KNeighborsClassifier(n_jobs=-1)
+        self.param_grid_ = {"n_neighbors": np.arange(5,min(50,n),2)}
 
 
 ######################################################################
