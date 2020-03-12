@@ -13,8 +13,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
 
 
-def plot_learning_curve(estimator, title, X, y, axes=None, ylim=None, cv=None,
-                        n_jobs=4, train_sizes=np.linspace(.1, 1.0, 5)):
+def plot_learning_curve(estimator, title, X, y, scoring, axes=None, ylim=None, cv=None,
+                        n_jobs=-1, train_sizes=np.linspace(.1, 1.0, 5)):
     """
     Generate 3 plots: the test and training learning curve, the training
     samples vs fit times curve, the fit times vs score curve.
@@ -79,11 +79,12 @@ def plot_learning_curve(estimator, title, X, y, axes=None, ylim=None, cv=None,
     if ylim is not None:
         axes.set_ylim(*ylim)
     axes.set_xlabel("Training examples")
-    axes.set_ylabel("Score")
+    axes.set_ylabel("{} score".format(scoring))
 
     train_sizes, train_scores, valid_scores = \
         learning_curve(estimator, X, y, cv=cv, n_jobs=n_jobs,
                        train_sizes=train_sizes,
+                       scoring=scoring,
                        )
     train_scores_mean = np.mean(train_scores, axis=1)
     train_scores_std = np.std(train_scores, axis=1)

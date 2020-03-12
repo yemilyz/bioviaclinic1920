@@ -22,7 +22,8 @@ import matplotlib.pyplot as plt
 
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
-from sklearn.model_selection import RandomizedSearchCV, LeaveOneOut, LeavePOut, StratifiedKFold, GridSearchCV
+from sklearn.model_selection import RandomizedSearchCV, \
+    LeaveOneOut, LeavePOut, StratifiedKFold, GridSearchCV, StratifiedShuffleSplit
 from sklearn import metrics
 from sklearn.externals import joblib
 
@@ -39,10 +40,10 @@ import preprocessors as preprocessors
 ######################################################################
 
 # no magic numbers in code
-
-N_ITER = 200    # number of parameter settings sampled (trade-off runtime vs quality)
-CV_train = StratifiedKFold(n_splits=10, random_state=0)       # number of folds in cross-validation
-CV_lc = StratifiedKFold(n_splits=10, random_state=0)
+N_SPLITS = 10
+N_ITER = 100    # number of parameter settings sampled (trade-off runtime vs quality)
+# CV_train = StratifiedKFold(n_splits=10, random_state=0)       # number of folds in cross-validation
+# CV_lc = StratifiedKFold(n_splits=10, random_state=0)
 
 ######################################################################
 # functions
@@ -138,7 +139,7 @@ def report_metrics(y_true, y_pred, labels=None, target_names=None):
     # accuracy
     a = metrics.accuracy_score(y_true, y_pred)
     print("accuracy: ", a)
-    print()
+    # print()
 
     # precision, recall, f1
     p, r, f1, s = metrics.precision_recall_fscore_support(y_true, y_pred,
@@ -148,10 +149,10 @@ def report_metrics(y_true, y_pred, labels=None, target_names=None):
     print("recall: ",r)
     print("f1: ", f1)
     # print report (redundant with above but easier)
-    report = metrics.classification_report(y_true, y_pred, labels, target_names)
-    print(report)
+    # report = metrics.classification_report(y_true, y_pred, labels, target_names)
+    # print(report)
 
-    return C, (a, p, r, f1)
+    return df
 
 
 def reportCV(cv_data):
@@ -175,11 +176,13 @@ def run_one_featureset(
     feature_path,
     preprocessor_list,
     classifier,
+    scoring,
     label_path=DI_LABELS_CSV,
     labels = [0, 1],
     target_names = ['Low', 'High'],
     iterations=N_ITER,
-    n_jobs=4,
+    n_jobs=-1,
+    n_splits=N_SPLITS,
     ):
     """Run ML pipeline.
 
@@ -192,41 +195,51 @@ def run_one_featureset(
 
     # get dataset, then split into train and test set
     X, y, feature_names = get_dataset(feature_path, label_path)
+    # print('\n'.join(feature_names))
     X_train, X_test, y_train, y_test = \
         train_test_split(X, y, test_size=0.2, random_state=42)
+    thresh = y_train.describe(percentiles=[0.80])[5]
+    y_train = y_train >= thresh
     n,d = X_train.shape
 
     # make pipeline
     pipe, param_grid = make_pipeline(preprocessor_list, classifier, n, d)
 
     # get param grid size
-    sz = 1
-    for vals in param_grid.values():
-        sz *= len(vals)
-
+    try:
+        sz = 1
+        for vals in param_grid.values():
+            sz *= len(vals)
+        n_iter = min(iterations, sz)    # cap max number of iterations
+    except TypeError:
+        n_iter = iterations
     # tune model using randomized search
-    n_iter = min(N_ITER, sz)    # cap max number of iterations
+
+    # make cross validation objects
+    CV_train = StratifiedShuffleSplit(n_splits=n_splits, test_size=0.2, random_state=0)
+    CV_lc = StratifiedShuffleSplit(n_splits=n_splits, test_size=0.2, random_state=0)
+
     search = RandomizedSearchCV(
         pipe,
         param_grid,
         verbose=0,
-        n_iter=n_iter,
+        n_iter=n_iter,  
         cv=CV_train,
-        refit='roc_auc',
-        scoring=['recall', 'precision', 'f1', 'roc_auc'],
+        refit=scoring,
+        scoring=['recall', 'precision', 'average_precision', 'f1', 'roc_auc'],
+        return_train_score=True,
         n_jobs=n_jobs)
     
     search.fit(X_train, y_train)
     print("Best parameters set found on development set:\n")
     print(search.best_params_)
-    # print("\n")
-    print(search.best_score_)
-    print(search.scorer_)
+    print("\n")
 
     # report results
     print("Detailed classification report (training set):\n")
     y_true, y_pred = y_train, search.predict(X_train)
-    res_train = report_metrics(y_true, y_pred, labels, target_names)
+    conf_mat = report_metrics(y_true, y_pred, labels, target_names)
+    
     print("\n")
 
     # print("Detailed classification report (test set):\n")
@@ -240,10 +253,12 @@ def run_one_featureset(
 
     dataset_name = os.path.split(feature_path)[-1].split('.')[0]
 
-    results_dir = os.path.join('result', dataset_name)
+    results_dir = os.path.join('result_{}splits'.format(n_splits), dataset_name)
     prefix_metric = os.path.join(results_dir, 'metric')
     prefix_figure = os.path.join(results_dir, 'figure')
     prefix_model = os.path.join(results_dir, 'model')
+
+    
 
     for directory in [prefix_metric, prefix_figure, prefix_model]:
         if not os.path.exists(directory):
@@ -273,6 +288,8 @@ def run_one_featureset(
 
     discriptor = "{}_{}".format(dataset_name, classifier)
 
+    conf_mat.to_csv(os.path.join(prefix_metric, discriptor + "_confusion_matrix.csv"))
+
     # plt.savefig(os.path.join(prefix_figure, discriptor + '_roc_train.png'))
     # plt.close()
 
@@ -283,10 +300,12 @@ def run_one_featureset(
         X=X_train,
         y=y_train,
         axes=axes[1],
-        ylim=(0.4, 1.01),
+        ylim=(0, 1.01),
         cv=CV_lc,
         n_jobs=n_jobs,
-        train_sizes=np.linspace(.1, 1.0, 5))
+        train_sizes=np.linspace(.1, 1.0, 5),
+        scoring=scoring,
+        )
     plot.savefig(os.path.join(prefix_figure, discriptor + '_roc_lc.png'))
     plot.close()
 
@@ -301,22 +320,21 @@ def run_one_featureset(
     pd.DataFrame.from_dict(learning_curve_data).to_csv(learning_curve_file)
     # model
     joblib_file = os.path.join(prefix_model, discriptor + "_pipeline.pkl")
-    print(search.best_estimator_)
     joblib.dump(search.best_estimator_, joblib_file)
 
     # results
-    json_file = os.path.join(prefix_metric, discriptor + "_results.json")
-    res = {"C_train":      res_train[0].tolist(),
-           "scores_train": res_train[1],
-        }
+    # json_file = os.path.join(prefix_metric, discriptor + "_results.json")
+    # res = {"C_train":      res_train[0].tolist(),
+    #        "scores_train": res_train[1],
+    #     }
         #    "C_test":       res_test[0].tolist(),
         #    "scores_test":  res_test[1]}
+    # with open(json_file, 'w') as outfile:
+    #     json.dump(res, outfile)
 
     cv_data = pd.DataFrame(search.cv_results_)
     # print(cv_data)
     cv_data.to_csv(os.path.join(prefix_metric, discriptor + '_cv_metrics.csv'))
-    with open(json_file, 'w') as outfile:
-        json.dump(res, outfile)
 
     roc_file = os.path.join(prefix_metric, discriptor  + "_roc.csv")
     with open(roc_file, 'w') as outfile:
@@ -348,19 +366,23 @@ def main():
 
         for clf in classifiers.CLASSIFIERS:
             print('training ', clf)
-            if clf == 'MLP' or clf == 'SVM' or clf == 'RF':
+            if clf == 'KNN' or clf == 'SVM' or clf == 'XGBoost':
                 iterations = 50
             else:
                 iterations = N_ITER
-            run_one_featureset(
-                feature_path=feature_path,
-                preprocessor_list=preprocessors.PREPROCESSORS,
-                classifier=clf,
-                label_path=DI_LABELS_CSV,
-                labels = [0, 1],
-                target_names = ['Low', 'High'],
-                iterations = iterations,
-                )
+            for n_splits in range(10, 51, 10):
+                run_one_featureset(
+                    feature_path=feature_path,
+                    preprocessor_list=preprocessors.PREPROCESSORS,
+                    classifier=clf,
+                    scoring='f1',
+                    label_path=DI_LABELS_CSV,
+                    labels = [0, 1],
+                    target_names = ['Low', 'High'],
+                    iterations = iterations,
+                    n_jobs=-1,
+                    n_splits=n_splits,
+                    )
 
 if __name__ == "__main__":
     main()
