@@ -174,11 +174,11 @@ exported if this protocol is published as a web service.&lt;/p&gt;
 			</sci:arg>
 			<sci:arg name="RegistrationDate" type="StringType" required="false" visibility="nevershow" multi="false">
 				<sci:help>The date this component was registered.</sci:help>
-				<sci:value>Sat Jan 25 15:47:58 2020</sci:value>
+				<sci:value>Wed Mar 11 20:35:24 2020</sci:value>
 			</sci:arg>
 			<sci:arg name="RegistrationVersion" type="StringType" required="false" visibility="nevershow" multi="false">
 				<sci:help>The server version when this component was registered</sci:help>
-				<sci:value>19.1.0.1963</sci:value>
+				<sci:value>20.1.0.2208</sci:value>
 			</sci:arg>
 			<sci:arg name="ComponentDisplayName" type="StringType" required="false" visibility="nevershow" multi="false">
 				<sci:value>batchCleanPDB</sci:value>
@@ -245,7 +245,7 @@ exported if this protocol is published as a web service.&lt;/p&gt;
 			</sci:arg>
 			<sci:arg name="Component Path" type="StringType" required="false" visibility="nevershow" multi="false">
 				<sci:help>The original path within the database of this component.</sci:help>
-				<sci:value>clinic1920\batchCleanPDB_for2Chains</sci:value>
+				<sci:value>Protocols\Clinic1920\DI Labels\batchCleanPDB_for2Chains</sci:value>
 			</sci:arg>
 		</sci:component>
 		<sci:protocol>
@@ -3820,7 +3820,7 @@ parameter(&quot;Show Expanded Sequence Structure&quot;) eq true</sci:enabledscri
 			<sci:connectid from="16" to="28" type="true"/>
 			<sci:connectid from="28" to="31" type="true"/>
 			<sci:connectid from="31" to="29" type="true"/>
-			<sci:version iVal="6"/>
+			<sci:version iVal="1"/>
 		</sci:protocol>
 	</sci:dbitem>
 <!-- Exported protocol -->
