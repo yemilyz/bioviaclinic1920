@@ -40,7 +40,7 @@ import preprocessors as preprocessors
 
 # no magic numbers in code
 
-N_ITER = 200    # number of parameter settings sampled (trade-off runtime vs quality)
+N_ITER = 500    # number of parameter settings sampled (trade-off runtime vs quality)
 CV_train = StratifiedKFold(n_splits=10, random_state=0)       # number of folds in cross-validation
 CV_lc = StratifiedKFold(n_splits=10, random_state=0)
 
@@ -180,6 +180,7 @@ def run_one_featureset(
     target_names = ['Low', 'High'],
     iterations=N_ITER,
     n_jobs=4,
+    n_splits=10,
     ):
     """Run ML pipeline.
 
@@ -194,6 +195,7 @@ def run_one_featureset(
     X, y, feature_names = get_dataset(feature_path, label_path)
     X_train, X_test, y_train, y_test = \
         train_test_split(X, y, test_size=0.2, random_state=42)
+    y_train = y_train >= y_train.describe(percentiles=[0.75])[5]
     n,d = X_train.shape
 
     # make pipeline
@@ -201,11 +203,14 @@ def run_one_featureset(
 
     # get param grid size
     sz = 1
-    for vals in param_grid.values():
-        sz *= len(vals)
+    try:
+        for vals in param_grid.values():
+            sz *= len(vals)
+            # tune model using randomized search
+        n_iter = min(N_ITER, sz)    # cap max number of iterations
+    except TypeError:
+        n_iter = N_ITER
 
-    # tune model using randomized search
-    n_iter = min(N_ITER, sz)    # cap max number of iterations
     search = RandomizedSearchCV(
         pipe,
         param_grid,
@@ -213,7 +218,8 @@ def run_one_featureset(
         n_iter=n_iter,
         cv=CV_train,
         refit='roc_auc',
-        scoring=['recall', 'precision', 'f1', 'roc_auc'],
+        scoring=['recall', 'precision', 'f1', 'roc_auc', 'average_precision'],
+        return_train_score=True,
         n_jobs=n_jobs)
     
     search.fit(X_train, y_train)
@@ -240,7 +246,7 @@ def run_one_featureset(
 
     dataset_name = os.path.split(feature_path)[-1].split('.')[0]
 
-    results_dir = os.path.join('result', dataset_name)
+    results_dir = os.path.join('result_{}splits'.format(n_splits), dataset_name)
     prefix_metric = os.path.join(results_dir, 'metric')
     prefix_figure = os.path.join(results_dir, 'figure')
     prefix_model = os.path.join(results_dir, 'model')
@@ -283,7 +289,7 @@ def run_one_featureset(
         X=X_train,
         y=y_train,
         axes=axes[1],
-        ylim=(0.4, 1.01),
+        ylim=(0, 1.01),
         cv=CV_lc,
         n_jobs=n_jobs,
         train_sizes=np.linspace(.1, 1.0, 5))
@@ -345,11 +351,14 @@ def main():
 
     for feature_path in feature_paths + embed_feature_paths:
         print('training for feature', feature_path)
+        if 'AAcomposition' not in feature_path:
+            print(feature_path, 'skipped')
+            continue
 
         for clf in classifiers.CLASSIFIERS:
             print('training ', clf)
             if clf == 'MLP' or clf == 'SVM' or clf == 'RF':
-                iterations = 50
+                iterations = 100
             else:
                 iterations = N_ITER
             run_one_featureset(

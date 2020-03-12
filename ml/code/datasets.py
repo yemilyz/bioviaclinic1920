@@ -56,7 +56,7 @@ def get_dataset(feature_path, label_path=DI_LABELS_CSV):
         pass
     X = X.loc[y.Name]
     feature_names = list(X)
-    y = y['Developability Index (Fv)'] >= y['Developability Index (Fv)'].describe(percentiles=[0.75])[5]
+    y = -y['Developability Index (Fv)']
     return X, y, feature_names
 
 
