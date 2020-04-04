@@ -14,6 +14,10 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import csv
 import glob
+import warnings
+warnings.filterwarnings("ignore")
+# warnings.simplefilter(action='ignore', category=FutureWarning)
+
 
 # numpy, pandas, and sklearn modules
 import numpy as np
@@ -35,15 +39,24 @@ from learning_curve import plot_learning_curve
 import preprocessors as preprocessors
 
 
+
+
 ######################################################################
 # globals
 ######################################################################
 
 # no magic numbers in code
+<<<<<<< HEAD
 N_SPLITS = 10
 N_ITER = 100    # number of parameter settings sampled (trade-off runtime vs quality)
 # CV_train = StratifiedKFold(n_splits=10, random_state=0)       # number of folds in cross-validation
 # CV_lc = StratifiedKFold(n_splits=10, random_state=0)
+=======
+
+N_ITER = 500    # number of parameter settings sampled (trade-off runtime vs quality)
+CV_train = StratifiedKFold(n_splits=10, random_state=0)       # number of folds in cross-validation
+CV_lc = StratifiedKFold(n_splits=10, random_state=0)
+>>>>>>> e47629d7d74f3e1dc80f3183c6c0c02ce01a0628
 
 ######################################################################
 # functions
@@ -181,8 +194,8 @@ def run_one_featureset(
     labels = [0, 1],
     target_names = ['Low', 'High'],
     iterations=N_ITER,
-    n_jobs=-1,
-    n_splits=N_SPLITS,
+    n_jobs=4,
+    n_splits=10,
     ):
     """Run ML pipeline.
 
@@ -198,26 +211,21 @@ def run_one_featureset(
     # print('\n'.join(feature_names))
     X_train, X_test, y_train, y_test = \
         train_test_split(X, y, test_size=0.2, random_state=42)
-    thresh = y_train.describe(percentiles=[0.80])[5]
-    y_train = y_train >= thresh
+    y_train = y_train >= y_train.describe(percentiles=[0.8 ])[5]
     n,d = X_train.shape
 
     # make pipeline
     pipe, param_grid = make_pipeline(preprocessor_list, classifier, n, d)
 
     # get param grid size
+    sz = 1
     try:
-        sz = 1
         for vals in param_grid.values():
             sz *= len(vals)
-        n_iter = min(iterations, sz)    # cap max number of iterations
+            # tune model using randomized search
+        n_iter = min(N_ITER, sz)    # cap max number of iterations
     except TypeError:
-        n_iter = iterations
-    # tune model using randomized search
-
-    # make cross validation objects
-    CV_train = StratifiedShuffleSplit(n_splits=n_splits, test_size=0.2, random_state=0)
-    CV_lc = StratifiedShuffleSplit(n_splits=n_splits, test_size=0.2, random_state=0)
+        n_iter = N_ITER
 
     search = RandomizedSearchCV(
         pipe,
@@ -363,11 +371,13 @@ def main():
 
     for feature_path in feature_paths + embed_feature_paths:
         print('training for feature', feature_path)
-
+        if 'python' in feature_path:
+            print(feature_path, 'skipped')
+            continue
         for clf in classifiers.CLASSIFIERS:
             print('training ', clf)
-            if clf == 'KNN' or clf == 'SVM' or clf == 'XGBoost':
-                iterations = 50
+            if clf == 'MLP' or clf == 'SVM' or clf == 'RF':
+                iterations = 100
             else:
                 iterations = N_ITER
             for n_splits in range(10, 51, 10):
