@@ -78,7 +78,7 @@ class KNN(Classifier):
 class LogiReg(Classifier):
 
     def __init__(self, n, d):
-        self.estimator_ = LogisticRegression(class_weight='balanced',max_iter=3000)
+        self.estimator_ = LogisticRegression(class_weight='balanced', solver='saga', max_iter=3000)
         self.param_grid_ = { 'penalty' : ['l2'],
                              'C' : loguniform(1e-3, 1e3),
                             }

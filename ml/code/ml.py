@@ -14,6 +14,10 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import csv
 import glob
+import warnings
+warnings.filterwarnings("ignore")
+# warnings.simplefilter(action='ignore', category=FutureWarning)
+
 
 # numpy, pandas, and sklearn modules
 import numpy as np
@@ -32,6 +36,8 @@ import classifiers
 from constant import DI_LABELS_CSV, PROTPARAM_FEATURES, SLIDING_WIN_FEATURES, EMBEDDING_5_7_FEATURES
 from learning_curve import plot_learning_curve
 import preprocessors as preprocessors
+
+
 
 
 ######################################################################
@@ -351,10 +357,9 @@ def main():
 
     for feature_path in feature_paths + embed_feature_paths:
         print('training for feature', feature_path)
-        if 'AAcomposition' not in feature_path:
+        if 'python' in feature_path:
             print(feature_path, 'skipped')
             continue
-
         for clf in classifiers.CLASSIFIERS:
             print('training ', clf)
             if clf == 'MLP' or clf == 'SVM' or clf == 'RF':
