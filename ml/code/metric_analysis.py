@@ -19,7 +19,7 @@ F1 = 'f1'
 ROCAUC = 'roc_auc'
 sort_mapping_master = {
     F1: {'ranking':'rank_test_f1', 'score':'mean_test_f1', 'figdir': 'f1_sorted', 'metric':'f1'},
-    ROCAUC: {'ranking':'rank_test_f1', 'score':'mean_test_f1', 'figdir': 'rocauc_sorted', 'metric':'rocauc'},
+    ROCAUC: {'ranking':'rank_test_roc_auc', 'score':'mean_test_roc_auc', 'figdir': 'rocauc_sorted', 'metric':'rocauc'},
     }
 
 
@@ -32,14 +32,15 @@ def get_ranked_metrics(sort_mapping, n_splits=10):
             files_in_dir = glob.glob(os.path.join(root, name, '*cv_metrics.csv'))
             for metric_file in files_in_dir:
                 metric = pd.read_csv(metric_file)
-                best_metric = metric.loc[metric[ranking]==1]
                 descriptor = os.path.split(metric_file)[-1].split('.')[0]
-                best_metric['descriptor'] = descriptor
+                is_embedding = "embedding" in descriptor
+                metric['descriptor'] = descriptor
+                metric['is_embedding'] = is_embedding
                 if best_metrics_all.empty:
-                    best_metrics_all = best_metric
+                    best_metrics_all = metric
                 else:
-                    best_metrics_all = best_metrics_all.append(best_metric)
-    best_metrics_all = best_metrics_all.sort_values(by=[score], ascending=False)
+                    best_metrics_all = best_metrics_all.append(metric)
+    best_metrics_all = best_metrics_all.sort_values(by=['is_embedding', score], ascending=False)
     return best_metrics_all
 
 def tranform_metrics_to_long(metric_data):
@@ -47,15 +48,18 @@ def tranform_metrics_to_long(metric_data):
     list of features (best to worst)
     """
     new_descriptor = metric_data["descriptor"].str.rsplit("_", n = 3, expand = True)
+    is_embedding = metric_data["is_embedding"]
     metric_data = metric_data.filter(regex='split')
     value_list = list(metric_data)
+    # print(value_list)
 
     metric_data['feature'] = new_descriptor[0]
     model = new_descriptor[1].str.replace('Dummy', '*Dummy')
     metric_data['model'] = model
+    metric_data['is_embedding'] = is_embedding
     metric_data_long = pd.melt(
         metric_data,
-        id_vars=['feature', 'model'],
+        id_vars=['feature', 'model', 'is_embedding'],
         value_vars=value_list,
         value_name='score',
         var_name='metric'
@@ -65,9 +69,13 @@ def tranform_metrics_to_long(metric_data):
     new_set = set_metric[0].str.split("_", n=3, expand=True)[1]
     metric_data_long['metric'] = new_metric
     metric_data_long['set'] = new_set
-    feature_of_interests = metric_data_long.feature.unique()
-    return metric_data_long, feature_of_interests
+    return metric_data_long
 
+def get_ranked_embedding_features(metric_data_long):
+    return metric_data_long[metric_data_long['is_embedding']==True].feature.unique()
+
+def get_ranked_pc_features(metric_data_long):
+    return metric_data_long[metric_data_long['is_embedding']==False].feature.unique()
 
 def create_metric_barplot_features_one_metric(metric_data_long, sort_mapping, feature_of_interests, topK=15):
     """
@@ -122,7 +130,7 @@ def create_metric_barplot_features_all_metric(metric_data_long, sort_mapping, fe
         metric_data_small = metric_data_small[metric_data_small['feature'].isin(feature_of_interests[:topK])]
         metric_data_small.reindex(metric_data_small.mean().sort_values().index, axis=1)
         metric_data_small["feature_set"] = metric_data_small["feature"] + '_' +  metric_data_small["set"]
-        metric_data_small = metric_data_small.sort_values(by=['metric', 'feature_set'], ascending=False).reset_index()
+        metric_data_small = metric_data_small.sort_values(by=['metric', 'is_embedding'], ascending=False).reset_index()
         
         plt.figure(figsize=(15,12))
         f, ax = plt.subplots(figsize=(15,12))
@@ -136,6 +144,7 @@ def create_metric_barplot_features_all_metric(metric_data_long, sort_mapping, fe
             data=metric_data_small.loc[metric_data_small['set']=='test'],
             )
         handles, labels = ax.get_legend_handles_labels()
+        labels = ['embedding 1', 'embedding 2', 'physico-chemical 1', 'physico-chemical 2']
         sns.barplot(
             x='metric',
             y="score",
@@ -211,16 +220,16 @@ def main():
     sortedby_dir = sort_mapping_master[sorted_by]['figdir']
 
     metric_data = get_ranked_metrics(sort_mapping) # replace this line with pd.read_csv('metric_data_example.csv')
-    metric_data_long, feature_of_interests= tranform_metrics_to_long(metric_data)
+    metric_data_long = tranform_metrics_to_long(metric_data)
 
-    plt_generator = create_metric_barplot_features_one_metric(metric_data_long, sort_mapping, feature_of_interests)
+    embedding_features = get_ranked_embedding_features(metric_data_long)
+    pc_features = get_ranked_pc_features(metric_data_long)
+
+    top_features = embedding_features[:2].tolist() + pc_features[:2].tolist()
+    plt_generator = create_metric_barplot_features_all_metric(metric_data_long, sort_mapping, top_features, topK=4)
     save_figs(plt_generator, sortedby_dir)
 
-    plt_generator = create_metric_barplot_features_all_metric(metric_data_long, sort_mapping, feature_of_interests, topK=5)
-    save_figs(plt_generator, sortedby_dir)
-
-    plt_generator = create_metric_barplot_models_all_metric(metric_data_long, sort_mapping)
-    save_figs(plt_generator, sortedby_dir)
 
 if __name__ == "__main__":
     main()
+
