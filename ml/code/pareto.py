@@ -7,7 +7,10 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
 
-from metric_analysis import *
+from plotting_params import params
+
+plt.rcParams.update(params)
+
 
 def get_all_metrics(n_splits=10):
     metrics_all = pd.DataFrame(columns=[])
@@ -20,7 +23,9 @@ def get_all_metrics(n_splits=10):
             for metric_file in files_in_dir:
                 metric = pd.read_csv(metric_file)
                 descriptor = os.path.split(metric_file)[-1].split('.')[0]
+                is_embedding = "embedding" in descriptor
                 metric['descriptor'] = descriptor
+                metric['is_embedding'] = is_embedding
                 if metrics_all.empty:
                     metrics_all = metric
                 else:
@@ -52,38 +57,73 @@ def identify_pareto(scores):
     # Return ids of scenarios on pareto front
     return population_ids[pareto_front]
 
-def plot_pareto_front(dim1, dim2, metric_data, pareto_indices, marker_size=1.5):
-    metric_data_pareto = metric_data.iloc[pareto_indices]
-    # metric_data_pareto.sort_values(dim1,  inplace=True)
+def get_thresholded_data(metric_data, metric_thresholds):
+    for metric, threshold in metric_thresholds.items():
+        metric_data = metric_data.loc[metric_data[metric]>threshold]
+    return metric_data.reset_index()
+
+
+def plot_pareto_front(
+    dim1,
+    dim2,
+    metric_data,
+    metric_data_thresholded,
+    pareto_indices,
+    metric_thresholds,
+    marker_size=1.5):
+    metric_data_pareto = metric_data_thresholded.iloc[pareto_indices]
+
     x_all = metric_data[dim1]
     y_all = metric_data[dim2]
+
+    x_thresh = metric_data_thresholded[dim1]
+    y_thresh = metric_data_thresholded[dim2]
+
     x_pareto = metric_data_pareto[dim1]
     y_pareto = metric_data_pareto[dim2]
 
-    plt.scatter(x_all, y_all, s=marker_size, alpha=0.6)
+    x_line = metric_thresholds[dim1]
+    y_line = metric_thresholds[dim2]
+    
+    plt.scatter(x_all, y_all, s=marker_size, alpha=0.2, color='gray')
+    plt.scatter(x_thresh, y_thresh, s=marker_size, alpha=1)
     plt.scatter(x_pareto, y_pareto, s=marker_size, color='r')
+    plt.axhline(y=y_line, xmin=x_line, xmax=1, linestyle='-.', linewidth=1, color='green')
+    plt.vlines(x=x_line, ymin=y_line, ymax=1, linestyle='-.', linewidth=1, color='green')
     plt.xlabel(dim1)
     plt.ylabel(dim2)
+    plt.ylim((0,1))
+    plt.xlim((0,1))
+    plt.grid(b=None)
     plt.title('Pareto Front')
     figname = 'pareto_{}_{}.png'.format(dim1, dim2)
     figpath = os.path.join('metric_analysis', figname)
     plt.savefig(figpath)
     plt.close()
 
-metric_data = get_all_metrics()
-metric_scores = metric_data.filter(regex='mean_test')
-# del metric_scores['mean_test_f1']
 
+# globals to help configure what metric to sort by
+global F1, ROCAUC, RECALL, metric_thresholds
+F1 = 'mean_test_f1'
+ROCAUC = 'mean_test_roc_auc'
+RECALL = 'mean_test_recall'
+PRECISION = 'mean_test_precision'
+AUPR = 'mean_test_average_precision'
+metric_thresholds = {F1: 0.4, ROCAUC: 0.6, RECALL: 0.4, PRECISION: 0.5, AUPR: 0.7}
+
+
+metric_data = get_all_metrics()
+metric_data_thresholded = get_thresholded_data(metric_data, metric_thresholds)
+metric_scores = metric_data_thresholded.filter(regex='mean_test')
 pareto_indices = identify_pareto(metric_scores.to_numpy())
+
 dims = permutations(list(metric_scores), 2) 
 for dim in dims:
-    plot_pareto_front(dim[0], dim[1], metric_data, pareto_indices, 1.5)
+    plot_pareto_front(dim[0], dim[1], metric_data, metric_data_thresholded, pareto_indices, metric_thresholds, 1.5)
 
-metric_data_pareto = metric_data.iloc[pareto_indices].reset_index()
+metric_data_pareto = metric_data_thresholded.iloc[pareto_indices]
 metric_data_pareto = metric_data_pareto[['params', 'feature', 'model'] + list(metric_scores)]
 metric_data_pareto.to_csv('metric_analysis/pareto_models.csv', index=False)
-
-
 
 metric_data_pareto.describe(include=np.object)
 print(metric_data_pareto['feature'].value_counts())
@@ -91,17 +131,17 @@ print(metric_data_pareto['model'].value_counts())
 print((metric_data_pareto['feature'] + '+' + metric_data_pareto['model']).value_counts())
 
 
-sorted_by = F1
-sort_mapping = sort_mapping_master[sorted_by]
-sortedby_dir = sort_mapping_master[sorted_by]['figdir']
+# sorted_by = F1
+# sort_mapping = sort_mapping_master[sorted_by]
+# sortedby_dir = sort_mapping_master[sorted_by]['figdir']
 
-metric_data_long, feature_of_interests= tranform_metrics_to_long(metric_data_pareto)
+# metric_data_long, feature_of_interests= tranform_metrics_to_long(metric_data_pareto)
 
-plt_generator = create_metric_barplot_features_one_metric(metric_data_long, sort_mapping, feature_of_interests)
-save_figs(plt_generator, sortedby_dir)
+# plt_generator = create_metric_barplot_features_one_metric(metric_data_long, sort_mapping, feature_of_interests)
+# save_figs(plt_generator, sortedby_dir)
 
-plt_generator = create_metric_barplot_features_all_metric(metric_data_long, sort_mapping, feature_of_interests, topK=5)
-save_figs(plt_generator, sortedby_dir)
+# plt_generator = create_metric_barplot_features_all_metric(metric_data_long, sort_mapping, feature_of_interests, topK=5)
+# save_figs(plt_generator, sortedby_dir)
 
-plt_generator = create_metric_barplot_models_all_metric(metric_data_long, sort_mapping)
-save_figs(plt_generator, sortedby_dir)
+# plt_generator = create_metric_barplot_models_all_metric(metric_data_long, sort_mapping)
+# save_figs(plt_generator, sortedby_dir)

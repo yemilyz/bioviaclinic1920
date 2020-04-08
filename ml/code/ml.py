@@ -46,17 +46,10 @@ import preprocessors as preprocessors
 ######################################################################
 
 # no magic numbers in code
-<<<<<<< HEAD
-N_SPLITS = 10
-N_ITER = 100    # number of parameter settings sampled (trade-off runtime vs quality)
-# CV_train = StratifiedKFold(n_splits=10, random_state=0)       # number of folds in cross-validation
-# CV_lc = StratifiedKFold(n_splits=10, random_state=0)
-=======
 
 N_ITER = 500    # number of parameter settings sampled (trade-off runtime vs quality)
 CV_train = StratifiedKFold(n_splits=10, random_state=0)       # number of folds in cross-validation
 CV_lc = StratifiedKFold(n_splits=10, random_state=0)
->>>>>>> e47629d7d74f3e1dc80f3183c6c0c02ce01a0628
 
 ######################################################################
 # functions
