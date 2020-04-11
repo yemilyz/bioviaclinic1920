@@ -15,9 +15,9 @@ plt.rcParams.update(params)
 def get_all_metrics(n_splits=10):
     metrics_all = pd.DataFrame(columns=[])
     for root, dirs, _ in os.walk('result_{}splits/'.format(n_splits), topdown=False):
-        # if 'python' in root:
-        #     print(root, 'skipped')
-        #     continue
+        if 'protparam' in root:
+            print(root, 'skipped')
+            continue
         for name in dirs:     
             files_in_dir = glob.glob(os.path.join(root, name, '*cv_metrics.csv'))
             for metric_file in files_in_dir:
@@ -109,7 +109,7 @@ ROCAUC = 'mean_test_roc_auc'
 RECALL = 'mean_test_recall'
 PRECISION = 'mean_test_precision'
 AUPR = 'mean_test_average_precision'
-metric_thresholds = {F1: 0.4, ROCAUC: 0.6, RECALL: 0.4, PRECISION: 0.5, AUPR: 0.7}
+metric_thresholds = {F1: 0.4, ROCAUC: 0.6, RECALL: 0.4, PRECISION: 0.4, AUPR: 0.6}
 
 
 metric_data = get_all_metrics()

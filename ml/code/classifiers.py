@@ -127,23 +127,15 @@ class MLP(Classifier):
 #         self.param_grid_ = {}
 
 
-<<<<<<< HEAD
-=======
 # class BernoulliBayes(Classifier):
 #     def __init__(self, n, d):
 #         self.estimator_ = BernoulliNB()
 #         self.param_grid_ = {}
->>>>>>> e47629d7d74f3e1dc80f3183c6c0c02ce01a0628
 
 class KNN(Classifier):
     """A kNN classifier."""
 
     def __init__(self, n, d):
-<<<<<<< HEAD
-        self.estimator_ = KNeighborsClassifier(n_jobs=-1)
-        self.param_grid_ = {"n_neighbors": np.arange(5,min(50,n),2)}
-
-=======
         self.estimator_ = SVC(max_iter=8000, probability=True, class_weight='balanced')
         self.param_grid_ = {'C': loguniform(1e-3, 1e2), 'gamma': loguniform(1e-3, 1e0),
             'kernel': ['linear', 'rbf']}
@@ -158,7 +150,6 @@ class XGBoost(Classifier):
             "max_depth": np.arange(1,min(50,n),2),
             "max_features": np.arange(0.1, 0.75, 0.05),
             }
->>>>>>> e47629d7d74f3e1dc80f3183c6c0c02ce01a0628
 
 
 ######################################################################
