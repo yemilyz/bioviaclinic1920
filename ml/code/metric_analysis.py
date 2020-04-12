@@ -18,7 +18,7 @@ sort_mapping_master = {
 
 
 
-def fixedWidthClusterMap(dataFrame, y_tick_fontsize, y_tick_rotation):
+def fixedWidthClusterMap(dataFrame, y_tick_fontsize, y_tick_rotation, row_colors):
     # clustermapParams = {
     #     'square':False # Tried to set this to True before. Don't: the dendograms do not scale well with it.
     # }
@@ -29,6 +29,7 @@ def fixedWidthClusterMap(dataFrame, y_tick_fontsize, y_tick_rotation):
         vmin=vmin,
         vmax=1,
         figsize=(figureWidth,figureHeight),
+        row_colors=row_colors,
         yticklabels=True)
     g.ax_heatmap.set_yticklabels(g.ax_heatmap.get_ymajorticklabels(), fontsize = y_tick_fontsize, rotation = y_tick_rotation, va='bottom')
     g.ax_heatmap.set_xticklabels(g.ax_heatmap.get_xmajorticklabels(), fontsize = 20, rotation = 45, ha='right')
@@ -48,7 +49,7 @@ def get_ranked_metrics(sort_mapping, n_splits=10):
                 metric = metric.loc[metric[ranking]==1].head(1)
                 print(metric.shape)
                 descriptor = os.path.split(metric_file)[-1].split('.')[0]
-                is_embedding = "embedding" in descriptor2
+                is_embedding = "embedding" in descriptor
                 metric['descriptor'] = descriptor
                 metric['is_embedding'] = is_embedding
                 if best_metrics_all.empty:
@@ -120,23 +121,49 @@ for sorted_by, sort_mapping in sort_mapping_master.items():
     metric_data_long['feature'] = metric_data_long['feature'].str.replace('feature_', '')
     metric_data_long['feature'] = metric_data_long['feature'].str.replace('embedding_', '')
 
+    feature_grouping = []
+    for feature, is_embedding in zip(metric_data_long['feature'], metric_data_long['is_embedding']):
+        if is_embedding:
+            group = 'kmer{}_{}'.format(feature.split('_')[1], feature.split('_')[-1])
+        elif "AAComposition" == feature:
+            group = 'AAComposition'
+        else:
+            group = 'PC'
+        feature_grouping.append(group)
+
+    metric_data_long['feature_grouping'] = feature_grouping
+
     for is_embedding, data in metric_data_long.groupby(['is_embedding']):
+        feature_grouping = data['feature_grouping']
+        del data['feature_grouping']
         metric_data_wide = data.pivot(index='feature', columns='model', values='score')
         if is_embedding:
             font = 10
         else:
             font = 20
-        g = fixedWidthClusterMap(metric_data_wide, y_tick_fontsize=font, y_tick_rotation=45)
-        plt.subplots_adjust(top=0.95)
+        g = fixedWidthClusterMap(
+            metric_data_wide,
+            y_tick_fontsize=font,
+            y_tick_rotation=45,
+            row_colors=feature_grouping,
+        )
+        plt.subplots_adjust(top=0.95,)
         g.fig.suptitle('Heatmap of Mean Validation {} Score'.format(sorted_by), fontsize=22)
         plt.savefig('metric_analysis/heatmap_{}_embedding={}.png'.format(sorted_by, is_embedding))
         plt.close()
 
 
     del metric_data_long['is_embedding']
+    feature_grouping = metric_data_long['feature_grouping']
+    del data['feature_grouping']
     metric_data_wide = metric_data_long.pivot(index='feature', columns='model', values='score')
 
-    g = fixedWidthClusterMap(metric_data_wide, y_tick_fontsize=10, y_tick_rotation=45)
+    g = fixedWidthClusterMap(
+        metric_data_wide,
+        y_tick_fontsize=10,
+        y_tick_rotation=45,
+        row_colors=feature_grouping,
+    )
     plt.subplots_adjust(top=0.95)
     g.fig.suptitle('Heatmap of Mean Validation {} Score'.format(sorted_by), fontsize=22)
     plt.savefig('metric_analysis/heatmap_{}.png'.format(sorted_by))

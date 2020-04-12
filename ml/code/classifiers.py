@@ -67,33 +67,28 @@ class Dummy(Classifier):
         self.param_grid_ = {}
 
 
-class GaussianBayes(Classifier):
-    def __init__(self, n, d):
-        self.estimator_ = GaussianNB()
-        self.param_grid_ = {}
+# class GaussianBayes(Classifier):
+#     def __init__(self, n, d):
+#         self.estimator_ = GaussianNB()
+#         self.param_grid_ = {}
 
 
 class XGBoost(Classifier):
     def __init__(self, n, d):
-        self.estimator_ = GradientBoostingClassifier()
+        self.estimator_ = GradientBoostingClassifier(n_iter_no_change=70)
         self.param_grid_ = {
-            'loss' :['deviance', 'exponential'],
-            'learning_rate': loguniform(1e-4, 1e-1),
+            # 'loss' :['deviance', 'exponential'],
+            'learning_rate': loguniform(1e-2, 5e-1),
             "n_estimators": np.arange(1,200,10),
-            "max_depth": np.arange(1,min(50,n),2),
-            "max_features": np.arange(1, int(np.sqrt(n)) ,2),
+            "max_depth": np.arange(1,min(20,n),2),
+            "max_features": np.arange(0.1, 0.6, 0.1),
             }
 
 class LogiReg(Classifier):
 
     def __init__(self, n, d):
-<<<<<<< HEAD
-        self.estimator_ = LogisticRegression(solver='saga', class_weight='balanced')
-        self.param_grid_ = { 'penalty' : ['l1', 'l2'],
-=======
         self.estimator_ = LogisticRegression(class_weight='balanced', solver='saga', max_iter=3000)
         self.param_grid_ = { 'penalty' : ['l2'],
->>>>>>> e47629d7d74f3e1dc80f3183c6c0c02ce01a0628
                              'C' : loguniform(1e-3, 1e3),
                             }
 
@@ -140,16 +135,6 @@ class KNN(Classifier):
         self.param_grid_ = {'C': loguniform(1e-3, 1e2), 'gamma': loguniform(1e-3, 1e0),
             'kernel': ['linear', 'rbf']}
 
-class XGBoost(Classifier):
-    def __init__(self, n, d):
-        self.estimator_ = GradientBoostingClassifier()
-        self.param_grid_ = {
-            'loss' :['deviance', 'exponential'],
-            'learning_rate': loguniform(1e-4, 1e-1),
-            "n_estimators": np.arange(1,200,10),
-            "max_depth": np.arange(1,min(50,n),2),
-            "max_features": np.arange(0.1, 0.75, 0.05),
-            }
 
 
 ######################################################################

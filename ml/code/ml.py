@@ -216,14 +216,14 @@ def run_one_featureset(
         for vals in param_grid.values():
             sz *= len(vals)
             # tune model using randomized search
-        n_iter = min(N_ITER, sz)    # cap max number of iterations
+        n_iter = min(iterations, sz)    # cap max number of iterations
     except TypeError:
-        n_iter = N_ITER
+        n_iter = iterations
 
     search = RandomizedSearchCV(
         pipe,
         param_grid,
-        verbose=0,
+        verbose=2,
         n_iter=n_iter,  
         cv=CV_train,
         refit=scoring,
@@ -364,28 +364,29 @@ def main():
 
     for feature_path in feature_paths + embed_feature_paths:
         print('training for feature', feature_path)
-        if 'python' in feature_path:
-            print(feature_path, 'skipped')
+        if 'msa' not in feature_path:
             continue
         for clf in classifiers.CLASSIFIERS:
             print('training ', clf)
             if clf == 'MLP' or clf == 'SVM' or clf == 'RF':
-                iterations = 100
+                iterations = 50
+            elif clf == 'XGBoost':
+                iterations = 20
             else:
                 iterations = N_ITER
-            for n_splits in range(10, 51, 10):
-                run_one_featureset(
-                    feature_path=feature_path,
-                    preprocessor_list=preprocessors.PREPROCESSORS,
-                    classifier=clf,
-                    scoring='f1',
-                    label_path=DI_LABELS_CSV,
-                    labels = [0, 1],
-                    target_names = ['Low', 'High'],
-                    iterations = iterations,
-                    n_jobs=-1,
-                    n_splits=n_splits,
-                    )
+            n_splits = 10
+            run_one_featureset(
+                feature_path=feature_path,
+                preprocessor_list=preprocessors.PREPROCESSORS,
+                classifier=clf,
+                scoring='f1',
+                label_path=DI_LABELS_CSV,
+                labels = [0, 1],
+                target_names = ['Low', 'High'],
+                iterations = iterations,
+                n_jobs=-1,
+                n_splits=n_splits,
+                )
 
 if __name__ == "__main__":
     main()
