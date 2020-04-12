@@ -47,7 +47,7 @@ import preprocessors as preprocessors
 
 # no magic numbers in code
 
-N_ITER = 200    # number of parameter settings sampled (trade-off runtime vs quality)
+N_ITER = 100    # number of parameter settings sampled (trade-off runtime vs quality)
 CV_train = StratifiedKFold(n_splits=10, random_state=0)       # number of folds in cross-validation
 CV_lc = StratifiedKFold(n_splits=10, random_state=0)
 
