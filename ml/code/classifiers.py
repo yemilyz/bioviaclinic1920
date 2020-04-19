@@ -59,12 +59,12 @@ class Classifier(ABC):
         self.param_grid_ = None
 
 
-class Dummy(Classifier):
-    """A Dummy classifier."""
+# class Dummy(Classifier):
+#     """A Dummy classifier."""
 
-    def __init__(self, n, d):
-        self.estimator_ = DummyClassifier()
-        self.param_grid_ = {}
+#     def __init__(self, n, d):
+#         self.estimator_ = DummyClassifier()
+#         self.param_grid_ = {}
 
 
 # class GaussianBayes(Classifier):
@@ -73,21 +73,21 @@ class Dummy(Classifier):
 #         self.param_grid_ = {}
 
 
-class XGBoost(Classifier):
-    def __init__(self, n, d):
-        self.estimator_ = GradientBoostingClassifier(n_iter_no_change=70)
-        self.param_grid_ = {
-            # 'loss' :['deviance', 'exponential'],
-            'learning_rate': loguniform(1e-2, 5e-1),
-            "n_estimators": np.arange(1,200,10),
-            "max_depth": np.arange(1,min(20,n),2),
-            "max_features": np.arange(0.1, 0.6, 0.1),
-            }
+# class XGBoost(Classifier):
+#     def __init__(self, n, d):
+#         self.estimator_ = GradientBoostingClassifier(n_iter_no_change=70)
+#         self.param_grid_ = {
+#             # 'loss' :['deviance', 'exponential'],
+#             'learning_rate': loguniform(1e-2, 5e-1),
+#             "n_estimators": np.arange(1,200,10),
+#             "max_depth": np.arange(1,min(20,n),2),
+#             "max_features": np.arange(0.1, 0.6, 0.1),
+#             }
 
 class LogiReg(Classifier):
 
     def __init__(self, n, d):
-        self.estimator_ = LogisticRegression(class_weight='balanced', solver='saga', max_iter=3000)
+        self.estimator_ = LogisticRegression(class_weight='balanced', max_iter=1000)
         self.param_grid_ = { 'penalty' : ['l2'],
                              'C' : loguniform(1e-3, 1e3),
                             }
@@ -116,24 +116,14 @@ class MLP(Classifier):
         self.estimator_ = MLPClassifier(max_iter=int(10e3))
         self.param_grid_ = {'hidden_layer_sizes': [(100,), (50,), (100, 100)]}
 
-# class BernoulliBayes(Classifier):
+
+# class KNN(Classifier):
+#     """A kNN classifier."""
+
 #     def __init__(self, n, d):
-#         self.estimator_ = BernoulliNB()
-#         self.param_grid_ = {}
-
-
-# class BernoulliBayes(Classifier):
-#     def __init__(self, n, d):
-#         self.estimator_ = BernoulliNB()
-#         self.param_grid_ = {}
-
-class KNN(Classifier):
-    """A kNN classifier."""
-
-    def __init__(self, n, d):
-        self.estimator_ = SVC(max_iter=8000, probability=True, class_weight='balanced')
-        self.param_grid_ = {'C': loguniform(1e-3, 1e2), 'gamma': loguniform(1e-3, 1e0),
-            'kernel': ['linear', 'rbf']}
+#         self.estimator_ = SVC(max_iter=8000, probability=True, class_weight='balanced')
+#         self.param_grid_ = {'C': loguniform(1e-3, 1e2), 'gamma': loguniform(1e-3, 1e0),
+#             'kernel': ['linear', 'rbf']}
 
 
 
