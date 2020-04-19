@@ -73,48 +73,48 @@ class Classifier(ABC):
 #         self.param_grid_ = {}
 
 
-# class XGBoost(Classifier):
+class XGBoost(Classifier):
+    def __init__(self, n, d):
+        self.estimator_ = GradientBoostingClassifier(n_iter_no_change=70)
+        self.param_grid_ = {
+            # 'loss' :['deviance', 'exponential'],
+            'learning_rate': loguniform(1e-2, 5e-1),
+            "n_estimators": np.arange(1,200,10),
+            "max_depth": np.arange(1,min(20,n),2),
+            "max_features": np.arange(0.1, 0.6, 0.1),
+            }
+
+# class LogiReg(Classifier):
+
 #     def __init__(self, n, d):
-#         self.estimator_ = GradientBoostingClassifier(n_iter_no_change=70)
-#         self.param_grid_ = {
-#             # 'loss' :['deviance', 'exponential'],
-#             'learning_rate': loguniform(1e-2, 5e-1),
-#             "n_estimators": np.arange(1,200,10),
-#             "max_depth": np.arange(1,min(20,n),2),
-#             "max_features": np.arange(0.1, 0.6, 0.1),
-#             }
+#         self.estimator_ = LogisticRegression(class_weight='balanced', max_iter=1000)
+#         self.param_grid_ = { 'penalty' : ['l2'],
+#                              'C' : loguniform(1e-3, 1e3),
+#                             }
 
-class LogiReg(Classifier):
+# class RF(Classifier):
+#     """A Random Forest classifier."""
 
-    def __init__(self, n, d):
-        self.estimator_ = LogisticRegression(class_weight='balanced', max_iter=1000)
-        self.param_grid_ = { 'penalty' : ['l2'],
-                             'C' : loguniform(1e-3, 1e3),
-                            }
+#     def __init__(self, n, d):
+#         self.estimator_ = RandomForestClassifier(random_state=0, n_jobs=-1, class_weight='balanced')
+#         self.param_grid_ = {"n_estimators": np.arange(1,200,10),
+#                             "max_depth": np.arange(1,min(50,n),2),
+#                             "max_features": np.arange(0.1, 0.75, 0.05),
+#                             }
 
-class RF(Classifier):
-    """A Random Forest classifier."""
-
-    def __init__(self, n, d):
-        self.estimator_ = RandomForestClassifier(random_state=0, n_jobs=-1, class_weight='balanced')
-        self.param_grid_ = {"n_estimators": np.arange(1,200,10),
-                            "max_depth": np.arange(1,min(50,n),2),
-                            "max_features": np.arange(0.1, 0.75, 0.05),
-                            }
-
-class SVM(Classifier):
-    def __init__(self, n, d):
-        self.estimator_ = SVC(max_iter=8000, probability=True, class_weight='balanced')
-        self.param_grid_ = {'C': loguniform(1e-3, 1e2), 'gamma': loguniform(1e-3, 1e0),
-            'kernel': ['linear', 'rbf']}
+# class SVM(Classifier):
+#     def __init__(self, n, d):
+#         self.estimator_ = SVC(max_iter=8000, probability=True, class_weight='balanced')
+#         self.param_grid_ = {'C': loguniform(1e-3, 1e2), 'gamma': loguniform(1e-3, 1e0),
+#             'kernel': ['linear', 'rbf']}
 
 
-class MLP(Classifier):
-    """A Multi-Layer Perceptron classifier."""
+# class MLP(Classifier):
+#     """A Multi-Layer Perceptron classifier."""
 
-    def __init__(self, n, d):
-        self.estimator_ = MLPClassifier(max_iter=int(10e3))
-        self.param_grid_ = {'hidden_layer_sizes': [(100,), (50,), (100, 100)]}
+#     def __init__(self, n, d):
+#         self.estimator_ = MLPClassifier(max_iter=int(10e3))
+#         self.param_grid_ = {'hidden_layer_sizes': [(100,), (50,), (100, 100)]}
 
 
 # class KNN(Classifier):
