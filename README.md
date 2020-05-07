@@ -13,14 +13,13 @@
 │   │   ├── pc_training_pad_avg.ppxml
 │   └──  Model Training and Evaluation
 │       └── ModelTrainAndEval.ppxml
-├── ml_pipeline/ml
+├── ml
 │   ├── code
 │   │   ├── classifiers.py
 │   │   ├── datasets.py
 │   │   ├── ml.py
 │   │   ├── plot_results.py
 │   │   ├── preprocessors.py
-│   │   ├── titanic_feature_importances.py
 │   ├── data
 │   │   ├── features_label.csb
 │   └── results
@@ -34,7 +33,6 @@
 │   ├── clean_pdb.py
 │   ├── constant.py
 │   ├── embed.py
-│   ├── feature_engineering.py
 │   ├── featurize.py
 │   ├── io_fasta.py
 │   ├── protparam_features.py
