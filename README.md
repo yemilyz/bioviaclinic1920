@@ -16,7 +16,7 @@
 │   |   └── preprocessors.py
 │   ├── data
 │   |    └── 
-│   └── result_10splits
+│   └── result
 │       └── 
 │   └── metric_analysis
 │       └── 
@@ -36,8 +36,18 @@
 │   ├── train_doc2vec_models.py	
 │   ├── utils.py
 │   └── visualize_embed.py
+├── d2v_models
+│   └── 
 ├── .gitignore
 └── README.md
 ```
 
-The `ml` directory contains the model training and evaluation piplines. The `source` directory contains scripts to download sabdab data, clean sabdab data, and generate physicochemical features and embedding features. The  `sabdab_raw` directory contains all filtered sabdad data, along with their processed counterparts. 
+The `ml` directory contains 3 subdirectories. `ml/code` includes code for
+the model training and evaluation piplines. `ml/data` includes all of the training and testing data. `ml/result` contains data saved from training all of 
+the models. `ml/metric_analysis` contrains visualizations that are outputs from the model evaluation piplines. 
+
+The `source` directory contains scripts to download sabdab data, clean sabdab data, and generate physicochemical features and embedding features. 
+
+The `d2v_models` directory contains all of the embedding models downloaded from here: http://cheme.caltech.edu/~kkyang/
+
+The  `sabdab_raw` directory contains all filtered sabdad data, along with their processed counterparts. 
