@@ -1,4 +1,6 @@
 """
+Modified From:
+
 Author      : Yi-Chieh Wu
 Class       : HMC CS 121
 Date        : 2018 Sep 20
@@ -59,18 +61,18 @@ class Classifier(ABC):
         self.param_grid_ = None
 
 
-# class Dummy(Classifier):
-#     """A Dummy classifier."""
+class Dummy(Classifier):
+    """A Dummy classifier."""
 
-#     def __init__(self, n, d):
-#         self.estimator_ = DummyClassifier()
-#         self.param_grid_ = {}
+    def __init__(self, n, d):
+        self.estimator_ = DummyClassifier()
+        self.param_grid_ = {}
 
 
-# class GaussianBayes(Classifier):
-#     def __init__(self, n, d):
-#         self.estimator_ = GaussianNB()
-#         self.param_grid_ = {}
+class GaussianBayes(Classifier):
+    def __init__(self, n, d):
+        self.estimator_ = GaussianNB()
+        self.param_grid_ = {}
 
 
 class XGBoost(Classifier):
@@ -84,46 +86,46 @@ class XGBoost(Classifier):
             "max_features": np.arange(0.1, 0.6, 0.1),
             }
 
-# class LogiReg(Classifier):
+class LogiReg(Classifier):
 
-#     def __init__(self, n, d):
-#         self.estimator_ = LogisticRegression(class_weight='balanced', max_iter=1000)
-#         self.param_grid_ = { 'penalty' : ['l2'],
-#                              'C' : loguniform(1e-3, 1e3),
-#                             }
+    def __init__(self, n, d):
+        self.estimator_ = LogisticRegression(class_weight='balanced', max_iter=1000)
+        self.param_grid_ = { 'penalty' : ['l2'],
+                             'C' : loguniform(1e-3, 1e3),
+                            }
 
-# class RF(Classifier):
-#     """A Random Forest classifier."""
+class RF(Classifier):
+    """A Random Forest classifier."""
 
-#     def __init__(self, n, d):
-#         self.estimator_ = RandomForestClassifier(random_state=0, n_jobs=-1, class_weight='balanced')
-#         self.param_grid_ = {"n_estimators": np.arange(1,200,10),
-#                             "max_depth": np.arange(1,min(50,n),2),
-#                             "max_features": np.arange(0.1, 0.75, 0.05),
-#                             }
+    def __init__(self, n, d):
+        self.estimator_ = RandomForestClassifier(random_state=0, n_jobs=-1, class_weight='balanced')
+        self.param_grid_ = {"n_estimators": np.arange(1,200,10),
+                            "max_depth": np.arange(1,min(50,n),2),
+                            "max_features": np.arange(0.1, 0.75, 0.05),
+                            }
 
-# class SVM(Classifier):
-#     def __init__(self, n, d):
-#         self.estimator_ = SVC(max_iter=8000, probability=True, class_weight='balanced')
-#         self.param_grid_ = {'C': loguniform(1e-3, 1e2), 'gamma': loguniform(1e-3, 1e0),
-#             'kernel': ['linear', 'rbf']}
-
-
-# class MLP(Classifier):
-#     """A Multi-Layer Perceptron classifier."""
-
-#     def __init__(self, n, d):
-#         self.estimator_ = MLPClassifier(max_iter=int(10e3))
-#         self.param_grid_ = {'hidden_layer_sizes': [(100,), (50,), (100, 100)]}
+class SVM(Classifier):
+    def __init__(self, n, d):
+        self.estimator_ = SVC(max_iter=8000, probability=True, class_weight='balanced')
+        self.param_grid_ = {'C': loguniform(1e-3, 1e2), 'gamma': loguniform(1e-3, 1e0),
+            'kernel': ['linear', 'rbf']}
 
 
-# class KNN(Classifier):
-#     """A kNN classifier."""
+class MLP(Classifier):
+    """A Multi-Layer Perceptron classifier."""
 
-#     def __init__(self, n, d):
-#         self.estimator_ = SVC(max_iter=8000, probability=True, class_weight='balanced')
-#         self.param_grid_ = {'C': loguniform(1e-3, 1e2), 'gamma': loguniform(1e-3, 1e0),
-#             'kernel': ['linear', 'rbf']}
+    def __init__(self, n, d):
+        self.estimator_ = MLPClassifier(max_iter=int(10e3))
+        self.param_grid_ = {'hidden_layer_sizes': [(100,), (50,), (100, 100)]}
+
+
+class KNN(Classifier):
+    """A kNN classifier."""
+
+    def __init__(self, n, d):
+        self.estimator_ = SVC(max_iter=8000, probability=True, class_weight='balanced')
+        self.param_grid_ = {'C': loguniform(1e-3, 1e2), 'gamma': loguniform(1e-3, 1e0),
+            'kernel': ['linear', 'rbf']}
 
 
 

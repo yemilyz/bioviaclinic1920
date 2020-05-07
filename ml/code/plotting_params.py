@@ -1,8 +1,8 @@
-params = {'legend.fontsize': 40,
+params = {'legend.fontsize': 14,
           'legend.handlelength': 2, 
-          'figure.autolayout': True,
-          "axes.labelsize": 16, 
-          "xtick.labelsize": 16, 
-          "ytick.labelsize": 16,
+        #   'savefig.format': 'svg',
+          "axes.labelsize": 18, 
+          "xtick.labelsize": 14, 
+          "ytick.labelsize": 14,
           "font.size": 18,
           }

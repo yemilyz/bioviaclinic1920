@@ -1,4 +1,6 @@
 """
+Modified From:
+
 Author      : Yi-Chieh Wu
 Class       : HMC CS 121
 Date        : 2018 Sep 24
@@ -16,25 +18,6 @@ from constant import DI_LABELS_CSV
 ######################################################################
 # functions
 ######################################################################
-# def DI(feature_path):
-#     """Load DI dataset"""
-
-#     target_names = ["Low", "High"]
-#     labels = [0, 1]
-
-#     # read csv
-#     DI_lables = pd.read_csv(DI_LABELS_CSV)
-#     features = pd.read_csv(feature_path)
-
-#     # part b: process
-#     df = df.drop(['pdb_code', 'Developability Index (All)'], axis=1)
-#     X = df.drop('DI Classification', axis=1)
-#     y = df['DI Classification']
-#     feature_names = X.columns
-
-#     return X, y, labels, target_names, feature_names
-
-
 def get_dataset(feature_path, label_path=DI_LABELS_CSV):
     y = pd.read_csv(label_path)
     y.Name = y.Name.str.slice(stop=4)
