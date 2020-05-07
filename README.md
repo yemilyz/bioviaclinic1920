@@ -1,30 +1,25 @@
 # bioviaclinic1920
-
 ### Current Tree View
 ```bash
-├── Protocols
-│   ├── DI Labels
-│   │   ├── batchCalculateDI.ppxml
-│   │   ├── batchCleanPDB_for2Chains.ppxml
-│   │   ├── batchCleanPDB_forMultichains.ppxml
-│   ├── Featurization
-│   │   ├── featurization_embedding.ppxml
-│   │   ├── pc training.ppxml
-│   │   ├── pc_training_pad_avg.ppxml
-│   └──  Model Training and Evaluation
-│       └── ModelTrainAndEval.ppxml
 ├── ml
 │   ├── code
 │   │   ├── classifiers.py
+│   │   ├── constant.py
 │   │   ├── datasets.py
+│   │   ├── learning_curve.py
+│   │   ├── metric_analysis.py
 │   │   ├── ml.py
+│   │   ├── model_analysis.py
+│   │   ├── pareto.py
 │   │   ├── plot_results.py
-│   │   ├── preprocessors.py
+│   │   ├── plotting_params.py
+│   |   └── preprocessors.py
 │   ├── data
-│   │   ├── features_label.csb
-│   └── results
-│       ├── imputer_Dummy.txt
-│       └── imputer_RF.txt
+│   |    └── 
+│   └── result_10splits
+│       └── 
+│   └── metric_analysis
+│       └── 
 ├── sabdab_raw
 │   ├── sabdab_sequences_VH.fa
 │   ├── sabdab_sequences_VL.fa
@@ -44,3 +39,5 @@
 ├── .gitignore
 └── README.md
 ```
+
+The `ml` directory contains the model training and evaluation piplines. The `source` directory contains scripts to download sabdab data, clean sabdab data, and generate physicochemical features and embedding features. The  `sabdab_raw` directory contains all filtered sabdad data, along with their processed counterparts. 
