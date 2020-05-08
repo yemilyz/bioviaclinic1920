@@ -13,7 +13,7 @@ TRAINING_DATA_DIR = os.path.join(REPO_DIR, 'training_data')
 DI_LABELS_CSV = os.path.join(TRAINING_DATA_DIR, 'DI_out.csv')
 FEATURE_DIR = TRAINING_DATA_DIR
 LABELS_DIR = TRAINING_DATA_DIR
-MODEL_DIR = os.path.join(REPO_DIR, 'source', 'd2v_models')
+MODEL_DIR = os.path.join(REPO_DIR, 'd2v_models')
 FIGURE_DIR = os.path.join(REPO_DIR, 'figures')
 
 # Hydropathy index
