@@ -32,9 +32,14 @@ def generate_features(filename):
     feature_set = pd.DataFrame.from_dict(feature_set, orient='index', columns=colNames)
     return feature_set
 
-H_features = generate_features(HCHAIN_FASTA_FILE)
-L_features = generate_features(LCHAIN_FASTA_FILE)
 
-features = H_features.merge(L_features, left_index=True, right_index=True)
-features['name'] = features.index
-features.to_csv(os.path.join(FEATURE_DIR, 'protparam_features.csv'))
+def main():
+    H_features = generate_features(HCHAIN_FASTA_FILE)
+    L_features = generate_features(LCHAIN_FASTA_FILE)
+
+    features = H_features.merge(L_features, left_index=True, right_index=True)
+    features['name'] = features.index
+    features.to_csv(os.path.join(FEATURE_DIR, 'protparam_features.csv'))
+
+if __name__ == "__main__":
+    main()

@@ -54,16 +54,3 @@ def cp_pdb():
     for pdb_file in pdb_files:
         pdb_name = pdb_file.split('/')[-1]
         shutil.copyfile(pdb_file, os.path.join(PDB_DIR, pdb_name))
-
-    # pdb_files_split = [pdb_files[i:i + 100] for i in range(0, len(pdb_files), 100)]
-    # for i, pdb_files in enumerate(pdb_files_split):
-    #     pdb_batch_dir = os.path.join(PDB_DIR, "batch"+str(i).zfill(2))
-    #     try:
-    #         os.mkdir(pdb_batch_dir)
-    #     except OSError as e:
-    #         if e.errno != errno.EEXIST:
-    #             raise
-    #         pass
-    #     for pdb_file in pdb_files:
-    #         pdb_name = pdb_file.split('/')[-1]
-    #         shutil.copyfile(pdb_file, os.path.join(pdb_batch_dir, pdb_name))

@@ -25,12 +25,6 @@ protparam_features_dir = os.path.join(FEATURE_DIR, 'protparam_features.csv')
 sns.set_style('white')
 sns.set_context('paper')
 
-
-# for i in range(0,twenty):
-#     patches[i].set_facecolor('#4c4cff')
-# for i in range(twenty, len(patches)):
-#     patches[i].set_facecolor('#16ff8b')
-
 # Plot adjustments:
 plt.rcParams.update({'ytick.labelsize': 14})
 plt.rcParams.update({'xtick.labelsize': 14})

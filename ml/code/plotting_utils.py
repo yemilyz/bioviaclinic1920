@@ -38,7 +38,7 @@ def create_metric_barplot_models_all_metric(metric_data_long):
                 'XGBoost',
                 'Multilayer Perceptron',
             ],
-            order=['au_pr', 'au_roc', 'f1', 'precision', 'recall'],
+            order=['aupr', 'auroc', 'f1', 'precision', 'recall'],
             hue="model",
             col="set",
             kind="bar",
@@ -71,7 +71,7 @@ def create_metric_barplot_features_all_metric(metric_data_long):
         g = sns.catplot(
             x="metric",
             y="score",
-            order=['au_pr', 'au_roc', 'f1', 'precision', 'recall'],
+            order=['aupr', 'auroc', 'f1', 'precision', 'recall'],
             hue="feature",
             col="set",
             kind="bar",
