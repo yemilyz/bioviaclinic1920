@@ -344,7 +344,6 @@ if __name__ == "__main__":
     #  Check the inputs #
     #####################
 
-
     if not args.summary_file:
         print >> sys.stderr, "No summary file found."
         sys.exit(1)
@@ -373,8 +372,6 @@ if __name__ == "__main__":
         os.mkdir(output_path)
     except OSError:
         pass
-        # print >> sys.stderr, "A 'sabdab_dataset' already exists in the output directory. Please rename it or provide a new output directory."
-        # sys.exit(1)
 
     # Get the summary data    
     try:
@@ -418,12 +415,6 @@ if __name__ == "__main__":
             if args.original_pdb:
                 if not getpdb_retry(pdb_entry, struc_out_path):
                     got_data=False
-                # else:
-                #     try:
-                #         shutil.rmtree(pdb_entry_dir)
-                #     except:
-                #         print("what?")
-                #         pass
                 
             if args.chothia_pdb:
                 choth_struc_out_path = os.path.join(struc_out_path,"chothia")
@@ -433,12 +424,7 @@ if __name__ == "__main__":
                     pass
                 if not getchothpdb_retry(pdb_entry, choth_struc_out_path):
                     got_data=False
-                # else:
-                #     try:
-                #         shutil.rmtree(pdb_entry_dir)
-                #     except:
-                #         print("what?")
-                #         pass   
+ 
         if args.sequence:
             seq_out_path = os.path.join(pdb_entry_dir,"sequence")
             try:
@@ -447,13 +433,6 @@ if __name__ == "__main__":
                 pass
             if not getsequence_retry(pdb_entry, data[pdb_entry] , seq_out_path):
                 got_data=False
-            # else:
-            #     got_data=False
-            #     try:
-            #         shutil.rmtree(pdb_entry_dir)
-            #     except:
-            #         print("what?")
-            #         pass
                 
         if args.annotation:
             annotation_out_path = os.path.join(pdb_entry_dir,"annotation")
@@ -463,13 +442,6 @@ if __name__ == "__main__":
                 pass
             if not getannotation_retry(pdb_entry, data[pdb_entry] , annotation_out_path):
                 pass
-                # got_data=False
-            # else:
-            #     try:
-            #         shutil.rmtree(annotation_out_path)
-            #     except:
-            #         print("what?")
-            #         pass
                 
         if args.abangle:
             abangle_out_path = os.path.join(pdb_entry_dir,"abangle")
@@ -479,14 +451,7 @@ if __name__ == "__main__":
                 pass
             if not getabangle_retry(pdb_entry, data[pdb_entry] , abangle_out_path):
                 pass
-                # got_data=False
-            # else:
-            #     try:
-            #         shutil.rmtree(abangle_out_path)
-            #     except:
-            #         print("what?")
-            #         pass
-                
+
         if args.imgt:
             imgt_out_path = os.path.join(pdb_entry_dir,"imgt")
             try:
@@ -495,13 +460,6 @@ if __name__ == "__main__":
                 pass
             if not getimgt_retry(pdb_entry, data[pdb_entry] , imgt_out_path):
                 pass
-                # got_data=False
-            # else:
-            #     try:
-            #         shutil.rmtree(imgt_out_path)
-            #     except:
-            #         print("what?")
-            #         pass
 
         if not got_data:
             try:

@@ -35,14 +35,15 @@ def train(X, k, window):
     model.save('doc2vec_models/' + '_'.join(name_list) + '.pkl')
 
 
-seqset = load_fasta_file(HCHAIN_FASTA_FILE)
-seqs = seqset.columns(default='', transpose=True)
-seq_data = pd.DataFrame([''.join(s) for s in seqs], columns=['sequence'])
+def main():
+    seqset = load_fasta_file(HCHAIN_FASTA_FILE)
+    seqs = seqset.columns(default='', transpose=True)
+    seq_data = pd.DataFrame([''.join(s) for s in seqs], columns=['sequence'])
+    sequence_dict = {'original': seq_data}
+    for X in sequence_dict.keys():
+        for k in range(1, 6):
+            for window in range(4, 16, 2):
+                train(X, k, window)
 
-sequence_dict = {'original': seq_data}
-
-
-for X in sequence_dict.keys():
-    for k in range(1, 6):
-        for window in range(4, 16, 2):
-            train(X, k, window)
+if __name__ == "__main__":
+    main()

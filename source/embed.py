@@ -21,12 +21,6 @@ def embed_sequence(model_path, out_path, k=5, overlap=False):
     embeds_pd.to_csv(out_path)
 
 if __name__ == "__main__":
-    # model_path = os.path.join(MODEL_DIR, 'original_5_7.pkl')
-    # k = int(model_path.split('/')[-1].split('_')[1])
-    # print(k)
-    # feature_filename = 'feature_embedding_{}.csv'.format(model_path.split('/')[-1].split('.')[0])
-    # feature_path = os.path.join(FEATURE_DIR, feature_filename)
-    # embed_sequence(model_path, feature_path, k=k)
     for model_path in glob.glob(os.path.join(MODEL_DIR, '*.pkl')):
         print('embedding with', model_path)
         k = int(model_path.split('/')[-1].split('_')[1])

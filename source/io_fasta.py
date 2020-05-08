@@ -17,17 +17,6 @@ def fasta_file_to_sequence(fasta_file, seqtype):
         if seqtype in seq.identifier:
             return seq
 
-# def concat_HL_pairs(seqs):
-#     """
-#     Takes a SequenceSet object of size 2 and makes a new Sequence object by
-#     concatenating the 2 given sequences
-#     """
-#     identifier = seqs[0].identifier.split('|')[0].split('_')[0]
-#     # identifier = seqs[0].identifier.split('|')[0] + seqs[1].identifier.split('|')[0].split('_')[-1]
-#     feature = seqs[0].feature
-#     data = seqs[0].data + seqs[1].data
-#     return Sequence(identifier, feature, data)
-
 def fasta_files_to_seqsets(fasta_files, seqtype = 'seqres|region:'):
     """ Wrapper function to take in a list of lists of fasta filepath pairs and
     makes a SequenceSet containing all antibody heavy+light chain sequences
@@ -57,7 +46,6 @@ def write_seqset_to_fasta(seqset, output_file):
     print('min ident', min_ident)
     print('min len', min_seq)
 
-
 def get_seq_dict(filename):
     seq_dict = {}
     for record in SeqIO.parse(filename, "fasta"):
@@ -80,10 +68,6 @@ def write_seq_dict_to_posneg_fasta(seq_dict, filename_prefix):
                 pos.write(">{}\n{}\n".format(name, seq))
             else:
                 neg.write(">{}\n{}\n".format(name, seq))            
-
-
-# hd = get_seq_dict(HCHAIN_FASTA_FILE)
-# write_seq_dict_to_posneg_fasta(hd, HCHAIN_FASTA_FILE)
 
 if __name__ == "__main__":
     files_paths = get_filepaths()

@@ -53,21 +53,25 @@ class SelectChains(PDB.Select):
     def accept_chain(self, chain):
         return (chain.get_id() in self.chain_letters)
 
-summary = pd.read_csv(SABDAB_SUMMARY_FILE, sep="\t")
-summary = summary.drop_duplicates(subset='pdb', keep='first')
+def main():
+    summary = pd.read_csv(SABDAB_SUMMARY_FILE, sep="\t")
+    summary = summary.drop_duplicates(subset='pdb', keep='first')
 
-summary.index = summary['pdb'].tolist()
-summary = summary[['Hchain',	'Lchain']]
-hl_mapping = summary.to_dict('index') 
-splitter = ChainSplitter(CLEAN_PDB_DIR)  
+    summary.index = summary['pdb'].tolist()
+    summary = summary[['Hchain',	'Lchain']]
+    hl_mapping = summary.to_dict('index') 
+    splitter = ChainSplitter(CLEAN_PDB_DIR)  
 
-for root, _, files in os.walk(PDB_DIR, topdown=False):
-    for i, pdb_file in enumerate(files):
-        if 'pdb' in pdb_file:
-            pdb_path = os.path.join(root, pdb_file)
-            pdb_key = pdb_file.split('.')[0]
-            chains = list(hl_mapping[pdb_key].values())
-            try:
-                splitter.make_pdb(pdb_path, pdb_key, chains)
-            except:
-                print(i, pdb_key)
+    for root, _, files in os.walk(PDB_DIR, topdown=False):
+        for i, pdb_file in enumerate(files):
+            if 'pdb' in pdb_file:
+                pdb_path = os.path.join(root, pdb_file)
+                pdb_key = pdb_file.split('.')[0]
+                chains = list(hl_mapping[pdb_key].values())
+                try:
+                    splitter.make_pdb(pdb_path, pdb_key, chains)
+                except:
+                    print(i, pdb_key)
+
+if __name__ == "__main__":
+    main()
