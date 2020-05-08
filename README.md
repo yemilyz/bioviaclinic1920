@@ -34,8 +34,7 @@
 │   ├── sabdab_downloader.py
 │   ├── summary_stats.py
 │   ├── train_doc2vec_models.py	
-│   ├── utils.py
-│   └── visualize_embed.py
+│   └── utils.py
 ├── d2v_models
 │   └── 
 ├── .gitignore
